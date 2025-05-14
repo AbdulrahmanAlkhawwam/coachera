@@ -1,0 +1,2 @@
+C:/Users/user/StudioProjects/coachera/android/app/.cxx/Debug/1b6o32d6/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/user/StudioProjects/coachera/android/app/.cxx/Debug/1b6o32d6/armeabi-v7a/CMakeFiles/rebuild_cache.dir
