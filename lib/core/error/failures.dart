@@ -2,43 +2,127 @@ abstract class Failure {
   const Failure();
 }
 
-class CacheFailure extends Failure {
-  const CacheFailure();
+// 🔌 Network
+class NetworkFailure extends Failure {
+  const NetworkFailure();
 }
+
+class TimeoutFailure extends Failure {
+  const TimeoutFailure();
+}
+
+// 🌐 HTTP
 class ServerFailure extends Failure {
   final int? statusCode;
-
   const ServerFailure([this.statusCode]);
 }
 
-class NetworkFailure extends Failure {}
+class UnauthorizedFailure extends Failure {
+  const UnauthorizedFailure();
+}
 
-class UnauthorizedFailure extends Failure {}
+class BadRequestFailure extends Failure {
+  const BadRequestFailure();
+}
 
-class TimeoutFailure extends Failure {}
+class PaymentRequiredFailure extends Failure {
+  const PaymentRequiredFailure();
+}
 
-class DownloadFailure extends Failure {}
+class ForbiddenFailure extends Failure {
+  const ForbiddenFailure();
+}
 
-class InsufficientStorageFailure extends Failure {}
+class MethodNotAllowedFailure extends Failure {
+  const MethodNotAllowedFailure();
+}
 
-class FileAccessDeniedFailure extends Failure {}
+class ConflictFailure extends Failure {
+  const ConflictFailure();
+}
 
-class LoginFailure extends Failure {}
+class GoneFailure extends Failure {
+  const GoneFailure();
+}
 
-class TokenExpiredFailure extends Failure {}
+class PreconditionFailedFailure extends Failure {
+  const PreconditionFailedFailure();
+}
 
-class UserNotFoundFailure extends Failure {}
+class TooManyRequestsFailure extends Failure {
+  const TooManyRequestsFailure();
+}
 
-class CourseNotFoundFailure extends Failure {}
+class HttpRedirectionFailure extends Failure {
+  final Uri? redirectUri;
+  const HttpRedirectionFailure([this.redirectUri]);
+}
 
-class AlreadyEnrolledFailure extends Failure {}
+// 💾 Cache / Offline
+class CacheReadFailure extends Failure {
+  const CacheReadFailure();
+}
 
-class EnrollmentFailure extends Failure {}
+class CacheWriteFailure extends Failure {
+  const CacheWriteFailure();
+}
 
-class StudentAlreadyExistsFailure extends Failure {}
+class OfflineSyncFailure extends Failure {
+  const OfflineSyncFailure();
+}
 
-class OrganizationNotFoundFailure extends Failure {}
+// 📥 Download
+class DownloadFailure extends Failure {
+  const DownloadFailure();
+}
 
-class DataNotFoundFailure extends Failure {}
+class InsufficientStorageFailure extends Failure {
+  const InsufficientStorageFailure();
+}
 
-class UnexpectedFailure extends Failure {}
+class FileAccessDeniedFailure extends Failure {
+  const FileAccessDeniedFailure();
+}
+
+// 🔐 Auth
+class LoginFailure extends Failure {
+  const LoginFailure();
+}
+
+class TokenExpiredFailure extends Failure {
+  const TokenExpiredFailure();
+}
+
+class UserNotFoundFailure extends Failure {
+  const UserNotFoundFailure();
+}
+
+// 🧑‍🏫 Domain
+class OrganizationNotFoundFailure extends Failure {
+  const OrganizationNotFoundFailure();
+}
+
+class StudentAlreadyExistsFailure extends Failure {
+  const StudentAlreadyExistsFailure();
+}
+
+class EnrollmentFailure extends Failure {
+  const EnrollmentFailure();
+}
+
+class AlreadyEnrolledFailure extends Failure {
+  const AlreadyEnrolledFailure();
+}
+
+class CourseNotFoundFailure extends Failure {
+  const CourseNotFoundFailure();
+}
+
+class DataNotFoundFailure extends Failure {
+  const DataNotFoundFailure();
+}
+
+// ❓ Fallback
+class UnexpectedFailure extends Failure {
+  const UnexpectedFailure();
+}
