@@ -4,6 +4,8 @@ import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 
 import '../../error/exceptions.dart';
+import '../../network/connectivity_service.dart';
+import '../../network/network_status.dart';
 import '../storage_helper.dart';
 import 'http_client.dart';
 import 'http_response.dart';
@@ -83,7 +85,7 @@ class HttpService implements HttpClient {
     dynamic body,
     Map<String, String>? headers,
   }) async {
-    if (connectivityService!) {
+    if (await ConnectivityService.getCurrentStatus() == NetworkStatus.offline) {
       throw NoInternetException();
     }
 
@@ -97,7 +99,6 @@ class HttpService implements HttpClient {
           .timeout(timeout);
       _logResponse(method, response);
       return _handleResponse(response);
-      //socet exception
     } on TimeoutException {
       throw TimeoutException();
     } on http.ClientException catch (e) {
@@ -202,11 +203,17 @@ class HttpService implements HttpClient {
 
   @override
   Uri makeUri(String path, {Map<String, String>? queryParameters}) {
+    print(host);
+    print(basePath);
     return Uri.http(host, '$basePath$path', queryParameters);
   }
 
-  void _logRequest(_RequestMethod method, Uri uri, Map<String, String> headers,
-      dynamic body) {
+  void _logRequest(
+    _RequestMethod method,
+    Uri uri,
+    Map<String, String> headers,
+    dynamic body,
+  ) {
     final safeHeaders = Map<String, String>.from(headers);
     // line for delete token (high security)
     if (safeHeaders.containsKey('Authorization')) {
@@ -225,7 +232,10 @@ class HttpService implements HttpClient {
     }
   }
 
-  void _logResponse(_RequestMethod method, http.Response response) {
+  void _logResponse(
+    _RequestMethod method,
+    http.Response response,
+  ) {
     dev.log(
       '[${method.name.toUpperCase()}] Status: ${response.statusCode}',
       name: 'HTTP Response',
