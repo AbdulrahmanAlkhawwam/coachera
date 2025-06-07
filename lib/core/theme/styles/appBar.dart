@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'text_font.dart';
 
 appBarStyle(ColorScheme colors) => AppBarTheme(
-      backgroundColor: colors.surface,
+      backgroundColor: Colors.transparent,
       foregroundColor: colors.onSurface,
       elevation: 0.0,
       titleTextStyle: textTheme.bodyLarge?.copyWith(

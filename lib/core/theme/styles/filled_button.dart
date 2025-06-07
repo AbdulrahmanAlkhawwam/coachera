@@ -8,7 +8,7 @@ filledButtonStyle(ColorScheme colors) => FilledButtonThemeData(
         backgroundColor: colors.primary,
         foregroundColor: colors.onPrimary,
         shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
         textStyle: textTheme.bodyLarge?.copyWith(
           fontWeight: FontWeight.w600,
           color: colors.onPrimary,

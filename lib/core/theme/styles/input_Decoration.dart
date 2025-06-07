@@ -32,5 +32,6 @@ InputDecorationTheme inputDecorationStyle(ColorScheme colors) =>
         borderRadius: BorderRadius.circular(16.0),
         borderSide: BorderSide(color: colors.error, width: 1.0),
       ),
-      errorStyle: textTheme.labelSmall?.copyWith(color: colors.onError),
+      errorStyle: textTheme.labelMedium
+          ?.copyWith(color: colors.onError, fontWeight: FontWeight.w700),
     );
