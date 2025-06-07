@@ -1,3 +1,4 @@
 class Env {
-  static String host = String.fromEnvironment("HOST_NAME");
+  static const host = String.fromEnvironment("HOST");
+  static const baseUrl = String.fromEnvironment("BASEURL");
 }
