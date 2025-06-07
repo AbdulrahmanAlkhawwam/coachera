@@ -9,7 +9,6 @@ class ColorSchemes {
   static Color poppy = const Color(0xFFD64545);
   static Color babyPowder = const Color(0xFFF6FBFA);
 
-
   static ColorScheme lightColors = ColorScheme(
     brightness: Brightness.light,
 
@@ -49,7 +48,7 @@ class ColorSchemes {
     // primary
     primary: ColorSchemes.turquoiseGreen,
     onPrimary: const Color(0xFF124E49),
-    primaryContainer: const Color(0xFF1C382D),
+    primaryContainer: const Color(0xFF0C3430),
     onPrimaryContainer: const Color(0xFFD5F3F0),
 
     // secondary
@@ -75,4 +74,3 @@ class ColorSchemes {
     outline: const Color(0xFF3A5250),
   );
 }
-
