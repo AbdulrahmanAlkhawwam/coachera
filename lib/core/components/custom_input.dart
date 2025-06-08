@@ -8,9 +8,10 @@ class CustomInput extends StatefulWidget {
   final Function(dynamic)? onChanged;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
-  final IconButton? suffixIconButton;
-  final String? suffixIcon;
-  final String? prefixIcon;
+  final IconData? suffixIconButton;
+  final Function()? suffixFunctionButton;
+  final IconData? suffixIcon;
+  final IconData? prefixIcon;
   final TextInputType? keyboardType;
   final TextStyle? hintStyle;
   final String? hint;
@@ -26,6 +27,7 @@ class CustomInput extends StatefulWidget {
     this.hint,
     this.hintStyle,
     this.suffixIconButton,
+    this.suffixFunctionButton,
     this.suffixIcon,
     this.prefixIcon,
     this.onChanged,
@@ -82,22 +84,30 @@ class _CustomInputState extends State<CustomInput> {
             ? context.textTheme.bodyMedium
                 ?.copyWith(color: context.colors.outline)
             : null,
-        suffixIcon: widget.suffixIconButton ??
-            (widget.suffixIcon == null
-                ? null
-                : AppImage(
-                    widget.suffixIcon,
-                    color: iconColor,
-                  )),
-        prefixIcon: widget.prefixIcon == null
-            ? null
-            : SizedBox(
-                child: widget.prefixIcon == null
-                    ? null
-                    : AppImage(
-                        widget.prefixIcon,
-                        color: iconColor,
-                      )),
+        suffixIcon: widget.suffixIconButton != null
+            ? IconButton(
+                style: ButtonStyle(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      side: BorderSide(color: Colors.transparent),
+                    ),
+                  ),
+                ),
+                onPressed: widget.suffixFunctionButton,
+                icon: Icon(
+                  widget.suffixIconButton,
+                  color: iconColor,
+                ),
+              )
+            : Icon(
+                widget.suffixIcon,
+                color: iconColor,
+              ),
+        prefixIcon: Icon(
+          widget.prefixIcon,
+          color: iconColor,
+        ),
         border: InputBorder.none,
       ),
     );
