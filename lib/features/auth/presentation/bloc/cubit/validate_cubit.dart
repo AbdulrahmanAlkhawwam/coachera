@@ -33,16 +33,14 @@ class ValidateCubit extends Cubit<ValidateState> {
     return null;
   }
 
-// String? nameValidate(value, int nameType) {
-//   if (value!.isEmpty) {
-//     return nameType == 0
-//         ? LocaleKeys.auth_validate_name_first_name_empty.tr()
-//         : LocaleKeys.auth_validate_name_last_name_empty.tr();
-//   } else if (value.length > 20 || value.length < 2) {
-//     return nameType == 0
-//         ? LocaleKeys.auth_validate_name_first_name_length.tr()
-//         : LocaleKeys.auth_validate_name_last_name_length.tr();
-//   }
-//   return null;
-// }
+  String? nameValidate(value) {
+    if (value!.isEmpty) {
+      return "The name must be not empty";
+      // LocaleKeys.auth_validate_name_last_name_empty.tr();
+    } else if (value.length > 20 || value.length < 2) {
+      return "The name must be contains 2 - 20 ";
+      // LocaleKeys.auth_validate_name_last_name_length.tr();
+    }
+    return null;
+  }
 }

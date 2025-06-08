@@ -8,3 +8,9 @@ class Login extends AuthEvent {
 
   Login({required this.param});
 }
+
+class Register extends AuthEvent {
+  final RegisterParam param;
+
+  Register({required this.param});
+}

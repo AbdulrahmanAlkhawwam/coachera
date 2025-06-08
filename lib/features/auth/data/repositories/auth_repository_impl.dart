@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
 import '../../domain/params/login_param.dart';
+import '../../domain/params/register_param.dart';
 import '../../domain/repositories/auth_repository.dart';
 import '../../domain/use_cases/login_uc.dart';
 import '../../domain/use_cases/register_uc.dart';
@@ -41,6 +42,10 @@ class AuthRepositoryImpl extends AuthRepository {
   // @override
   // Future<Either<Failure, User>> register(RegisterParam param) async =>
   //     await AppUtils.safeCall(() async => await dataSource.register(param));
+
+  @override
+  Future<Either<Failure, void>> register(RegisterParam param) async =>
+      await AppUtils.safeCall(() async => await dataSource.register(param));
 
   // @override
   // Future<Either<Failure, void>> saveToken(String token) async =>

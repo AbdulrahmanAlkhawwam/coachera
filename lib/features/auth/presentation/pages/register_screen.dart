@@ -1,25 +1,29 @@
+import 'package:coachera/features/auth/domain/params/register_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
-import '../../../../core/components/screen.dart';
 import '../../../../core/constants/res.dart';
 import '../../../../core/utils/app_context.dart';
-import '../../domain/params/login_param.dart';
+import '../../../../core/components/screen.dart';
 import '../bloc/bloc/auth_bloc.dart';
 import '../bloc/cubit/validate_cubit.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
+
+  final _nameController = TextEditingController();
+
+  final _confirmPasswordController = TextEditingController();
 
   final _passwordController = TextEditingController();
 
@@ -35,22 +39,20 @@ class _LoginScreenState extends State<LoginScreen> {
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               print(state.status);
-              // todo : don't forget to show massage when the status is error
             },
             child: Screen(
               appBar: AppBar(
-                  title: Text(
-                    'Login',
-                    style: context.textTheme.titleMedium,
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        // todo : don't forget to add languages logic
-                      },
-                      icon: Icon(TablerIcons.world),
-                    ),
-                  ]),
+                leading: IconButton(
+                  onPressed: () =>
+                      Navigator.canPop(context) ? context.pop() : null,
+                  // todo : don't forget to fix this in the future
+                  icon: Icon(TablerIcons.chevron_left),
+                ),
+                title: Text(
+                  'Create Account',
+                  style: context.textTheme.titleMedium,
+                ),
+              ),
               body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Form(
@@ -61,9 +63,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text('Hello, Welcome back to coachera',
+                          Text(
+                              'Enjoy the various best courses we have, choose the category according to your wishes.',
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: context.colors.outline)),
+                          const SizedBox(height: 32.0),
+                          Text('Name',
+                              style: context.textTheme.bodyMedium
+                                  ?.copyWith(color: context.colors.onSurface)),
+                          const SizedBox(height: 8.0),
+                          CustomInput(
+                            controller: _nameController,
+                            keyboardType: TextInputType.emailAddress,
+                            hint: 'User Name',
+                            prefixIcon: TablerIcons.mail,
+                            validator: (value) => cubit.nameValidate(value),
+                          ),
                           const SizedBox(height: 32.0),
                           Text('Email',
                               style: context.textTheme.bodyMedium
@@ -72,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           CustomInput(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            hint: 'Email Account',
+                            hint: 'Example@email.com',
                             prefixIcon: TablerIcons.mail,
                             validator: (value) => cubit.emailValidate(value),
                           ),
@@ -95,35 +110,56 @@ class _LoginScreenState extends State<LoginScreen> {
                                 : TablerIcons.eye_closed,
                             suffixFunctionButton: () => cubit.changeAppear(),
                           ),
-                          const SizedBox(height: 16.0),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () {
-                                // todo : don't forget to add forgot password logic
-                              },
-                              child: const Text('Forgot password?'),
-                            ),
+                          const SizedBox(height: 32.0),
+                          Text('Confirm Password',
+                              style: context.textTheme.bodyMedium
+                                  ?.copyWith(color: context.colors.onSurface)),
+                          const SizedBox(height: 8.0),
+                          CustomInput(
+                            onChanged: (value) => setState(() {}),
+                            controller: _confirmPasswordController,
+                            isAppear: cubit.isAppear,
+                            validator: (value) => context
+                                .read<ValidateCubit>()
+                                .passwordValidate(value),
+                            hint: "Rewrite Password",
+                            prefixIcon: TablerIcons.lock,
+                            suffixIconButton: cubit.isAppear
+                                ? TablerIcons.eye
+                                : TablerIcons.eye_closed,
+                            suffixFunctionButton: () => cubit.changeAppear(),
                           ),
+                          // const SizedBox(height: 16.0),
+                          // Align(
+                          //   alignment: Alignment.centerRight,
+                          //   child: TextButton(
+                          //     onPressed: () {
+                          //       // todo : don't forget to add forgot password logic
+                          //     },
+                          //     child: const Text('Forgot password?'),
+                          //   ),
+                          // ),
                           const SizedBox(height: 32.0),
                           FilledButton(
-                            onPressed: bloc.state.status == AuthStatus.loading
-                                    // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                    ||
-                                    (context
-                                                .read<ValidateCubit>()
-                                                .passwordValidate(
-                                                    _passwordController.text) !=
-                                            null &&
-                                        context
-                                                .read<ValidateCubit>()
-                                                .emailValidate(
-                                                    _emailController.text) !=
-                                            null)
+                            onPressed: bloc.state.status ==
+                                        AuthStatus.loading ||
+                                    _passwordController.text.compareTo(
+                                            _confirmPasswordController.text) !=
+                                        0
+                                // TODO : when you have more time you should to make the login button disable when user don't input the data
+                                // ||
+                                // (context.read<ValidateCubit>().passwordValidate(
+                                //             _passwordController.text) !=
+                                //         null &&
+                                //     context.read<ValidateCubit>().emailValidate(
+                                //             _emailController.text) !=
+                                //         null)
                                 ? null
+                                // : () {},
                                 : () => _key.currentState!.validate()
-                                    ? context.read<AuthBloc>().add(Login(
-                                            param: LoginParam(
+                                    ? context.read<AuthBloc>().add(Register(
+                                            param: RegisterParam(
+                                          name: _nameController.text,
                                           email: _emailController.text,
                                           password: _passwordController.text,
                                         )))
@@ -134,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     constraints:
                                         BoxConstraints.tight(Size(24, 24)),
                                   )
-                                : Text('Login'),
+                                : Text('Create Account'),
                           ),
                           const SizedBox(height: 24.0),
                           OutlinedButton(
@@ -148,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Res.google,
                                   width: 32,
                                 ),
-                                Text('Vie Google'),
+                                Text('Continue With Google'),
                               ],
                             ),
                           ),
@@ -156,14 +192,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Don't have an account? ",
+                              Text("Already have an account? ",
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.outline)),
                               TextButton(
                                 onPressed: () {
                                   // todo : don't forget to add sign in logic
                                 },
-                                child: Text('Sign in',
+                                child: Text('Login',
                                     style: context.textTheme.bodyMedium
                                         ?.copyWith(
                                             color: context.colors.primary)),
