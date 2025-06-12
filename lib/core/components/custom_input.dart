@@ -1,42 +1,42 @@
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/app_image.dart';
-
 class CustomInput extends StatefulWidget {
-  final Function()? onTap;
-  final Function(dynamic)? onChanged;
+  final VoidCallback? onTap;
+  final ValueChanged<String>? onChanged;
   final FormFieldValidator<String>? validator;
   final TextEditingController? controller;
   final IconData? suffixIconButton;
-  final Function()? suffixFunctionButton;
+  final VoidCallback? suffixFunctionButton;
   final IconData? suffixIcon;
   final IconData? prefixIcon;
-  final TextInputType? keyboardType;
+  final TextInputType keyboardType;
   final TextStyle? hintStyle;
   final String? hint;
   final String? helperText;
-  final bool? isEnabled;
-  final bool? isAppear;
-  final bool? autoCorrect;
+  final bool isEnabled;
+  final bool obscureText;
+  final bool autoCorrect;
+  final List<String>? autoFillHints;
 
   const CustomInput({
     super.key,
-    this.isEnabled,
+    this.onTap,
+    this.onChanged,
+    this.validator,
     this.controller,
-    this.hint,
-    this.hintStyle,
     this.suffixIconButton,
     this.suffixFunctionButton,
     this.suffixIcon,
     this.prefixIcon,
-    this.onChanged,
-    this.onTap,
-    this.keyboardType,
+    this.keyboardType = TextInputType.text,
+    this.hintStyle,
+    this.hint,
     this.helperText,
-    this.validator,
-    this.autoCorrect,
-    this.isAppear = false,
+    this.isEnabled = true,
+    this.obscureText = false,
+    this.autoCorrect = true,
+    this.autoFillHints,
   });
 
   @override
@@ -44,78 +44,79 @@ class CustomInput extends StatefulWidget {
 }
 
 class _CustomInputState extends State<CustomInput> {
-  late FocusNode _focusNode;
+  late final FocusNode _focusNode;
   bool _isFocused = false;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(() {
-      setState(() => _isFocused = _focusNode.hasFocus);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Color iconColor;
-
-    iconColor = _isFocused ? context.colors.primary : context.colors.outline;
-
-    return TextFormField(
-      cursorHeight: 24,
-      focusNode: _focusNode,
-      obscureText: widget.isAppear ?? true,
-      keyboardType: widget.keyboardType ?? TextInputType.text,
-      validator: widget.isEnabled ?? true ? widget.validator : null,
-      autocorrect: true,
-      onTap: widget.onTap,
-      onChanged: widget.onChanged,
-      enabled: widget.isEnabled,
-      cursorColor: context.colors.onSurface,
-      controller: widget.controller,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: _focusNode.hasFocus
-            ? context.colors.primaryContainer
-            : context.colors.surface,
-        hintText: widget.hint,
-        hintStyle: !(widget.isEnabled ?? true)
-            ? context.textTheme.bodyMedium
-                ?.copyWith(color: context.colors.outline)
-            : null,
-        suffixIcon: widget.suffixIconButton != null
-            ? IconButton(
-                style: ButtonStyle(
-                  shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                      side: BorderSide(color: Colors.transparent),
-                    ),
-                  ),
-                ),
-                onPressed: widget.suffixFunctionButton,
-                icon: Icon(
-                  widget.suffixIconButton,
-                  color: iconColor,
-                ),
-              )
-            : Icon(
-                widget.suffixIcon,
-                color: iconColor,
-              ),
-        prefixIcon: Icon(
-          widget.prefixIcon,
-          color: iconColor,
-        ),
-        border: InputBorder.none,
-      ),
-    );
+    _focusNode = FocusNode()
+      ..addListener(() {
+        setState(() => _isFocused = _focusNode.hasFocus);
+      });
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
+  }
+
+  Widget? _buildSuffixIcon(Color iconColor) {
+    return widget.suffixIconButton != null
+        ? IconButton(
+            onPressed: widget.suffixFunctionButton,
+            style: ButtonStyle(
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                  side: BorderSide.none,
+                ),
+              ),
+            ),
+            icon: Icon(widget.suffixIconButton, color: iconColor),
+          )
+        : widget.suffixIcon != null
+            ? Icon(widget.suffixIcon, color: iconColor)
+            : null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Color iconColor =
+        _isFocused ? context.colors.primary : context.colors.outline;
+
+    return TextFormField(
+      focusNode: _focusNode,
+      controller: widget.controller,
+      onTap: widget.onTap,
+      onChanged: widget.onChanged,
+      validator: widget.isEnabled ? widget.validator : null,
+      keyboardType: widget.keyboardType,
+      obscureText: widget.obscureText,
+      autocorrect: widget.autoCorrect,
+      enabled: widget.isEnabled,
+      autofillHints: widget.autoFillHints,
+      cursorColor: context.colors.onSurface,
+      cursorHeight: 24,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: _isFocused
+            ? context.colors.primaryContainer
+            : context.colors.surface,
+        hintText: widget.hint,
+        hintStyle: widget.isEnabled
+            ? widget.hintStyle
+            : context.textTheme.bodyMedium?.copyWith(
+                color: context.colors.outline,
+              ),
+        helperText: widget.helperText,
+        suffixIcon: _buildSuffixIcon(iconColor),
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(widget.prefixIcon, color: iconColor)
+            : null,
+        border: InputBorder.none,
+      ),
+    );
   }
 }
