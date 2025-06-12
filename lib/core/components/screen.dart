@@ -7,23 +7,29 @@ class Screen extends StatelessWidget {
   const Screen({
     super.key,
     this.appBar,
-    required this.body,
+    this.body,
+    this.resizeToAvoidBottomInset = true,
   });
 
-  final AppBar? appBar;
+  final PreferredSizeWidget? appBar;
   final Widget? body;
+  final bool resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          SvgPicture.asset(Res.background),
+          SvgPicture.asset(
+            Res.background,
+            fit: BoxFit.cover,
+          ),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: appBar,
             body: body,
-          )
+            resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          ),
         ],
       ),
     );
