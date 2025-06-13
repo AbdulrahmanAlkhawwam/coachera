@@ -1,3 +1,6 @@
+import 'package:coachera/features/auth/presentation/pages/register_screen.dart';
+import 'package:coachera/features/auth/presentation/pages/temp_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +9,7 @@ import 'package:coachera/core/theme/theme.dart';
 import '../core/service_locator/service_locator.dart';
 import 'auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'auth/presentation/pages/login_screen.dart';
+import 'auth/presentation/pages/verification_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -40,13 +44,14 @@ class App extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: Theme.lightTheme,
-          themeMode: ThemeMode.light,
+          themeMode: ThemeMode.dark,
           // themeMode: context.watch<ThemeNotifier>().themeMode,
           darkTheme: Theme.darkTheme,
-          // localizationsDelegates: context.localizationDelegates,
-          // supportedLocales: context.supportedLocales,
-          // locale: context.locale,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           // home: BlocBuilder<AuthBloc, AuthState>(
           //   builder: (context, state) {
           //     return switch (state.status) {
@@ -56,7 +61,7 @@ class App extends StatelessWidget {
           // _ => LoginScreen(),
           // };
           // },
-          home: LoginScreen(), // ),
+          home: TempScreen(), // ),
         ),
       ),
     );
