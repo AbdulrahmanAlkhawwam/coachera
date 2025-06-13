@@ -9,13 +9,13 @@ class Message extends Equatable {
   final String? value;
   final int? code;
   final String? platformCode;
-  // final bool readable;
+  final String? title;
 
   const Message({
     this.value,
     this.code,
     this.platformCode,
-    // this.readable = false,
+    this.title,
   });
 
   factory Message.fromFailure(Failure failure) {
@@ -25,37 +25,43 @@ class Message extends Equatable {
 
     for (final entry in failureMessage.entries) {
       if (failure.runtimeType == entry.key) {
-        return Message(value: entry.value.tr());
+        return Message(
+          title: entry.value['title']?.tr(),
+          value: entry.value['value']?.tr(),
+        );
       }
     }
-
-    return Message(value: LocaleKeys.error_messages_unknown_error.tr());
+    
+    return Message(
+      title: LocaleKeys.errors_unknown_error_title.tr(),
+      value: LocaleKeys.errors_unknown_error_message.tr(),
+    );
   }
 
   String _getMessageFromPlatformCode() {
     switch (platformCode) {
       case "1":
-        return LocaleKeys.error_messages_operation_cancelled.tr();
+        return LocaleKeys.errors_operation_cancelled_message.tr();
       case "3":
-        return LocaleKeys.error_messages_purchase_failed_error_3.tr();
+        return LocaleKeys.errors_purchase_failed_error_3_message.tr();
       case "7":
-        return LocaleKeys.error_messages_cannot_restore_subscription_error_7
+        return LocaleKeys.errors_cannot_restore_subscription_error_7_message
             .tr();
       case "10":
-        return LocaleKeys.error_messages_network_error_retry.tr();
+        return LocaleKeys.errors_network_error_retry_message.tr();
       default:
-        return LocaleKeys.error_messages_operation_failed_with_code_args
+        return LocaleKeys.errors_operation_failed_with_code_args_message
             .tr(args: [platformCode!]);
     }
   }
 
   @override
   String toString() {
-    if (/*readable &&*/ value != null) return value!;
+    if (value != null) return value!;
     if (platformCode != null) return _getMessageFromPlatformCode();
-    return LocaleKeys.error_messages_unknown.tr();
+    return LocaleKeys.errors_unknown_error_message.tr();
   }
 
   @override
-  List<Object?> get props => [value, code/*, readable*/];
+  List<Object?> get props => [value, code, title];
 }

@@ -1,38 +1,128 @@
 {
-  "error_messages": {
-    "details": "Details",
-    "send_error": "Send the error",
-    "error_title": "Error message",
-    "unknown": "Sorry, an error occurred",
-    "operation_failed_retry": "Operation failed, please try again",
-    "operation_cancelled": "Operation cancelled",
-    "operation_successful": "Operation successful",
-    "check_input_info": "Please check the entered information",
-    "wrong_password_retry": "Incorrect username or password, please try again",
-    "no_access_permission": "You do not have permission to access this resource",
-    "resource_not_found": "Resource not found",
-    "exceeded_limit_retry_later": "You have exceeded the limit, please try again later",
-    "check_input_retry": "Check the entered information and try again",
-    "internal_error_contact_support": "Internal error, if the error persists, please contact support",
-    "retry_later_contact_support": "Please try again later, if the error persists, please contact support",
-    "unknown_error": "An error occurred",
-    "purchase_failed_error_3": "Purchase failed (Error code: 3)",
-    "already_subscribed_restore": "You have already subscribed, please restore the subscription below (Error code: 6)",
-    "cannot_restore_subscription_error_7": "Cannot restore subscription for this account (Error code: 7)",
-    "network_error_retry": "Network connection issue, please try again (Error code: 10)",
-    "subscription_pending_wait": "Subscription request is pending, please wait... (Error code: 15)",
-    "operation_failed_with_code_args": "Operation failed (Error code: {})",
-    "no_internet_connection": "No internet connection",
-    "internet_connection_error_retry": "Internet connection error, please try again",
-    "data_receiving_error_contact_support": "Data receiving error, if the error persists, please contact support",
-    "internet_connection_handshake_error": "Internet connection handshake error, if the error persists, please contact support",
-    "cannot_complete_request": "Cannot complete the request, data error",
-    "no_active_subscriptions": "You do not have active subscriptions",
-    "payment_required": "Payment is required to proceed",
-    "method_not_allowed": "The requested action is not allowed. Please try a different method",
-    "conflict": "A conflict occurred. This action cannot be completed as requested",
-    "gone": "This link has expired or was removed",
-    "precondition_failed": "Request failed due to a missing or invalid condition",
-    "redirection":"We’re having trouble reaching the page. Please try again shortly"
+  "errors": {
+    "unknown": {
+      "title": "Unexpected Error",
+      "message": "Something went wrong. Please try again shortly."
+    },
+    "operation_failed_retry": {
+      "title": "Operation Unsuccessful",
+      "message": "We couldn’t complete the operation. Please try again."
+    },
+    "operation_cancelled": {
+      "title": "Operation Cancelled",
+      "message": "The operation was cancelled before it could finish."
+    },
+    "operation_successful": {
+      "title": "Operation Successful",
+      "message": "The operation has been completed successfully."
+    },
+    "check_input_info": {
+      "title": "Invalid Input",
+      "message": "Please review the information provided and try again."
+    },
+    "wrong_password_retry": {
+      "title": "Login Failed",
+      "message": "The username or password entered is incorrect. Please try again."
+    },
+    "no_access_permission": {
+      "title": "Access Denied",
+      "message": "You do not have permission to access this content."
+    },
+    "resource_not_found": {
+      "title": "Not Found",
+      "message": "The requested resource could not be found."
+    },
+    "exceeded_limit_retry_later": {
+      "title": "Too Many Requests",
+      "message": "You have exceeded the allowed limit. Please try again later."
+    },
+    "check_input_retry": {
+      "title": "Input Error",
+      "message": "Please check the entered details and try once more."
+    },
+    "internal_error_contact_support": {
+      "title": "System Error",
+      "message": "An internal error occurred. If this continues, please contact support."
+    },
+    "retry_later_contact_support": {
+      "title": "Please Try Again",
+      "message": "We are unable to process your request at the moment. Try again later or contact support."
+    },
+    "unknown_error": {
+      "title": "Error Occurred",
+      "message": "An unexpected issue has occurred. Please try again later."
+    },
+    "purchase_failed_error_3": {
+      "title": "Purchase Failed",
+      "message": "We were unable to complete your purchase. Please try again."
+    },
+    "already_subscribed_restore": {
+      "title": "Subscription Already Active",
+      "message": "It looks like you already have a subscription. You can restore it below."
+    },
+    "cannot_restore_subscription_error_7": {
+      "title": "Restoration Failed",
+      "message": "We couldn’t restore your subscription for this account."
+    },
+    "network_error_retry": {
+      "title": "Network Issue",
+      "message": "We’re having trouble connecting to the internet. Please check your connection and try again."
+    },
+    "subscription_pending_wait": {
+      "title": "Subscription Pending",
+      "message": "Your subscription request is still being processed. Please wait a moment."
+    },
+    "operation_failed_with_code_args": {
+      "title": "Action Failed",
+      "message": "We couldn’t complete your request. Please try again."
+    },
+    "no_internet_connection": {
+      "title": "No Internet",
+      "message": "It appears you are not connected to the internet. Please check your connection."
+    },
+    "internet_connection_error_retry": {
+      "title": "Connection Error",
+      "message": "There was a problem with your internet connection. Please try again."
+    },
+    "data_receiving_error_contact_support": {
+      "title": "Data Error",
+      "message": "We were unable to retrieve the necessary data. Please try again or contact support if the issue continues."
+    },
+    "internet_connection_handshake_error": {
+      "title": "Secure Connection Error",
+      "message": "We couldn’t establish a secure connection. Please try again later."
+    },
+    "cannot_complete_request": {
+      "title": "Request Incomplete",
+      "message": "We couldn’t complete your request due to missing or incorrect data."
+    },
+    "no_active_subscriptions": {
+      "title": "No Active Subscription",
+      "message": "You currently don’t have any active subscriptions."
+    },
+    "payment_required": {
+      "title": "Payment Needed",
+      "message": "To continue, please complete the required payment."
+    },
+    "method_not_allowed": {
+      "title": "Action Not Allowed",
+      "message": "This action cannot be performed this way. Please try a different method."
+    },
+    "conflict": {
+      "title": "Conflict Detected",
+      "message": "There was a conflict while processing your request. Please try again."
+    },
+    "gone": {
+      "title": "Content Unavailable",
+      "message": "The requested content is no longer available or has been removed."
+    },
+    "precondition_failed": {
+      "title": "Precondition Not Met",
+      "message": "Your request could not be processed because a required condition was not met."
+    },
+    "redirection": {
+      "title": "Redirection Problem",
+      "message": "We’re having trouble reaching the requested page. Please try again later."
+    }
   }
 }
