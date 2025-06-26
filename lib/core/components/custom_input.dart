@@ -50,10 +50,14 @@ class _CustomInputState extends State<CustomInput> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode()
-      ..addListener(() {
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      if (widget.isEnabled) {
         setState(() => _isFocused = _focusNode.hasFocus);
-      });
+      } else if (_focusNode.hasFocus) {
+        _focusNode.unfocus();
+      }
+    });
   }
 
   @override
@@ -95,7 +99,6 @@ class _CustomInputState extends State<CustomInput> {
       keyboardType: widget.keyboardType,
       obscureText: widget.obscureText,
       autocorrect: widget.autoCorrect,
-      enabled: widget.isEnabled,
       autofillHints: widget.autoFillHints,
       cursorColor: context.colors.onSurface,
       cursorHeight: 24,
