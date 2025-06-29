@@ -11,6 +11,7 @@ import 'styles/filled_button.dart';
 import 'styles/tabBar.dart';
 import 'styles/text_button.dart';
 import 'styles/text_font.dart';
+import 'styles/bottom_sheet_style.dart';
 
 class Theme {
   static ThemeData get lightTheme => _theme(ColorSchemes.lightColors);
@@ -32,6 +33,7 @@ class Theme {
         inputDecorationTheme: inputDecorationStyle(colors),
         floatingActionButtonTheme: floatingButtonStyle(colors),
         outlinedButtonTheme: outlineButtonStyle(colors),
+        bottomSheetTheme: bottomSheetStyle(colors),
         // dividerColor: ColorPlatte.neutral100,
         // extensions:
       );

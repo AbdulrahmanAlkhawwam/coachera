@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'text_font.dart';
 
-filledButtonStyle(ColorScheme colors) => FilledButtonThemeData(
+FilledButtonThemeData filledButtonStyle(ColorScheme colors) => FilledButtonThemeData(
       style: FilledButton.styleFrom(
         maximumSize: Size(double.infinity, 48),
         backgroundColor: colors.primary,

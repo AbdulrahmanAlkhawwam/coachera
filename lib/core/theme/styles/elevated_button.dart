@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'text_font.dart';
 
-elevatedButtonStyle(ColorScheme colors) => ElevatedButtonThemeData(
+ElevatedButtonThemeData elevatedButtonStyle(ColorScheme colors) => ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         shadowColor: Colors.transparent,
         elevation: 0.0,

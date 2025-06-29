@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'text_font.dart';
 
-outlineButtonStyle(ColorScheme colors) => OutlinedButtonThemeData(
-      style: FilledButton.styleFrom(
+OutlinedButtonThemeData outlineButtonStyle(ColorScheme colors) =>
+    OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
         maximumSize: Size(double.infinity, 48),
         backgroundColor: colors.surface,
         foregroundColor: colors.onSurface,

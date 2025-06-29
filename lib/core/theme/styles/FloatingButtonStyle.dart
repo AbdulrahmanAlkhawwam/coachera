@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-floatingButtonStyle(ColorScheme colors) => FloatingActionButtonThemeData(
+FloatingActionButtonThemeData floatingButtonStyle(ColorScheme colors) =>
+    FloatingActionButtonThemeData(
       backgroundColor: colors.primary,
       foregroundColor: colors.onPrimary,
       focusElevation: 0.0,

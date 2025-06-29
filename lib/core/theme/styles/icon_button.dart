@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-iconButtonStyle(ColorScheme colors) => IconButtonThemeData(
+IconButtonThemeData iconButtonStyle(ColorScheme colors) => IconButtonThemeData(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent),
         padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
