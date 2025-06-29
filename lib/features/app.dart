@@ -1,26 +1,37 @@
-import 'package:coachera/features/auth/presentation/pages/register_screen.dart';
-import 'package:coachera/features/auth/presentation/pages/temp_screen.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import 'package:coachera/core/theme/theme.dart';
+import '../core/constants/routes.dart';
+import '../core/theme/theme.dart';
 import '../core/service_locator/service_locator.dart';
 import 'auth/presentation/bloc/bloc/auth_bloc.dart';
-import 'auth/presentation/pages/login_screen.dart';
-import 'auth/presentation/pages/verification_screen.dart';
+import 'course/presentation/bloc/bloc/course_bloc.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl.get<AuthBloc>())
-        // ..add(CheckAuth()), lazy: false),
-        // BlocProvider(create: (_) => sl.get<OrderBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<AuthBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<CourseBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<UserBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<ProductBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<ShopBloc>(), lazy: false),
@@ -33,6 +44,7 @@ class App extends StatelessWidget {
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state.status == AuthStatus.authorized) {
+                // context.read<CourseBloc>().add(GetCourses());
                 // context.read<UserBloc>().add(GetAccount());
                 // context.read<OrderBloc>().add(GetOrders());
                 // context.read<ShopBloc>().add(GetShops());
@@ -44,6 +56,8 @@ class App extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          initialRoute: Routes.initialRoute,
+          onGenerateRoute: Routes.onGenerateRoute,
           debugShowCheckedModeBanner: false,
           theme: Theme.lightTheme,
           themeMode: ThemeMode.dark,
@@ -52,16 +66,6 @@ class App extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          // home: BlocBuilder<AuthBloc, AuthState>(
-          //   builder: (context, state) {
-          //     return switch (state.status) {
-          // AuthStatus.checking || AuthStatus.init => LoadingScreen(),
-          // AuthStatus.notVerified => OtpScreen(),
-          // AuthStatus.authorized => MainScreen(),
-          // _ => LoginScreen(),
-          // };
-          // },
-          home: TempScreen(), // ),
         ),
       ),
     );

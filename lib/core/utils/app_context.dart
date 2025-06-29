@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../utils/message.dart';
 
 extension AppNavigation on BuildContext {
-  Future push(route) => Navigator.push(
+  Future push(route) => Navigator.pushNamed(
         this,
-        MaterialPageRoute(builder: (context) => route),
+        route,
       );
 
-  Future pushReplacement(route) => Navigator.pushAndRemoveUntil(
+  Future pushReplacement(route) => Navigator.pushNamedAndRemoveUntil(
         this,
-        MaterialPageRoute(builder: (context) => route),
+        route,
         (route) => false,
       );
 
@@ -43,80 +44,92 @@ extension AppDirectionality on BuildContext {
   bool get isLTR => textDirection == TextDirection.ltr;
 }
 
-// TODO : don't forget to change this when the design is ready for dev
-// extension AppSnackbar on BuildContext {
-//   void showSuccessSnackBar({String? massage}) {
-//     ScaffoldMessenger.of(this).clearSnackBars();
-//     ScaffoldMessenger.of(this).showSnackBar(
-//       SnackBar(
-//         behavior: SnackBarBehavior.floating,
-//         backgroundColor: colors.primaryContainer,
-//         shape: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(appBor),
-//           borderSide: BorderSide(color: Colors.transparent, width: inputBor),
-//         ),
-//         duration: const Duration(milliseconds: 1500),
-//         content: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Icon(
-//               Icons.check_circle_outline,
-//               weight: 32,
-//               color: colors.onPrimaryContainer,
-//             ),
-//             const SizedBox(width: 8),
-//             Expanded(
-//               child: Text(
-//                 textAlign: TextAlign.start,
-//                 massage ?? "Success",
-//                 maxLines: 1,
-//                 overflow: TextOverflow.ellipsis,
-//                 style: textTheme.bodyMedium?.copyWith(
-//                   color: colors.onPrimaryContainer,
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-//
-//   void showErrorSnackBar({Message? massage}) {
-//     ScaffoldMessenger.of(this).clearSnackBars();
-//     ScaffoldMessenger.of(this).showSnackBar(
-//       SnackBar(
-//         behavior: SnackBarBehavior.floating,
-//         backgroundColor: colors.errorContainer,
-//         shape: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(appBor),
-//           borderSide: BorderSide(color: Colors.transparent, width: inputBor),
-//         ),
-//         duration: const Duration(milliseconds: 1500),
-//         content: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Icon(
-//               Icons.error_outline,
-//               weight: 32,
-//               color: colors.onErrorContainer,
-//             ),
-//             const SizedBox(width: 8),
-//             Expanded(
-//               child: Text(
-//                 textAlign: TextAlign.start,
-//                 massage?.value.toString() ?? "Error",
-//                 maxLines: 1,
-//                 overflow: TextOverflow.ellipsis,
-//                 style: textTheme.bodyMedium?.copyWith(
-//                   color: colors.onErrorContainer,
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
+extension AppSnackbar on BuildContext {
+  void showSuccessSnackBar({Message? massage}) {
+    ScaffoldMessenger.of(this).clearSnackBars();
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: colors.primaryContainer,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colors.primary),
+        ),
+        duration: const Duration(milliseconds: 2500),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  TablerIcons.rosette_discount_check,
+                  color: colors.primary,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  textAlign: TextAlign.start,
+                  "${massage?.title.toString()}",
+                  style: textTheme.titleMedium?.copyWith(
+                    color: colors.primary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.start,
+              "${massage?.value.toString()}",
+              style: textTheme.bodyMedium?.copyWith(
+                color: colors.onPrimaryContainer,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showErrorSnackBar({Message? massage}) {
+    ScaffoldMessenger.of(this).clearSnackBars();
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: colors.errorContainer,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: colors.error),
+        ),
+        duration: const Duration(milliseconds: 2500),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  TablerIcons.exclamation_circle,
+                  color: colors.error,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  textAlign: TextAlign.start,
+                  "${massage?.title.toString()}",
+                  style: textTheme.titleMedium?.copyWith(
+                    color: colors.error,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.start,
+              "${massage?.value.toString()}",
+              style: textTheme.bodyMedium?.copyWith(
+                color: colors.onErrorContainer,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
