@@ -1,4 +1,28 @@
 {
+  "messages": {
+    "Login": {
+      "title": "Success !",
+      "body": "Login successfully \uD83D\uDE0A"
+    }
+  },
+  "screens": {
+    "login": {
+      "title": "Login",
+      "body": "Hello, Welcome back to coachera",
+      "email": {
+        "label": "Email",
+        "body": "Email Account"
+      },
+      "password": {
+        "label": "Password",
+        "body": "Password"
+      },
+      "forget_password": "Forget password?",
+      "login_button": "Login",
+      "forget_message": "I don't have an account",
+      "register": "Sign in"
+    }
+  },
   "errors": {
     "unknown": {
       "title": "Unexpected Error",

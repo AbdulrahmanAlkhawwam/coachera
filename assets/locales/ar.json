@@ -1,4 +1,28 @@
 {
+  "messages": {
+    "Login": {
+      "title": "تم بنجاح !",
+      "body": "تم تسجيل الدخول بنجاح \uD83D\uDE0A"
+    }
+  },
+  "screens": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "body": "اهلا بك في coachera",
+      "email": {
+        "label": "البريد الالكتروني",
+        "body": "حساب البريد الالكترني"
+      },
+      "password": {
+        "label": "كلمة المرور",
+        "body": "كلمة المرور"
+      },
+      "forget_password": "نسيت كلمة المرور؟",
+      "login_button": "تسجيل الدخول",
+      "forget_message": "ليس لدي حساب بعد",
+      "register": "انشاء حساب"
+    }
+  },
   "errors": {
     "unknown": {
       "title": "خطأ غير معروف",

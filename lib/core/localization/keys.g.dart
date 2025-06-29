@@ -3,6 +3,18 @@
 // ignore_for_file: constant_identifier_names
 
 abstract class  LocaleKeys {
+  static const messages_Login_title = 'messages.Login.title';
+  static const messages_Login_body = 'messages.Login.body';
+  static const screens_login_title = 'screens.login.title';
+  static const screens_login_body = 'screens.login.body';
+  static const screens_login_email_label = 'screens.login.email.label';
+  static const screens_login_email_body = 'screens.login.email.body';
+  static const screens_login_password_label = 'screens.login.password.label';
+  static const screens_login_password_body = 'screens.login.password.body';
+  static const screens_login_forget_password = 'screens.login.forget_password';
+  static const screens_login_login_button = 'screens.login.login_button';
+  static const screens_login_forget_message = 'screens.login.forget_message';
+  static const screens_login_register = 'screens.login.register';
   static const errors_unknown_title = 'errors.unknown.title';
   static const errors_unknown_message = 'errors.unknown.message';
   static const errors_operation_failed_retry_title = 'errors.operation_failed_retry.title';
