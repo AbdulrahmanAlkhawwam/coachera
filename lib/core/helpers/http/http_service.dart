@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:http/http.dart' as http;
 
+import '../../constants/strings.dart';
 import '../../error/exceptions.dart';
 import '../../network/connectivity_service.dart';
 import '../../network/network_status.dart';
@@ -130,13 +131,15 @@ class HttpService implements HttpClient {
   }
 
   HttpResponse _handleResponse(http.Response response) {
-    switch (response.statusCode) {
+    var code = response.statusCode;
+    // if (response.statusCode != json.decode(response.body)['status']) {
+    //   code = int.tryParse(json.decode(response.body)['status']) is int
+    //       ? int.tryParse(json.decode(response.body)['status'])
+    //       : response.statusCode;
+    // }
+    switch (code) {
       case >= 200 && < 300:
-        return HttpResponse(
-          data: _parseResponseBody(response.body),
-          statusCode: response.statusCode,
-          headers: response.headers,
-        );
+        return _parseResponse(response);
       case 400:
         throw BadRequestException();
       case 401:
@@ -184,11 +187,19 @@ class HttpService implements HttpClient {
     }
   }
 
-  dynamic _parseResponseBody(String body) {
+  dynamic _parseResponse(http.Response response) {
     try {
-      return jsonDecode(body);
+      return HttpResponse(
+        data: jsonDecode(response.body)['data'],
+        statusCode: jsonDecode(response.body)['status'],
+        headers: response.headers,
+      );
     } catch (_) {
-      return body.isNotEmpty ? body : null;
+      return HttpResponse(
+        data: response.body.isNotEmpty ? response.body : null,
+        statusCode: jsonDecode(response.body)['status'],
+        headers: response.headers,
+      );
     }
   }
 
@@ -202,11 +213,8 @@ class HttpService implements HttpClient {
   }
 
   @override
-  Uri makeUri(String path, {Map<String, String>? queryParameters}) {
-    print(host);
-    print(basePath);
-    return Uri.http(host, '$basePath$path', queryParameters);
-  }
+  Uri makeUri(String path, {Map<String, String>? queryParameters}) =>
+      Uri.http(host, '$basePath$path', queryParameters);
 
   void _logRequest(
     _RequestMethod method,
@@ -232,10 +240,7 @@ class HttpService implements HttpClient {
     }
   }
 
-  void _logResponse(
-    _RequestMethod method,
-    http.Response response,
-  ) {
+  void _logResponse(_RequestMethod method, http.Response response) {
     dev.log(
       '[${method.name.toUpperCase()}] Status: ${response.statusCode}',
       name: 'HTTP Response',
@@ -247,11 +252,7 @@ class HttpService implements HttpClient {
   }
 
   @override
-  Future<void> close() async {
-    client.close();
-  }
+  Future<void> close() async => client.close();
 
-  String get token {
-    return '';
-  }
+  String get token => storage.getString(accessTokenKey) ?? "";
 }
