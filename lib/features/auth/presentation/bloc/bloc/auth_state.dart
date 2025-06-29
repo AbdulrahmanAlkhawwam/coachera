@@ -13,19 +13,19 @@ enum AuthStatus {
 @immutable
 class AuthState {
   final AuthStatus status;
-  // final Message? message;
+  final Message? message;
 
   const AuthState({
     this.status = AuthStatus.init,
-    // this.message,
+    this.message,
   });
 
   AuthState copyWith({
     AuthStatus? status,
-    // Message? message,
+    Message? message,
   }) =>
       AuthState(
         status: status ?? this.status,
-        // message: message ?? this.message,
+        message: message ?? this.message,
       );
 }

@@ -1,19 +1,15 @@
+import '../../../../core/constants/routes.dart';
 import '../../../../core/helpers/http/http_service.dart';
-
-// import '../../../home/data/models/user_model.dart';
 import '../../domain/params/login_param.dart';
 import '../../domain/params/register_param.dart';
-import '../../domain/use_cases/login_uc.dart';
-import '../../domain/use_cases/register_uc.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<void> login(LoginParam param);
+  Future<String> login(LoginParam param);
 
   Future<void> logout();
 
 // Future<bool> otp(String passkey);
 
-// Future<UserModel> register(RegisterParam param);
   Future<void> register(RegisterParam param);
 }
 
@@ -23,26 +19,24 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   AuthRemoteDataSourceImpl({required this.http});
 
   @override
-  Future<void> login(LoginParam param) async {
+  Future<String> login(LoginParam param) async {
     return await http.handleApiCall(
       () async {
         final response = await http.post(
-          "/auth/login",
+          Endpoint.login,
           body: {
             "identifier": param.email,
             "password": param.password,
           },
-        ) as Map<String, dynamic>;
-        print(response.toString());
-        return null;
-        // UserModel.fromJson(response);
+        );
+        return response.data['accessToken'];
       },
     );
   }
 
   @override
   Future<void> logout() async =>
-      await http.handleApiCall(() async => await http.post("/logout"));
+      await http.handleApiCall(() async => await http.post(Endpoint.logout));
 
 // @override
 // Future<bool> otp(String passkey) async {
@@ -74,6 +68,8 @@ Future<UserModel> register(RegisterParam param) async {
 */
   @override
   Future<void> register(RegisterParam param) async {
+    // todo : fix this function for student
+    // todo : fix the return value
     return await http.handleApiCall(() async {
       final response = await http.post(
         "/auth/register",

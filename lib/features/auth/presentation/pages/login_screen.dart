@@ -1,11 +1,14 @@
+import 'package:coachera/core/components/language_dialog.dart';
+import 'package:coachera/core/localization/keys.g.dart';
+import 'package:coachera/core/utils/message.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
 import '../../../../core/components/screen.dart';
-import '../../../../core/constants/res.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../domain/params/login_param.dart';
 import '../bloc/bloc/auth_bloc.dart';
@@ -20,9 +23,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
-
   final _passwordController = TextEditingController();
-
   final _key = GlobalKey<FormState>();
 
   @override
@@ -34,20 +35,29 @@ class _LoginScreenState extends State<LoginScreen> {
           var bloc = context.read<AuthBloc>();
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              print(state.status);
-              // todo : don't forget to show massage when the status is error
+              if (state.status == AuthStatus.error) {
+                context.showErrorSnackBar(massage: state.message);
+              }
+              if (state.status == AuthStatus.authorized) {
+                context.showSuccessSnackBar(
+                    massage: Message(
+                  title: LocaleKeys.messages_Login_title.tr(),
+                  value: LocaleKeys.messages_Login_body.tr(),
+                ));
+              }
             },
             child: Screen(
               appBar: AppBar(
                   title: Text(
-                    'Login',
+                    LocaleKeys.screens_login_title.tr(),
                     style: context.textTheme.titleMedium,
                   ),
                   actions: [
                     IconButton(
-                      onPressed: () {
-                        // todo : don't forget to add languages logic
-                      },
+                      onPressed: () async => await showDialog(
+                        context: context,
+                        builder: (context) => LanguageDialog(),
+                      ),
                       icon: Icon(TablerIcons.world),
                     ),
                   ]),
@@ -61,34 +71,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          Text('Hello, Welcome back to coachera',
+                          Text(LocaleKeys.screens_login_body.tr(),
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: context.colors.outline)),
                           const SizedBox(height: 32.0),
-                          Text('Email',
+                          Text(LocaleKeys.screens_login_email_label.tr(),
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: context.colors.onSurface)),
                           const SizedBox(height: 8.0),
                           CustomInput(
+                            onChanged: (value) => setState(() {}),
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            hint: 'Email Account',
+                            hint: LocaleKeys.screens_login_email_body.tr(),
                             prefixIcon: TablerIcons.mail,
-                            validator: (value) => cubit.emailValidate(value),
+                            validator: (value) => cubit.validateEmail(value),
                           ),
                           const SizedBox(height: 32.0),
-                          Text('Password',
+                          Text(LocaleKeys.screens_login_password_label.tr(),
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: context.colors.onSurface)),
                           const SizedBox(height: 8.0),
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _passwordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
-                            hint: "Password",
+                            hint: LocaleKeys.screens_login_password_body.tr(),
                             prefixIcon: TablerIcons.lock,
                             suffixIconButton: cubit.isAppear
                                 ? TablerIcons.eye
@@ -99,71 +110,58 @@ class _LoginScreenState extends State<LoginScreen> {
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {
-                                // todo : don't forget to add forgot password logic
-                              },
-                              child: const Text('Forgot password?'),
+                              onPressed: () =>
+                                  context.push(Routes.forgotPassword),
+                              child: Text(
+                                LocaleKeys.screens_login_forget_password.tr(),
+                                style: context.textTheme.bodyMedium
+                                    ?.copyWith(color: context.colors.onSurface),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 32.0),
                           FilledButton(
-                            onPressed: bloc.state.status == AuthStatus.loading
-                                    // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                    ||
+                            onPressed: bloc.state.status !=
+                                        AuthStatus.loading &&
                                     (context
                                                 .read<ValidateCubit>()
-                                                .passwordValidate(
-                                                    _passwordController.text) !=
+                                                .validateEmail(
+                                                    _emailController.text) ==
                                             null &&
                                         context
                                                 .read<ValidateCubit>()
-                                                .emailValidate(
-                                                    _emailController.text) !=
+                                                .passwordValidate(
+                                                    _passwordController.text) ==
                                             null)
-                                ? null
-                                : () => _key.currentState!.validate()
-                                    ? context.read<AuthBloc>().add(Login(
-                                            param: LoginParam(
-                                          email: _emailController.text,
-                                          password: _passwordController.text,
-                                        )))
-                                    : null,
+                                ? () => _key.currentState!.validate()
+                                    ? bloc.add(Login(
+                                        param: LoginParam(
+                                        email: _emailController.text,
+                                        password: _passwordController.text,
+                                      )))
+                                    : null
+                                : null,
                             child: bloc.state.status == AuthStatus.loading
                                 ? CircularProgressIndicator(
                                     color: context.colors.outline,
                                     constraints:
                                         BoxConstraints.tight(Size(24, 24)),
                                   )
-                                : Text('Login'),
-                          ),
-                          const SizedBox(height: 24.0),
-                          OutlinedButton(
-                            // TODO : don't for get to add google sign in method
-                            onPressed: null,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  Res.google,
-                                  width: 32,
-                                ),
-                                Text('Vie Google'),
-                              ],
-                            ),
+                                : Text(
+                                    LocaleKeys.screens_login_login_button.tr()),
                           ),
                           const SizedBox(height: 24.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Don't have an account? ",
+                              Text(LocaleKeys.screens_login_forget_message.tr(),
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.outline)),
                               TextButton(
-                                onPressed: () {
-                                  // todo : don't forget to add sign in logic
-                                },
-                                child: Text('Sign in',
+                                onPressed: () =>
+                                    context.pushReplacement(Routes.register),
+                                child: Text(
+                                    LocaleKeys.screens_login_register.tr(),
                                     style: context.textTheme.bodyMedium
                                         ?.copyWith(
                                             color: context.colors.primary)),
