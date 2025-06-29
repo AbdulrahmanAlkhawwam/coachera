@@ -62,29 +62,28 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             keyboardType: TextInputType.emailAddress,
                             hint: 'Email Account',
                             prefixIcon: TablerIcons.mail,
-                            validator: (value) => cubit.emailValidate(value),
+                            validator: (value) => cubit.validateEmail(value),
                           ),
                           const SizedBox(height: 32.0),
                           FilledButton(
                             onPressed: bloc.state.status == AuthStatus.loading
-                                // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                ||
-                                (context
-                                    .read<ValidateCubit>()
-                                    .emailValidate(
-                                    _emailController.text) !=
-                                    null)
+                                    // TODO : when you have more time you should to make the login button disable when user don't input the data
+                                    ||
+                                    (context
+                                            .read<ValidateCubit>()
+                                            .validateEmail(
+                                                _emailController.text) !=
+                                        null)
                                 ? null
-                                : () =>
-                            _key.currentState!.validate()
-                                ? print("send code")
-                                : null,
+                                : () => _key.currentState!.validate()
+                                    ? print("send code")
+                                    : null,
                             child: bloc.state.status == AuthStatus.loading
                                 ? CircularProgressIndicator(
-                              color: context.colors.outline,
-                              constraints:
-                              BoxConstraints.tight(Size(24, 24)),
-                            )
+                                    color: context.colors.outline,
+                                    constraints:
+                                        BoxConstraints.tight(Size(24, 24)),
+                                  )
                                 : Text('Email Me the Code'),
                           ),
                         ],

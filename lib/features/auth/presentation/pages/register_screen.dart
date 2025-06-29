@@ -1,4 +1,5 @@
 import 'package:coachera/features/auth/domain/params/register_param.dart';
+import 'package:coachera/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -64,7 +65,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Text(
-                              'Enjoy the various best courses we have, choose the category according to your wishes.',
+                              'Enjoy the various best course we have, choose the category according to your wishes.',
                               style: context.textTheme.bodyMedium
                                   ?.copyWith(color: context.colors.outline)),
                           const SizedBox(height: 32.0),
@@ -89,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             keyboardType: TextInputType.emailAddress,
                             hint: 'Example@email.com',
                             prefixIcon: TablerIcons.mail,
-                            validator: (value) => cubit.emailValidate(value),
+                            validator: (value) => cubit.validateEmail(value),
                           ),
                           const SizedBox(height: 32.0),
                           Text('Password',
@@ -99,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _passwordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
@@ -118,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _confirmPasswordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
@@ -173,22 +174,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 : Text('Create Account'),
                           ),
                           const SizedBox(height: 24.0),
-                          OutlinedButton(
-                            // TODO : don't for get to add google sign in method
-                            onPressed: null,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  Res.google,
-                                  width: 32,
-                                ),
-                                Text('Continue With Google'),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24.0),
+                          // OutlinedButton(
+                          //   // TODO : don't for get to add google sign in method
+                          //   onPressed: null,
+                          //   child: Row(
+                          //     crossAxisAlignment: CrossAxisAlignment.center,
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       SvgPicture.asset(
+                          //         Res.google,
+                          //         width: 32,
+                          //       ),
+                          //       Text('Continue With Google'),
+                          //     ],
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 24.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -196,9 +197,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.outline)),
                               TextButton(
-                                onPressed: () {
-                                  // todo : don't forget to add sign in logic
-                                },
+                                onPressed: () =>
+                                    context.pushReplacement(LoginScreen()),
                                 child: Text('Login',
                                     style: context.textTheme.bodyMedium
                                         ?.copyWith(

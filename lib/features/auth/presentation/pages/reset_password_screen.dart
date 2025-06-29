@@ -71,7 +71,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _passwordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
@@ -90,7 +90,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _confirmPasswordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),

@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _oldPasswordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
@@ -87,7 +87,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _passwordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),
@@ -106,7 +106,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           CustomInput(
                             onChanged: (value) => setState(() {}),
                             controller: _confirmPasswordController,
-                            isAppear: cubit.isAppear,
+                            obscureText: cubit.isAppear,
                             validator: (value) => context
                                 .read<ValidateCubit>()
                                 .passwordValidate(value),

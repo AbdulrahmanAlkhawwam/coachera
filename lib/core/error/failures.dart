@@ -14,6 +14,7 @@ class TimeoutFailure extends Failure {
 // 🌐 HTTP
 class ServerFailure extends Failure {
   final int? statusCode;
+
   const ServerFailure([this.statusCode]);
 }
 
@@ -55,6 +56,7 @@ class TooManyRequestsFailure extends Failure {
 
 class HttpRedirectionFailure extends Failure {
   final Uri? redirectUri;
+
   const HttpRedirectionFailure([this.redirectUri]);
 }
 
