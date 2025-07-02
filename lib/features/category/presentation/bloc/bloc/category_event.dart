@@ -1,0 +1,14 @@
+part of 'category_bloc.dart';
+
+@immutable
+sealed class CategoryEvent {}
+
+class GetCategoryPaginated extends CategoryEvent {
+  final int page;
+  final Completer<List<Category>> completer;
+
+  GetCategoryPaginated({
+    required this.page,
+    required this.completer,
+  });
+}
