@@ -1,6 +1,6 @@
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:coachera/core/utils/message.dart';
-import 'package:coachera/features/auth/presentation/bloc/bloc/auth_bloc.dart';
+import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:coachera/features/auth/presentation/pages/change_password_screen.dart';
 import 'package:coachera/features/auth/presentation/pages/forget_password_screen.dart';
 import 'package:coachera/features/auth/presentation/pages/login_screen.dart';

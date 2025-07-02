@@ -12,14 +12,38 @@ class ValidateCubit extends Cubit<ValidateState> {
     emit(ChangeState());
   }
 
-  String? emailValidate(String? value) {
-    if (value!.isEmpty) {
-      return "The value must be not empty";
-    } else if (!(value.contains('@') && value.contains('.com'))) {
-      return "The value not email";
-    } else {
-      return null;
+  String? validateEmail(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Email is required';
     }
+
+    value = value.trim();
+
+    if (value.length > 254) {
+      return 'Email is too long';
+    }
+
+    if (value.contains(' ')) {
+      return 'Email must not contain spaces';
+    }
+
+    // Basic RFC 5322-compliant email regex
+    final emailRegex = RegExp(r"^[^\s@]+@[^\s@]+\.[^\s@]+$");
+    if (!emailRegex.hasMatch(value)) {
+      return 'Enter a valid email address';
+    }
+
+    // Optional: block disposable domains (very basic example)
+    final disposableDomains = [
+      'mailinator.com',
+      'tempmail.com',
+      '10minutemail.com'
+    ];
+    final domain = value.split('@').last;
+    if (disposableDomains.contains(domain.toLowerCase())) {
+      return 'Disposable email addresses are not allowed';
+    }
+    return null;
   }
 
   String? passwordValidate(value) {

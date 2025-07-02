@@ -8,8 +8,8 @@ import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/use_cases/login_uc.dart';
 import '../../features/auth/domain/use_cases/logout_uc.dart';
 import '../../features/auth/domain/use_cases/register_uc.dart';
-import '../../features/auth/presentation/bloc/bloc/auth_bloc.dart';
-import '../../features/auth/presentation/bloc/cubit/validate_cubit.dart';
+import '../../features/auth/presentation/manager/bloc/auth_bloc.dart';
+import '../../features/auth/presentation/manager/cubit/validate_cubit.dart';
 
 Future<void> initializeAuthServices(GetIt sl) async {
   ///Data Source

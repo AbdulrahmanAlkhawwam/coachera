@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/constants/routes.dart';
 import '../core/theme/theme.dart';
 import '../core/service_locator/service_locator.dart';
-import 'auth/presentation/bloc/bloc/auth_bloc.dart';
+import 'auth/presentation/manager/bloc/auth_bloc.dart';
 import 'course/presentation/bloc/bloc/course_bloc.dart';
 
 class App extends StatefulWidget {

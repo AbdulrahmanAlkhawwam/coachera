@@ -9,8 +9,8 @@ import '../../../../core/components/custom_input.dart';
 import '../../../../core/constants/res.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/components/screen.dart';
-import '../bloc/bloc/auth_bloc.dart';
-import '../bloc/cubit/validate_cubit.dart';
+import '../manager/bloc/auth_bloc.dart';
+import '../manager/cubit/validate_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

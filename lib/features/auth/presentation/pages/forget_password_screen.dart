@@ -8,8 +8,8 @@ import '../../../../core/components/screen.dart';
 import '../../../../core/constants/res.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../domain/params/login_param.dart';
-import '../bloc/bloc/auth_bloc.dart';
-import '../bloc/cubit/validate_cubit.dart';
+import '../manager/bloc/auth_bloc.dart';
+import '../manager/cubit/validate_cubit.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
