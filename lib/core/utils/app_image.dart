@@ -123,11 +123,9 @@ class _AppImageState extends State<AppImage>
         width: widget.placeholderWidth ?? widget.width,
         height: widget.placeholderHeight ?? widget.height,
         alignment: Alignment.center,
-        child: Image.asset(
+        child: SvgPicture.asset(
           Res.spaceHolder,
-          width: widget.width != null ? min(widget.width! - 20, 100) : 100,
-          opacity:
-              withAnimation ? animation : const AlwaysStoppedAnimation(0.5),
+          width: widget.width != null ? min(widget.width! - 20, 100) : 48,
         ),
       );
 }
