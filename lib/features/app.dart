@@ -1,3 +1,5 @@
+import 'package:coachera/features/home/presentation/manager/bloc/favorite_bloc.dart';
+import 'package:coachera/features/home/presentation/manager/cubit/navigation_cubit.dart';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +34,8 @@ class _AppState extends State<App> {
       providers: [
         BlocProvider(create: (_) => sl.get<AuthBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<CourseBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<NavigationCubit>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<FavoriteBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<UserBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<ProductBloc>(), lazy: false),
         // BlocProvider(create: (_) => sl.get<ShopBloc>(), lazy: false),
