@@ -21,6 +21,17 @@
       "login_button": "Login",
       "forget_message": "I don't have an account",
       "register": "Sign in"
+    },
+    "setting": {
+      "about": "About",
+      "system": "System",
+      "password": "Change Password",
+      "faq": "FAQ",
+      "privacy": "Privacy and Conditions",
+      "language": "Change Language",
+      "mode": "Change Theme Mode",
+      "notification": "Notifications",
+      "logout": "Logout"
     }
   },
   "errors": {

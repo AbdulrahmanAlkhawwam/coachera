@@ -21,6 +21,17 @@
       "login_button": "تسجيل الدخول",
       "forget_message": "ليس لدي حساب بعد",
       "register": "انشاء حساب"
+    },
+    "setting": {
+      "about": "حول",
+      "system": "النظام",
+      "password": "تغير كلمة المرور",
+      "faq": "الأسئلة الشائعة",
+      "privacy": "سياسة الخصوصية",
+      "language": "تغير اللغة",
+      "mode": "تغير السمة",
+      "notification": "التنبيهات",
+      "logout": "تسجيل الخروج"
     }
   },
   "errors": {
