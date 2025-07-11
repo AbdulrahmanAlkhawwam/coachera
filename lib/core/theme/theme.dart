@@ -1,13 +1,15 @@
-import 'package:coachera/core/theme/styles/FloatingButtonStyle.dart';
-import 'package:coachera/core/theme/styles/appBar.dart';
-import 'package:coachera/core/theme/styles/icon_button.dart';
-import 'package:coachera/core/theme/styles/input_Decoration.dart';
-import 'package:coachera/core/theme/styles/outline_button.dart';
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
+import 'styles/FloatingButtonStyle.dart';
+import 'styles/appBar.dart';
+import 'styles/bottom_navigation_bar_style.dart';
 import 'styles/elevated_button.dart';
 import 'styles/filled_button.dart';
+import 'styles/icon_button.dart';
+import 'styles/input_Decoration.dart';
+import 'styles/list_tile_style.dart';
+import 'styles/outline_button.dart';
 import 'styles/tabBar.dart';
 import 'styles/text_button.dart';
 import 'styles/text_font.dart';
@@ -34,6 +36,8 @@ class Theme {
         floatingActionButtonTheme: floatingButtonStyle(colors),
         outlinedButtonTheme: outlineButtonStyle(colors),
         bottomSheetTheme: bottomSheetStyle(colors),
+        bottomNavigationBarTheme: bottomNavigationBarStyle(colors),
+        listTileTheme:listTileStyle(colors),
         // dividerColor: ColorPlatte.neutral100,
         // extensions:
       );

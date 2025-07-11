@@ -15,6 +15,15 @@ abstract class  LocaleKeys {
   static const screens_login_login_button = 'screens.login.login_button';
   static const screens_login_forget_message = 'screens.login.forget_message';
   static const screens_login_register = 'screens.login.register';
+  static const screens_setting_about = 'screens.setting.about';
+  static const screens_setting_system = 'screens.setting.system';
+  static const screens_setting_password = 'screens.setting.password';
+  static const screens_setting_faq = 'screens.setting.faq';
+  static const screens_setting_privacy = 'screens.setting.privacy';
+  static const screens_setting_language = 'screens.setting.language';
+  static const screens_setting_mode = 'screens.setting.mode';
+  static const screens_setting_notification = 'screens.setting.notification';
+  static const screens_setting_logout = 'screens.setting.logout';
   static const errors_unknown_title = 'errors.unknown.title';
   static const errors_unknown_message = 'errors.unknown.message';
   static const errors_operation_failed_retry_title = 'errors.operation_failed_retry.title';

@@ -3,12 +3,14 @@ import 'package:coachera/features/home/presentation/manager/cubit/navigation_cub
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart' hide Theme;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../core/constants/routes.dart';
 import '../core/theme/theme.dart';
 import '../core/service_locator/service_locator.dart';
 import 'auth/presentation/manager/bloc/auth_bloc.dart';
 import 'course/presentation/bloc/bloc/course_bloc.dart';
+import 'home/presentation/manager/cubit/theme_notifier.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -59,17 +61,21 @@ class _AppState extends State<App> {
             },
           ),
         ],
-        child: MaterialApp(
-          initialRoute: Routes.initialRoute,
-          onGenerateRoute: Routes.onGenerateRoute,
-          debugShowCheckedModeBanner: false,
-          theme: Theme.lightTheme,
-          themeMode: ThemeMode.dark,
-          // themeMode: context.watch<ThemeNotifier>().themeMode,
-          darkTheme: Theme.darkTheme,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
+        child: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => sl<ThemeNotifier>()),
+          ],
+          builder: (context, child) => MaterialApp(
+            initialRoute: Routes.initialRoute,
+            onGenerateRoute: Routes.onGenerateRoute,
+            debugShowCheckedModeBanner: false,
+            theme: Theme.lightTheme,
+            themeMode: context.watch<ThemeNotifier>().themeMode,
+            darkTheme: Theme.darkTheme,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+          ),
         ),
       ),
     );

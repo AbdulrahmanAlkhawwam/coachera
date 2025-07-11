@@ -10,6 +10,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/language_dialog.dart';
 import '../../../../core/components/section_title.dart';
+import '../../../../core/components/theme_dialog.dart';
 import '../../../auth/presentation/manager/bloc/auth_bloc.dart';
 import '../../../auth/presentation/widgets/logout_sheet.dart';
 
@@ -53,9 +54,13 @@ class SettingsScreen extends StatelessWidget {
             ),
       },
       {
-        'icon': TablerIcons.sun,
+        'icon': context.isDark ? TablerIcons.sun : TablerIcons.moon,
         'label': LocaleKeys.screens_setting_mode.tr(),
         'route': 'Routes.setting',
+        'function': () async => await showDialog(
+              context: context,
+              builder: (context) => ThemeDialog(),
+            ),
       },
       {
         'icon': TablerIcons.bell_ringing,
