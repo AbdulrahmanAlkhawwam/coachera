@@ -50,7 +50,7 @@ Future<void> initializeCoreServices(GetIt sl) async {
 
   sl.registerSingleton<String>(
       preferences.getString(accessTokenKey) != null
-          ? Routes.home
+          ? Routes.main
           : Routes.login,
       instanceName: Routes.initialRouteKey);
 

@@ -8,7 +8,7 @@ AppBarTheme appBarStyle(ColorScheme colors) => AppBarTheme(
       elevation: 0.0,
       actionsPadding: EdgeInsets.symmetric(horizontal: 12),
       titleTextStyle: textTheme.bodyLarge?.copyWith(
-        fontWeight: FontWeight.w600, // SemiBold
+        fontWeight: FontWeight.w600,
         color: colors.onSurface,
       ),
     );
