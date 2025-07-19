@@ -1,3 +1,4 @@
+import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/features/auth/domain/params/register_param.dart';
 import 'package:coachera/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -198,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       color: context.colors.outline)),
                               TextButton(
                                 onPressed: () =>
-                                    context.pushReplacement(LoginScreen()),
+                                    context.pushReplacement(Routes.login),
                                 child: Text('Login',
                                     style: context.textTheme.bodyMedium
                                         ?.copyWith(

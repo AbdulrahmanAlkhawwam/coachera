@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
 import '../../../../core/components/screen.dart';
-import '../../../../core/constants/res.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_context.dart';
-import '../../domain/params/login_param.dart';
+import '../../domain/params/forget_password_param.dart';
 import '../manager/bloc/auth_bloc.dart';
 import '../manager/cubit/validate_cubit.dart';
 
@@ -20,20 +19,25 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final _emailController = TextEditingController();
-
-  final _key = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<ValidateCubit>(
-      create: (context) => ValidateCubit(),
+      create: (_) => ValidateCubit(),
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          var bloc = context.read<AuthBloc>();
+          final bloc = context.read<AuthBloc>();
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              print(state.status);
-              // todo : don't forget to show massage when the status is error
+              if (state.status == AuthStatus.error) {
+                context.showErrorSnackBar(massage: state.message);
+              } else if (state.status == AuthStatus.success) {
+                context.push(
+                  Routes.validateOtp,
+                  arguments: {'email': _emailController.text},
+                );
+              }
             },
             child: Screen(
               appBar: AppBar(
@@ -45,46 +49,48 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               body: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Form(
-                  key: _key,
+                  key: _formKey,
                   child: BlocBuilder<ValidateCubit, ValidateState>(
-                    builder: (context, state) {
-                      var cubit = context.read<ValidateCubit>();
+                    builder: (context, validateState) {
+                      final cubit = context.read<ValidateCubit>();
+                      final isLoading = bloc.state.status == AuthStatus.loading;
+                      final isEmailValid =
+                          cubit.validateEmail(_emailController.text) == null;
+
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          const SizedBox(height: 32.0),
-                          Text('Email',
-                              style: context.textTheme.bodyMedium
-                                  ?.copyWith(color: context.colors.onSurface)),
-                          const SizedBox(height: 8.0),
+                        children: [
+                          const SizedBox(height: 32),
+                          Text(
+                            'Email',
+                            style: context.textTheme.bodyMedium
+                                ?.copyWith(color: context.colors.onSurface),
+                          ),
+                          const SizedBox(height: 8),
                           CustomInput(
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             hint: 'Email Account',
                             prefixIcon: TablerIcons.mail,
-                            validator: (value) => cubit.validateEmail(value),
+                            onChanged: (_) => setState(() {}),
+                            validator: cubit.validateEmail,
                           ),
-                          const SizedBox(height: 32.0),
+                          const SizedBox(height: 32),
                           FilledButton(
-                            onPressed: bloc.state.status == AuthStatus.loading
-                                    // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                    ||
-                                    (context
-                                            .read<ValidateCubit>()
-                                            .validateEmail(
-                                                _emailController.text) !=
-                                        null)
-                                ? null
-                                : () => _key.currentState!.validate()
-                                    ? print("send code")
-                                    : null,
-                            child: bloc.state.status == AuthStatus.loading
-                                ? CircularProgressIndicator(
-                                    color: context.colors.outline,
-                                    constraints:
-                                        BoxConstraints.tight(Size(24, 24)),
-                                  )
-                                : Text('Email Me the Code'),
+                            onPressed: !isLoading && isEmailValid
+                                ? () {
+                                    if (_formKey.currentState!.validate()) {
+                                      bloc.add(ForgetPassword(
+                                        param: ForgetPasswordParam(
+                                          email: _emailController.text,
+                                        ),
+                                      ));
+                                    }
+                                  }
+                                : null,
+                            child: isLoading
+                                ? CircularProgressIndicator()
+                                : const Text('Email Me the Code'),
                           ),
                         ],
                       );

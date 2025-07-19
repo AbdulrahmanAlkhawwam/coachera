@@ -11,6 +11,7 @@ const phoneNumber = 'phone_number';
 /// system
 const themeModeKey = "theme_mode";
 const accessTokenKey = "access_token";
+const guestKey = 'Guest_key';
 
 const isrgRootX1 = '''-----BEGIN CERTIFICATE-----
 MIIFazCCA1OgAwIBAgIRAIIQz7DSQONZRGPgu2OCiwAwDQYJKoZIhvcNAQELBQAw

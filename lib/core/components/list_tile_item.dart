@@ -36,7 +36,7 @@ class ListTileItem extends StatelessWidget {
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       ),
       trailing: const Icon(Icons.chevron_right),
-      onTap: onTap ?? () => context.push(route),
+      onTap: onTap ?? () => context.push(route!),
     );
   }
 }

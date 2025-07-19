@@ -4,15 +4,19 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import '../utils/message.dart';
 
 extension AppNavigation on BuildContext {
-  Future push(route) => Navigator.pushNamed(
+  Future push(String route, {Map<String, dynamic>? arguments}) =>
+      Navigator.pushNamed(
         this,
         route,
+        arguments: arguments,
       );
 
-  Future pushReplacement(route) => Navigator.pushNamedAndRemoveUntil(
+  Future pushReplacement(String route, {Map<String, dynamic>? arguments}) =>
+      Navigator.pushNamedAndRemoveUntil(
         this,
         route,
         (route) => false,
+        arguments: arguments,
       );
 
   void pop([value]) => Navigator.pop(this, value);

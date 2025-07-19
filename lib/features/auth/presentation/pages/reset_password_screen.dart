@@ -1,18 +1,24 @@
-import 'package:coachera/features/auth/domain/params/register_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
-import '../../../../core/constants/res.dart';
-import '../../../../core/utils/app_context.dart';
 import '../../../../core/components/screen.dart';
+import '../../../../core/constants/routes.dart';
+import '../../../../core/utils/app_context.dart';
+import '../../domain/params/change_password_param.dart';
 import '../manager/bloc/auth_bloc.dart';
 import '../manager/cubit/validate_cubit.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen({
+    super.key,
+    required this.email,
+    required this.passkey,
+  });
+
+  final String email;
+  final String passkey;
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -34,14 +40,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           var bloc = context.read<AuthBloc>();
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              print(state.status);
+              if (state.status == AuthStatus.error) {
+                context.showErrorSnackBar(massage: state.message);
+              } else if (state.status == AuthStatus.success) {
+                context.push(Routes.login);
+              }
             },
             child: Screen(
               appBar: AppBar(
                 leading: IconButton(
                   onPressed: () =>
                       Navigator.canPop(context) ? context.pop() : null,
-                  // todo : don't forget to fix this in the future
                   icon: Icon(TablerIcons.chevron_left),
                 ),
                 title: Text(
@@ -129,14 +138,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 ? null
                                 // : () {},
                                 : () => _key.currentState!.validate()
-                                    ? print("reset password")
+                                    ? context
+                                        .read<AuthBloc>()
+                                        .add(ChangePassword(
+                                            param: ChangePasswordParam(
+                                          email: widget.email,
+                                          passkey: widget.passkey,
+                                          newPassword: _passwordController.text,
+                                        )))
                                     : null,
                             child: bloc.state.status == AuthStatus.loading
-                                ? CircularProgressIndicator(
-                                    color: context.colors.outline,
-                                    constraints:
-                                        BoxConstraints.tight(Size(24, 24)),
-                                  )
+                                ? CircularProgressIndicator()
                                 : Text('Change Password'),
                           ),
                         ],

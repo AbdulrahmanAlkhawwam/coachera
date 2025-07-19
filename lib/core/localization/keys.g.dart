@@ -13,6 +13,7 @@ abstract class  LocaleKeys {
   static const screens_login_password_body = 'screens.login.password.body';
   static const screens_login_forget_password = 'screens.login.forget_password';
   static const screens_login_login_button = 'screens.login.login_button';
+  static const screens_login_guest = 'screens.login.guest';
   static const screens_login_forget_message = 'screens.login.forget_message';
   static const screens_login_register = 'screens.login.register';
   static const screens_setting_about = 'screens.setting.about';

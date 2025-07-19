@@ -19,6 +19,7 @@
       },
       "forget_password": "Forget password?",
       "login_button": "Login",
+      "guest": "Continue as a Guest",
       "forget_message": "I don't have an account",
       "register": "Sign in"
     },

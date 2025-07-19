@@ -37,13 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
             listener: (context, state) {
               if (state.status == AuthStatus.error) {
                 context.showErrorSnackBar(massage: state.message);
-              }
-              if (state.status == AuthStatus.authorized) {
-                context.showSuccessSnackBar(
-                    massage: Message(
-                  title: LocaleKeys.messages_Login_title.tr(),
-                  value: LocaleKeys.messages_Login_body.tr(),
-                ));
+              } else if (state.status == AuthStatus.authorized) {
+                context.pushReplacement(Routes.main, arguments: {
+                  'page': 0
+                }).then((value) => context.showSuccessSnackBar(
+                        massage: Message(
+                      title: LocaleKeys.messages_Login_title.tr(),
+                      value: LocaleKeys.messages_Login_body.tr(),
+                    )));
               }
             },
             child: Screen(
@@ -142,15 +143,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                     : null
                                 : null,
                             child: bloc.state.status == AuthStatus.loading
-                                ? CircularProgressIndicator(
-                                    color: context.colors.outline,
-                                    constraints:
-                                        BoxConstraints.tight(Size(24, 24)),
-                                  )
+                                ? CircularProgressIndicator()
                                 : Text(
                                     LocaleKeys.screens_login_login_button.tr()),
                           ),
                           const SizedBox(height: 24.0),
+                          FilledButton(
+                            onPressed: () =>
+                                context.read<AuthBloc>().add(GuestLogin()),
+                            child: Text(LocaleKeys.screens_login_guest.tr()),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
