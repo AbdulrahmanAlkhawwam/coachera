@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 import 'colors.dart';
 import 'styles/FloatingButtonStyle.dart';
@@ -13,7 +14,9 @@ import 'styles/outline_button.dart';
 import 'styles/tabBar.dart';
 import 'styles/text_button.dart';
 import 'styles/text_font.dart';
+import 'styles/progress_indicator_style.dart';
 import 'styles/bottom_sheet_style.dart';
+import 'styles/pin_theme.dart';
 
 class Theme {
   static ThemeData get lightTheme => _theme(ColorSchemes.lightColors);
@@ -37,8 +40,11 @@ class Theme {
         outlinedButtonTheme: outlineButtonStyle(colors),
         bottomSheetTheme: bottomSheetStyle(colors),
         bottomNavigationBarTheme: bottomNavigationBarStyle(colors),
-        listTileTheme:listTileStyle(colors),
+        listTileTheme: listTileStyle(colors),
+        progressIndicatorTheme: progressIndicatorStyle(colors),
         // dividerColor: ColorPlatte.neutral100,
-        // extensions:
+        extensions: [
+          pinThemeStyle(colors),
+        ],
       );
 }
