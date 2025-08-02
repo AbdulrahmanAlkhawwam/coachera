@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
 import 'colors.dart';
-import 'styles/FloatingButtonStyle.dart';
-import 'styles/appBar.dart';
-import 'styles/bottom_navigation_bar_style.dart';
+import 'styles/floating_button.dart';
+import 'styles/app_bar.dart';
+import 'styles/bottom_navigation_bar.dart';
 import 'styles/elevated_button.dart';
+import 'styles/expansion_tile.dart';
 import 'styles/filled_button.dart';
 import 'styles/icon_button.dart';
 import 'styles/input_Decoration.dart';
-import 'styles/list_tile_style.dart';
+import 'styles/list_tile.dart';
 import 'styles/outline_button.dart';
-import 'styles/tabBar.dart';
+import 'styles/tab_bar.dart';
 import 'styles/text_button.dart';
 import 'styles/text_font.dart';
-import 'styles/progress_indicator_style.dart';
-import 'styles/bottom_sheet_style.dart';
+import 'styles/progress_indicator.dart';
+import 'styles/bottom_sheet.dart';
 import 'styles/pin_theme.dart';
 
 class Theme {
@@ -42,6 +43,7 @@ class Theme {
         bottomNavigationBarTheme: bottomNavigationBarStyle(colors),
         listTileTheme: listTileStyle(colors),
         progressIndicatorTheme: progressIndicatorStyle(colors),
+        expansionTileTheme: expansionTileStyle(colors),
         // dividerColor: ColorPlatte.neutral100,
         extensions: [
           pinThemeStyle(colors),
