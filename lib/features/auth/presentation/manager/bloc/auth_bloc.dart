@@ -9,6 +9,7 @@ import '../../../domain/params/forget_password_param.dart';
 import '../../../domain/params/login_param.dart';
 import '../../../domain/params/register_param.dart';
 import '../../../domain/use_cases/change_password_uc.dart';
+import '../../../domain/use_cases/check_user_type_uc.dart';
 import '../../../domain/use_cases/forget_password_uc.dart';
 import '../../../domain/use_cases/guest_login_uc.dart';
 import '../../../domain/use_cases/login_uc.dart';
@@ -28,12 +29,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ForgetPasswordUC forgetPasswordUC;
   final ChangePasswordUC changePasswordUC;
   final OtpUC otpUC;
+  final CheckUserTypeUC checkUserTypeUC;
 
   AuthBloc({
     required this.loginUC,
     required this.guestLoginUC,
     required this.forgetPasswordUC,
     required this.changePasswordUC,
+    required this.checkUserTypeUC,
     required this.logoutUC,
     required this.otpUC,
     required this.registerUC,
@@ -45,6 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ForgetPassword>(_onForgetPassword);
     on<OTPValidation>(_onOtpValidation);
     on<Register>(_onRegister);
+    on<CheckUserType>(_checkUserType);
   }
 
   FutureOr<void> _onLogin(Login event, Emitter<AuthState> emit) async {
@@ -141,6 +145,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         message: Message.fromFailure(failure),
       )),
       (_) => emit(state.copyWith(status: AuthStatus.success)),
+    );
+  }
+
+  FutureOr<void> _checkUserType(
+      CheckUserType event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    final response = await checkUserTypeUC();
+    response.fold(
+      (failure) => emit(state.copyWith(
+        status: AuthStatus.error,
+        message: Message.fromFailure(failure),
+      )),
+      (userType) => emit(
+          state.copyWith(status: AuthStatus.success, userStatus: userType)),
     );
   }
 }

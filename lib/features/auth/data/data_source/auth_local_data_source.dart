@@ -3,9 +3,14 @@ import '../../../../core/helpers/storage_helper.dart';
 
 abstract class AuthLocalDataSource {
   Future<void> localLogout();
+
   Future<void> saveToken(String token);
+
   Future<void> guestLogin();
+
   String? getToken();
+
+  bool? getGuest();
 }
 
 class AuthLocalDataSourceImpl extends AuthLocalDataSource {
@@ -32,5 +37,10 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   @override
   String? getToken() {
     return storage.getString(accessTokenKey);
+  }
+
+  @override
+  bool? getGuest() {
+    return storage.getBool(guestKey);
   }
 }

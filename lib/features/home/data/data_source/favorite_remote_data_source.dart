@@ -19,8 +19,9 @@ class FavoriteRemoteDataSourceImpl extends FavoriteRemoteDataSource {
   Future<List<CourseModel>> getFavorite() async {
     final response = await http
         .handleApiCall(() async => await http.get(Endpoint.getFavorites));
-    final List<dynamic> content = response.data['content'];
-    return content.map((e) => CourseModel.toMap(e)).toList();
+    // todo : fix this data when it empty
+    final List<dynamic> courses = response.data?['data'];
+    return courses.map((e) => CourseModel.fromJson(e)).toList();
   }
 
   @override

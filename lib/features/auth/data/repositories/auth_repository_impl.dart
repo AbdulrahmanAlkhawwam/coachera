@@ -1,3 +1,4 @@
+import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
@@ -60,4 +61,9 @@ class AuthRepositoryImpl extends AuthRepository {
           ChangePasswordParam param) async =>
       await AppUtils.safeCall(
           () async => await dataSource.changePassword(param));
+
+  @override
+  Future<Either<Failure, UserStatus>> checkUserType() async =>
+      await AppUtils.safeCall(() async =>
+          storage.getToken() == null ? UserStatus.guest : UserStatus.student);
 }

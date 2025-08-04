@@ -5,6 +5,10 @@ sealed class AuthEvent {
   const AuthEvent();
 }
 
+class CheckUserType extends AuthEvent {
+  const CheckUserType();
+}
+
 class Login extends AuthEvent {
   final LoginParam param;
 
