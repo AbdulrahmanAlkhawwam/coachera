@@ -1,8 +1,7 @@
-import 'package:coachera/core/components/bounded_list.dart';
 import 'package:coachera/core/components/list_tile_item.dart';
+import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/localization/keys.g.dart';
 import 'package:coachera/core/utils/app_context.dart';
-import 'package:coachera/features/auth/presentation/widgets/profile_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,20 +24,21 @@ class SettingsScreen extends StatelessWidget {
         'icon': null,
         'label': LocaleKeys.screens_setting_about.tr(),
       },
-      {
-        'icon': TablerIcons.key,
-        'label': LocaleKeys.screens_setting_password.tr(),
-        'route': 'Routes.settings',
-      },
+      if (context.read<AuthBloc>().state.userStatus != UserStatus.guest)
+        {
+          'icon': TablerIcons.key,
+          'label': LocaleKeys.screens_setting_password.tr(),
+          'route': Routes.forgotPassword,
+        },
       {
         'icon': TablerIcons.question_mark,
         'label': LocaleKeys.screens_setting_faq.tr(),
-        'route': 'Routes.settings',
+        'route': Routes.faq,
       },
       {
         'icon': TablerIcons.shield_half_filled,
         'label': LocaleKeys.screens_setting_privacy.tr(),
-        'route': 'Routes.settings',
+        'route': Routes.privacy,
       },
       {
         'icon': null,
@@ -62,53 +62,74 @@ class SettingsScreen extends StatelessWidget {
               builder: (context) => ThemeDialog(),
             ),
       },
-      {
-        'icon': TablerIcons.bell_ringing,
-        'label': LocaleKeys.screens_setting_notification.tr(),
-        'route': 'Routes.setting',
-      },
+      if (context.read<AuthBloc>().state.userStatus != UserStatus.guest)
+        {
+          'icon': TablerIcons.bell_ringing,
+          'label': LocaleKeys.screens_setting_notification.tr(),
+          'route': 'Routes.setting',
+        },
     ];
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) =>
-                    generalContent[index]['icon'] == null
-                        ? SectionTitle(title: generalContent[index]['label'])
-                        : ListTileItem(
-                            icon: generalContent[index]['icon'],
-                            label: generalContent[index]['label'],
-                            route: generalContent[index]['route'],
-                            onTap: generalContent[index]['function'],
-                          ),
-                itemCount: generalContent.length,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.status == AuthStatus.unauthorized) {
+              context.pushReplacement(Routes.login);
+            }
+          },
+        )
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: () => Navigator.canPop(context) ? context.pop() : null,
+            icon: Icon(context.isLTR
+                ? TablerIcons.chevron_left
+                : TablerIcons.chevron_right),
+          ),
+          title: const Text('Settings'),
+        ),
+        body: Padding(
+          padding: EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            top: 16.0,
+            bottom: 16.0 + context.bottomPadding,
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemBuilder: (context, index) =>
+                      generalContent[index]['icon'] == null
+                          ? SectionTitle(title: generalContent[index]['label'])
+                          : ListTileItem(
+                              icon: generalContent[index]['icon'],
+                              label: generalContent[index]['label'],
+                              route: generalContent[index]['route'],
+                              onTap: generalContent[index]['function'],
+                            ),
+                  itemCount: generalContent.length,
+                ),
               ),
-            ),
-            ListTileItem(
-              icon: TablerIcons.logout,
-              label: "Logout",
-              iconColor: context.colors.error,
-              backgroundColor: context.colors.errorContainer,
-              onTap: () async => await showModalBottomSheet(
-                isScrollControlled: true,
-                useSafeArea: true,
-                builder: (context) => LogoutSheet(),
-                context: context,
-              ).then(
-                (result) {
-                  result ?? false
+              ListTileItem(
+                icon: TablerIcons.logout,
+                label: "Logout",
+                iconColor: context.colors.error,
+                backgroundColor: context.colors.errorContainer,
+                onTap: () async => await showModalBottomSheet(
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  builder: (context) => LogoutSheet(),
+                  context: context,
+                ).then(
+                  (result) => result ?? false
                       ? context.read<AuthBloc>().add(Logout())
-                      : null;
-                },
-              ),
-            )
-          ],
+                      : null,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

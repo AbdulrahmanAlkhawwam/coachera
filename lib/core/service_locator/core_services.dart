@@ -11,6 +11,7 @@ import '../constants/env.dart';
 import '../constants/routes.dart';
 import '../constants/strings.dart';
 import '../helpers/http/http_service.dart';
+import '../helpers/notifications_helper.dart';
 import '../helpers/storage_helper.dart';
 
 Future<void> initializeCoreServices(GetIt sl) async {
@@ -49,7 +50,9 @@ Future<void> initializeCoreServices(GetIt sl) async {
   sl.registerLazySingleton<StorageHelper>(() => StorageHelperImpl(sl()));
 
   sl.registerSingleton<String>(
-      preferences.getString(accessTokenKey) != null
+      preferences.getString(accessTokenKey) != null &&
+                  preferences.getBool(guestKey) != null ||
+              preferences.getBool(guestKey) != false
           ? Routes.main
           : Routes.login,
       instanceName: Routes.initialRouteKey);

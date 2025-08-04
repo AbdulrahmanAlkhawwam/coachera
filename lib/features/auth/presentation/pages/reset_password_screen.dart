@@ -110,16 +110,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                 : TablerIcons.eye_closed,
                             suffixFunctionButton: () => cubit.changeAppear(),
                           ),
-                          // const SizedBox(height: 16.0),
-                          // Align(
-                          //   alignment: Alignment.centerRight,
-                          //   child: TextButton(
-                          //     onPressed: () {
-                          //       // todo : don't forget to add forgot password logic
-                          //     },
-                          //     child: const Text('Forgot password?'),
-                          //   ),
-                          // ),
                           const SizedBox(height: 32.0),
                           FilledButton(
                             onPressed: bloc.state.status ==
@@ -127,16 +117,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     _passwordController.text.compareTo(
                                             _confirmPasswordController.text) !=
                                         0
-                                // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                // ||
-                                // (context.read<ValidateCubit>().passwordValidate(
-                                //             _passwordController.text) !=
-                                //         null &&
-                                //     context.read<ValidateCubit>().emailValidate(
-                                //             _emailController.text) !=
-                                //         null)
                                 ? null
-                                // : () {},
                                 : () => _key.currentState!.validate()
                                     ? context
                                         .read<AuthBloc>()

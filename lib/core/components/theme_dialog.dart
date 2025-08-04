@@ -1,8 +1,12 @@
-import 'package:coachera/core/utils/app_context.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../features/home/presentation/manager/cubit/theme_notifier.dart';
+import '../../../../core/utils/app_context.dart';
+import '../localization/keys.g.dart';
+import 'list_tile_item.dart';
 
 class ThemeDialog extends StatelessWidget {
   const ThemeDialog({super.key});
@@ -14,6 +18,24 @@ class ThemeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> data = [
+      {
+        "icon": TablerIcons.sun,
+        "label": LocaleKeys.dialogs_theme_light.tr(),
+        "function": () => _optionSelected(context, ThemeMode.light),
+      },
+      {
+        "icon": TablerIcons.moon,
+        "label": LocaleKeys.dialogs_theme_dark.tr(),
+        "function": () => _optionSelected(context, ThemeMode.dark),
+      },
+      {
+        "icon": TablerIcons.device_mobile,
+        "label": LocaleKeys.dialogs_theme_system.tr(),
+        "function": () => _optionSelected(context, ThemeMode.system),
+      },
+    ];
+
     return Dialog(
       backgroundColor: context.colors.surface,
       child: Padding(
@@ -23,65 +45,21 @@ class ThemeDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'LocaleKeys.dialog_theme_title.tr()',
+              LocaleKeys.dialogs_theme_title.tr(),
               style: context.textTheme.titleSmall,
             ),
-            Container(
-              padding: EdgeInsets.all(16),
-              margin: EdgeInsets.symmetric(vertical: 16),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: context.colors.surfaceContainer,
-                  borderRadius: BorderRadius.circular(16)),
-              child: Column(
-                children: [
-                  ListTile(
-                    onTap: () => _optionSelected(context, ThemeMode.dark),
-                    //context.pop("en"),
-                    leading: Icon(
-                      Icons.dark_mode_outlined,
-                      color: context.colors.primaryContainer,
-                    ),
-                    title: Text(
-                      'LocaleKeys.dialog_theme_dark.tr()',
-                      style: context.textTheme.labelMedium,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Divider(color: context.colors.outline),
-                  ),
-                  ListTile(
-                    onTap: () => _optionSelected(context, ThemeMode.light),
-                    //context.pop("ar"),
-                    leading: Icon(
-                      Icons.light_mode_outlined,
-                      color: context.colors.primaryContainer,
-                    ),
-                    title: Text(
-                      'LocaleKeys.dialog_theme_light.tr()',
-                      style: context.textTheme.labelMedium,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Divider(color: context.colors.outline),
-                  ),
-                  ListTile(
-                    onTap: () => _optionSelected(context, ThemeMode.system),
-                    //context.pop("ar"),
-                    leading: Icon(
-                      Icons.devices,
-                      color: context.colors.primaryContainer,
-                    ),
-                    title: Text(
-                      'LocaleKeys.dialog_theme_system.tr()',
-                      style: context.textTheme.labelMedium,
-                    ),
-                  )
-                ],
+            const SizedBox(height: 8),
+            Column(
+                children: List.generate(
+              data.length,
+              (index) => ListTileItem(
+                icon: data[index]["icon"],
+                label: data[index]["label"],
+                onTap: data[index]["function"],
+                iconColor: context.colors.primary,
+                trailingColor: Colors.transparent,
               ),
-            ),
+            )),
           ],
         ),
       ),
