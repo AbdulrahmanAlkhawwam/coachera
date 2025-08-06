@@ -3,7 +3,6 @@ import '../../../../core/error/failures.dart';
 
 // import '../../../home/domain/entities/user.dart';
 import '../entities/category.dart';
-import '../params/login_param.dart';
 
 abstract class CategoryRepository {
   Future<Either<Failure, List<Category>>> getCategories({int? page});

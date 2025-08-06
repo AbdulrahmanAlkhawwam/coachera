@@ -20,15 +20,16 @@ class CategoriesList extends StatelessWidget {
           maxCrossAxisExtent: MediaQuery.of(context).size.width / 4,
           mainAxisExtent: 96,
           mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
+          crossAxisSpacing: MediaQuery.of(context).size.width / 22,
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) => index != 7
             ? CategoryCard(
                 category: categories[index],
                 color:
-                    index % 2 == 1 && index <= 4 || index % 2 == 0 && index > 3
-                        ? context.colors.primary
+                    index %4 % 2 == 1 && index <= 4 ||
+                        index % 2 == 0 && index > 3
+                    ? context.colors.primary
                         : context.colors.secondary,
               )
             : CategoryCard(

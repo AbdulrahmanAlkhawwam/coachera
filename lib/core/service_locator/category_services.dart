@@ -26,7 +26,7 @@ import '../../features/auth/domain/use_cases/login_uc.dart';
 // import '../../features/auth/domain/use_cases/otp_uc.dart';
 // import '../../features/auth/domain/use_cases/register_uc.dart';
 // import '../../features/auth/domain/use_cases/save_token_uc.dart';
-// import '../../features/auth/presentation/manger/manager/category_bloc.dart';
+// import '../../features/auth/presentation/manger/manager/organization_bloc.dart';
 // import '../../features/auth/presentation/manger/cubit/auth_pres_cubit.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/course/data/repositories/course_repository_impl.dart';
