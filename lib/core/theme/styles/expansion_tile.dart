@@ -3,13 +3,16 @@ import 'text_font.dart';
 
 ExpansionTileThemeData expansionTileStyle(ColorScheme colors) =>
     ExpansionTileThemeData(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      backgroundColor: colors.primaryContainer,
       iconColor: colors.secondary,
       textColor: colors.onSurface,
       collapsedTextColor: colors.primary,
       collapsedIconColor: colors.primary.withAlpha(80),
-      childrenPadding: EdgeInsets.symmetric(horizontal: 8),
+      childrenPadding: EdgeInsets.all(8),
       collapsedShape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      tilePadding: EdgeInsets.symmetric(horizontal: 8),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: colors.primary)),
+      tilePadding: EdgeInsets.symmetric(horizontal: 16),
     );
