@@ -9,6 +9,8 @@ abstract class CourseRemoteDataSource {
   // Future <CourseModel> getCourse ({int id});
 
   Future<List<CourseModel>> getCourses({int? page});
+
+  Future<List<CourseModel>> getRecommendedCourses({int? page});
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -33,9 +35,26 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
           },
         ));
 
-    final List<dynamic> content = response.data['content'];
+    final List<dynamic> courses = response.data['content'];
 
-    return content.map((e) => CourseModel.toMap(e)).toList();
+    return courses.map((e) => CourseModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<CourseModel>> getRecommendedCourses({int? page}) async {
+    final response = await http.handleApiCall(() async => await http.get(
+          Endpoint.recommendedCourses,
+          queryParameters: {
+            "page": page.toString(),
+            "size": 15.toString(),
+            "sortBy": "id",
+            "sortDirection": "desc"
+          },
+        ));
+
+    final List<dynamic> courses = response.data['data'];
+
+    return courses.map((e) => CourseModel.fromJson(e)).toList();
   }
 
 // @override

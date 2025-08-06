@@ -20,7 +20,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   Widget getCurrentScreen() => switch (screenIndex) {
         0 => HomeScreen(),
-        1 => CoursesScreen(),
+        1 => RecommendationCoursesScreen(),
         2 => FavoriteScreen(),
         _ => ProfileScreen(),
       };

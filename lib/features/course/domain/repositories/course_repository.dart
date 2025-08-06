@@ -3,10 +3,11 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 // import '../../../home/domain/entities/user.dart';
 import '../entities/course.dart';
-import '../params/login_param.dart';
 abstract class CourseRepository {
 
   Future<Either<Failure, List<Course>>> getCourses({int? page});
+
+  Future<Either<Failure, List<Course>>> getRecommendedCourses({int? page});
 
   // Future<Either<Failure, void>> login(LoginParam param);
 

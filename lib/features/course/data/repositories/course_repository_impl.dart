@@ -3,9 +3,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
-import '../../domain/params/login_param.dart';
 import '../../domain/repositories/course_repository.dart';
-import '../data_source/auth_local_data_source.dart';
 import '../data_source/course_remote_data_source.dart';
 
 class CourseRepositoryImpl extends CourseRepository {
@@ -20,7 +18,14 @@ class CourseRepositoryImpl extends CourseRepository {
 
   @override
   Future<Either<Failure, List<Course>>> getCourses({int? page}) async =>
-      await AppUtils.safeCall(() async => await dataSource.getCourses(page : page));
+      await AppUtils.safeCall(
+          () async => await dataSource.getCourses(page: page));
+
+  @override
+  Future<Either<Failure, List<Course>>> getRecommendedCourses(
+          {int? page}) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getRecommendedCourses(page: page));
 
 // @override
 // Future<Either<Failure, bool>> checkToken() async =>

@@ -8,7 +8,6 @@ import 'package:meta/meta.dart';
 import '../../../../../core/utils/message.dart';
 import '../../../data/model/course_model.dart';
 import '../../../domain/entities/course.dart';
-import '../../../domain/params/login_param.dart';
 
 part 'course_event.dart';
 
@@ -56,43 +55,66 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   //       (_) => emit(state.copyWith(status: AuthStatus.authorized)));
   // }
 
-  FutureOr<void> _getCourses(
+  Future<void> _getCourses(
     GetCoursesPaginated event,
     Emitter<CourseState> emit,
   ) async {
-    final isFirstPage = event.page == 0;
+    emit(state.copyWith(status: CourseStatus.loading));
 
-    if (isFirstPage) {
-      emit(state.copyWith(
-        status: CourseStatus.loading,
-        courses: [],
-        message: null,
-      ));
-    }
-
-    final response = await getCoursesUc.call(event.page);
-
+    final response = await getCoursesUc(event.page);
     response.fold(
-      (failure) {
-        event.completer.completeError(Message.fromFailure(failure));
-        emit(state.copyWith(
-          status: CourseStatus.error,
-          message: Message.fromFailure(failure),
-        ));
-      },
-      (newCourses) {
-        final updatedCourses = List<Course>.from(state.courses ?? [])
-          ..addAll(newCourses);
-
-        event.completer.complete(newCourses);
-
-        emit(state.copyWith(
-          status: CourseStatus.success,
-          courses: updatedCourses,
-        ));
-      },
-    );
+        (failure) => emit(state.copyWith(
+              status: CourseStatus.error,
+              message: Message.fromFailure(failure),
+            )),
+        (courses) => emit(
+              state.copyWith(
+                status: CourseStatus.success,
+                page: event.page + 1,
+                courses: event.reset
+                    ? courses
+                    : [...(state.courses ?? []), ...courses],
+                hasMore: courses.length == 10,
+              ),
+            ));
   }
+// FutureOr<void> _getCourses(
+//   GetCoursesPaginated event,
+//   Emitter<CourseState> emit,
+// ) async {
+//   final isFirstPage = event.page == 0;
+//
+//   if (isFirstPage) {
+//     emit(state.copyWith(
+//       status: CourseStatus.loading,
+//       courses: [],
+//       message: null,
+//     ));
+//   }
+//
+//   final response = await getCoursesUc.call(event.page);
+//
+//   response.fold(
+//     (failure) {
+//       event.completer.completeError(Message.fromFailure(failure));
+//       emit(state.copyWith(
+//         status: CourseStatus.error,
+//         message: Message.fromFailure(failure),
+//       ));
+//     },
+//     (newCourses) {
+//       final updatedCourses = List<Course>.from(state.courses ?? [])
+//         ..addAll(newCourses);
+//
+//       event.completer.complete(newCourses);
+//
+//       emit(state.copyWith(
+//         status: CourseStatus.success,
+//         courses: updatedCourses,
+//       ));
+//     },
+//   );
+// }
 
 // FutureOr<void> _getCourses(
 //     GetCoursesPaginated event, Emitter<CourseState> emit) async {
