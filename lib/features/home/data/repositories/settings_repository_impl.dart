@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../domain/repositories/settings_repository.dart';
-import '../data_source/settings_remote_data_source.dart';
+import '../data_source/settings_local_data_source.dart';
 
 class SettingsRepositoryImpl extends SettingsRepository {
   final SettingsLocalDataSource localDataSource;

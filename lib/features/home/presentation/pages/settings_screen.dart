@@ -69,67 +69,52 @@ class SettingsScreen extends StatelessWidget {
           'route': 'Routes.setting',
         },
     ];
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state.status == AuthStatus.unauthorized) {
-              context.pushReplacement(Routes.login);
-            }
-          },
-        )
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: () => Navigator.canPop(context) ? context.pop() : null,
-            icon: Icon(context.isLTR
-                ? TablerIcons.chevron_left
-                : TablerIcons.chevron_right),
-          ),
-          title: const Text('Settings'),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.canPop(context) ? context.pop() : null,
+          icon: Icon(context.isLTR
+              ? TablerIcons.chevron_left
+              : TablerIcons.chevron_right),
         ),
-        body: Padding(
-          padding: EdgeInsets.only(
-            left: 16.0,
-            right: 16.0,
-            top: 16.0,
-            bottom: 16.0 + context.bottomPadding,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) =>
-                      generalContent[index]['icon'] == null
-                          ? SectionTitle(title: generalContent[index]['label'])
-                          : ListTileItem(
-                              icon: generalContent[index]['icon'],
-                              label: generalContent[index]['label'],
-                              route: generalContent[index]['route'],
-                              onTap: generalContent[index]['function'],
-                            ),
-                  itemCount: generalContent.length,
-                ),
+        title: const Text('Settings'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          top: 16.0,
+          bottom: 16.0 + context.bottomPadding,
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) =>
+                    generalContent[index]['icon'] == null
+                        ? SectionTitle(title: generalContent[index]['label'])
+                        : ListTileItem(
+                            icon: generalContent[index]['icon'],
+                            label: generalContent[index]['label'],
+                            route: generalContent[index]['route'],
+                            onTap: generalContent[index]['function'],
+                          ),
+                itemCount: generalContent.length,
               ),
-              ListTileItem(
-                icon: TablerIcons.logout,
-                label: "Logout",
-                iconColor: context.colors.error,
-                backgroundColor: context.colors.errorContainer,
-                onTap: () async => await showModalBottomSheet(
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  builder: (context) => LogoutSheet(),
-                  context: context,
-                ).then(
-                  (result) => result ?? false
-                      ? context.read<AuthBloc>().add(Logout())
-                      : null,
-                ),
-              )
-            ],
-          ),
+            ),
+            ListTileItem(
+              icon: TablerIcons.logout,
+              label: "Logout",
+              iconColor: context.colors.error,
+              backgroundColor: context.colors.errorContainer,
+              onTap: () async => await showModalBottomSheet(
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (context) => LogoutSheet(),
+                context: context,
+              ),
+            )
+          ],
         ),
       ),
     );
