@@ -1,4 +1,4 @@
-import 'package:coachera/features/course/presentation/pages/courses_screen.dart';
+import 'package:coachera/features/course/presentation/pages/recommended_courses_screen.dart';
 import 'package:coachera/features/home/presentation/pages/faq_screen.dart';
 import 'package:coachera/features/home/presentation/pages/privacy_condition_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,24 +13,30 @@ import '../../features/course/presentation/pages/coarse_details_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/home/presentation/pages/main_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
+import '../../features/lesson/presentation/pages/video_lesson_screen.dart';
 import '../service_locator/service_locator.dart';
 
 class Endpoint {
+  /// Favorite
+  static String getFavorites = '/favorites/student';
+
+  static String addFavorite(courseId) => '/favorites/$courseId/student';
+
+  static String deleteFavorite(courseId) => '/favorites/$courseId/student';
+
+  /// Auth
   static String login = '/auth/login';
+  static String logout = '/auth/logout';
+  static String me = '/students/me';
   static String forgetPassword = '/auth/forgot-password';
   static String validateOTP = '/auth/validate-otp';
-  static String logout = '/auth/logout';
   static String courses = '/courses';
   static String recommendedCourses = '/courses/recommended';
   static String categories = '/categories';
-  static String getFavorites = '/favorites/student';
   static String changePassword = '/auth/reset-password';
 
   static String getOrganization(orgId) => '/api/organizations/$orgId';
 
-  static String removeFavorite(courseId) => '/api/favorites/delete/$courseId';
-
-  static String addFavorite(courseId) => '/favorites/$courseId/student';
 }
 
 class Routes {
@@ -40,6 +46,7 @@ class Routes {
   static const String home = "/home";
   static const String main = "/main";
   static const String courseDetails = '/courses/course';
+  static const String videoLesson = "/courses/course/lesson";
   static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
@@ -64,10 +71,13 @@ class Routes {
     search: (context, arguments) => SearchScreen(),
     faq: (context, arguments) => FAQScreen(),
     privacy: (context, arguments) => PrivacyConditionScreen(),
+    videoLesson: (context, arguments) => VideoLessonScreen(
+          lesson: arguments['lesson'],
+        ),
     // courses: (context, arguments) => CoursesScreen(),
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
-    recommendedCourses: (context, argument) => RecommendationCoursesScreen(),
+    recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
     main: (context, arguments) => MainScreen(page: arguments?['page'] ?? 0),
     setting: (context, argument) => SettingsScreen(),
     validateOtp: (context, argument) =>
