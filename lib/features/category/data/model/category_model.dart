@@ -4,12 +4,12 @@ class CategoryModel extends Category {
   CategoryModel({
     required super.id,
     required super.title,
-    required super.iconName,
+     super.iconName,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
         id: json['id'],
-        title: json['title'],
-        iconName: json['iconName'],
+        title: json['name'],
+        iconName: json['icon'],
       );
 }

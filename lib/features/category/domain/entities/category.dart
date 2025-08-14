@@ -1,7 +1,7 @@
 class Category {
   final int id;
   final String title;
-  final String iconName;
+  final String? iconName;
 
   Category({
     required this.id,

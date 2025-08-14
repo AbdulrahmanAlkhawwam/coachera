@@ -6,7 +6,7 @@ import 'package:coachera/features/category/domain/use_cases/get_categories_uc.da
 import 'package:coachera/features/category/presentation/bloc/bloc/category_bloc.dart';
 import 'package:coachera/features/course/data/data_source/course_remote_data_source.dart';
 import 'package:coachera/features/course/domain/repositories/course_repository.dart';
-import 'package:coachera/features/course/domain/use_cases/get_courses_uc.dart';
+import 'package:coachera/features/course/domain/use_cases/get_recommended_courses_uc.dart';
 import 'package:coachera/features/course/presentation/bloc/bloc/course_bloc.dart';
 import 'package:get_it/get_it.dart';
 
