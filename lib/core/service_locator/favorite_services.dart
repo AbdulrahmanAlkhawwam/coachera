@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../../features/home/data/data_source/favorite_local_data_source.dart';
 import '../../features/home/data/data_source/favorite_remote_data_source.dart';
 import '../../features/home/data/repositories/favorite_repository_impl.dart';
 import '../../features/home/domain/repositories/favorite_repository.dart';
@@ -12,8 +13,16 @@ Future<void> initializeFavoriteServices(GetIt sl) async {
   sl.registerLazySingleton<FavoriteRemoteDataSource>(
       () => FavoriteRemoteDataSourceImpl(http: sl()));
 
+  sl.registerLazySingleton<FavoriteLocalDataSource>(
+    () => FavoriteLocalDataSourceImpl(
+      storage: sl(),
+      database: sl(),
+    ),
+  );
+
   /// Repository
   sl.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl(
+        storage: sl(),
         dataSource: sl(),
       ));
 
