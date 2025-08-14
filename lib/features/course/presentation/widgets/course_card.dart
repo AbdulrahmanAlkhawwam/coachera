@@ -1,10 +1,12 @@
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:coachera/core/utils/app_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/constants/routes.dart';
+import '../../../home/presentation/manager/bloc/favorite_bloc.dart';
 import '../../domain/entities/course.dart';
 
 class CourseCard extends StatelessWidget {
@@ -89,10 +91,19 @@ class CourseCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        //todo : don't forget to add logic here!
-                        onPressed: () {},
+                        onPressed: () => context
+                            .read<FavoriteBloc>()
+                            .add(AddFavorite(courseId: course.id)),
                         icon: Icon(
-                          TablerIcons.heart,
+                          context
+                                      .read<FavoriteBloc>()
+                                      .state
+                                      .courses
+                                      ?.firstOrNull
+                                      ?.id ==
+                                  1
+                              ? TablerIcons.heart_filled
+                              : TablerIcons.heart,
                           size: 18,
                           color: context.colors.primary,
                         ),

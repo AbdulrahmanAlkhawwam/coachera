@@ -14,12 +14,19 @@ class GetCoursesPaginated extends CourseEvent {
 }
 
 class GetRecommendedCourses extends CourseEvent {
-  final int page;
+  final RecommendedCoursesParam param;
+
+  //
+  // final int page;
   final bool reset;
 
+  // FilterData? filter ;
+
   GetRecommendedCourses({
-    required this.page,
+    required this.param,
+    // required this.page,
     required this.reset,
+    // required this.filter,
   });
 }
 

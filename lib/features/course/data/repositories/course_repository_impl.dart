@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
+import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../../domain/repositories/course_repository.dart';
 import '../data_source/course_remote_data_source.dart';
 
@@ -23,9 +24,12 @@ class CourseRepositoryImpl extends CourseRepository {
 
   @override
   Future<Either<Failure, List<Course>>> getRecommendedCourses(
-          {int? page}) async =>
+          {int? page, required FilterData filter}) async =>
       await AppUtils.safeCall(
-          () async => await dataSource.getRecommendedCourses(page: page));
+          () async => await dataSource.getRecommendedCourses(
+                page: page,
+                filter: filter,
+              ));
 
 // @override
 // Future<Either<Failure, bool>> checkToken() async =>

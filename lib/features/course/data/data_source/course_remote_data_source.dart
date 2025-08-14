@@ -1,6 +1,7 @@
 import 'package:coachera/core/constants/routes.dart';
 
 import '../../../../core/helpers/http/http_service.dart';
+import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../model/course_model.dart';
 
 // import '../../../home/data/models/user_model.dart';
@@ -10,7 +11,8 @@ abstract class CourseRemoteDataSource {
 
   Future<List<CourseModel>> getCourses({int? page});
 
-  Future<List<CourseModel>> getRecommendedCourses({int? page});
+  Future<List<CourseModel>> getRecommendedCourses(
+      {int? page, required FilterData filter});
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -41,18 +43,19 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
   }
 
   @override
-  Future<List<CourseModel>> getRecommendedCourses({int? page}) async {
+  Future<List<CourseModel>> getRecommendedCourses(
+      {int? page, required FilterData filter}) async {
     final response = await http.handleApiCall(() async => await http.get(
           Endpoint.recommendedCourses,
           queryParameters: {
             "page": page.toString(),
             "size": 15.toString(),
-            "sortBy": "id",
-            "sortDirection": "desc"
+            if (filter.sortBy != null) "sortBy": filter.sortBy!,
+            if (filter.sortType != null) "sortDirection": filter.sortType!,
           },
         ));
 
-    final List<dynamic> courses = response.data['data'];
+    final List<dynamic> courses = response.data["content"];
 
     return courses.map((e) => CourseModel.fromJson(e)).toList();
   }

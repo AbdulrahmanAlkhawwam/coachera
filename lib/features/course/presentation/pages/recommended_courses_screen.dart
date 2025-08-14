@@ -1,7 +1,10 @@
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/course/domain/params/recommended_courses_param.dart';
 import 'package:coachera/features/course/presentation/bloc/bloc/course_bloc.dart';
+import 'package:coachera/features/home/presentation/widgets/filter_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/components/paginated_list.dart';
@@ -9,16 +12,15 @@ import '../../data/model/course_model.dart';
 import '../../domain/entities/course.dart';
 import '../widgets/course_card.dart';
 
-class RecommendationCoursesScreen extends StatefulWidget {
-  const RecommendationCoursesScreen({super.key});
+class RecommendedCoursesScreen extends StatefulWidget {
+  const RecommendedCoursesScreen({super.key});
 
   @override
-  State<RecommendationCoursesScreen> createState() =>
-      _RecommendationCoursesScreenState();
+  State<RecommendedCoursesScreen> createState() =>
+      _RecommendedCoursesScreenState();
 }
 
-class _RecommendationCoursesScreenState
-    extends State<RecommendationCoursesScreen> {
+class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CourseBloc, CourseState>(
@@ -26,18 +28,48 @@ class _RecommendationCoursesScreenState
         if (state.status == CourseStatus.error) {
           context.showErrorSnackBar(massage: state.message);
         }
+        if (state.status == CourseStatus.success) {
+          Navigator.canPop(context) ? context.pop() : null;
+        }
       },
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: const Text("Recommendation Courses"),
+          actions: [
+            IconButton(
+              onPressed: () => showModalBottomSheet(
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (context) => FilterSheet(
+                    sortOptions: [
+                      "Name",
+                      "Price",
+                      "stars",
+                    ],
+                    starsLength: 5,
+                    onFilter: (filter) =>
+                        context.read<CourseBloc>().add(GetRecommendedCourses(
+                              param: RecommendedCoursesParam(
+                                filter: filter,
+                                page: 0,
+                              ),
+                              reset: true,
+                            ))),
+                context: context,
+              ),
+              icon: Icon(TablerIcons.adjustments_horizontal),
+            )
+          ],
         ),
         body: PaginatedScrollList<Course>(
             listItem: state.courses,
-            fetchPage: (page) async {
-              context
-                  .read<CourseBloc>()
-                  .add(GetCoursesPaginated(page: page, reset: page == 0));
-            },
+            fetchPage: (page) async => context
+                .read<CourseBloc>()
+                .add(GetRecommendedCourses(
+                  param:
+                      RecommendedCoursesParam(filter: FilterData(), page: page),
+                  reset: page == 0,
+                )),
             pageSize: 10,
             itemSeparator: const SizedBox(height: 0),
             itemBuilder: (context, course, index) => CourseCard(course: course),
@@ -68,7 +100,7 @@ class _RecommendationCoursesScreenState
 //
 // // import '../../../../core/components/paginated_scroll_list.dart'; // Your custom widget
 // import '../../data/model/course_model.dart';
-// import '../bloc/bloc/course_bloc.dart';
+// import '../bloc/bloc/instructor_bloc.dart';
 //
 // class CoursesScreen extends StatefulWidget {
 //   const CoursesScreen({super.key});
@@ -168,7 +200,7 @@ class _RecommendationCoursesScreenState
 // import 'package:shimmer/shimmer.dart';
 // import '../../../../core/components/paginated_list.dart';
 // import '../../data/model/course_model.dart';
-// import '../bloc/bloc/course_bloc.dart';
+// import '../bloc/bloc/instructor_bloc.dart';
 //
 // // import '../manager/manager/organization_event.dart';
 // // import '../manager/manager/organization_state.dart';

@@ -1,5 +1,5 @@
-import '../../../category/domain/entities/category.dart';
-import '../../data/model/course_model.dart';
+import '../../../category/data/model/category_model.dart';
+import '../../data/model/module_model.dart';
 
 class Course {
   final DateTime createdAt;
@@ -12,13 +12,12 @@ class Course {
   final double rating;
   final int orgId;
 
-  // todo : fix this when the backend change this
-  final List<dynamic> /*List<Category>*/ categories;
+  final List<CategoryModel> categories;
 
   final List<dynamic> learningPathIds;
   final List<dynamic> instructors;
   final dynamic image;
-  final List<Module> modules;
+  final List<ModuleModel> modules;
 
   Course({
     required this.createdAt,
