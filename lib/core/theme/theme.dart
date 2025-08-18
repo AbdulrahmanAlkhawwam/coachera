@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pinput/pinput.dart';
 
 import 'colors.dart';
 import 'styles/floating_button.dart';
@@ -17,7 +16,7 @@ import 'styles/text_button.dart';
 import 'styles/text_font.dart';
 import 'styles/progress_indicator.dart';
 import 'styles/bottom_sheet.dart';
-import 'styles/pin_theme.dart';
+import 'styles/pin.dart';
 
 class Theme {
   static ThemeData get lightTheme => _theme(ColorSchemes.lightColors);

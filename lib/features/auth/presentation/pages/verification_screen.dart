@@ -6,7 +6,7 @@ import 'package:pinput/pinput.dart';
 
 import '../../../../core/components/screen.dart';
 import '../../../../core/constants/routes.dart';
-import '../../../../core/theme/styles/pin_theme.dart';
+import '../../../../core/theme/styles/pin.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../domain/params/forget_password_param.dart';
 import '../../domain/params/login_param.dart';

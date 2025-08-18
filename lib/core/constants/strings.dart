@@ -1,3 +1,7 @@
+// database
+const databaseFile = 'coachera';
+const favoriteTable = 'favorite';
+
 // shared preference
 /// user data
 const firstName = 'first_name';

@@ -18,7 +18,6 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // todo : fix the routes and add the logic for the button
     final List<Map<String, dynamic>> generalContent = [
       {
         'icon': null,
@@ -47,7 +46,7 @@ class SettingsScreen extends StatelessWidget {
       {
         'icon': TablerIcons.language,
         'label': LocaleKeys.screens_setting_language.tr(),
-        'route': 'Routes.setting',
+        'route': null,
         'function': () async => await showDialog(
               context: context,
               builder: (context) => LanguageDialog(),
@@ -56,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
       {
         'icon': context.isDark ? TablerIcons.sun : TablerIcons.moon,
         'label': LocaleKeys.screens_setting_mode.tr(),
-        'route': 'Routes.setting',
+        'route': null,
         'function': () async => await showDialog(
               context: context,
               builder: (context) => ThemeDialog(),
