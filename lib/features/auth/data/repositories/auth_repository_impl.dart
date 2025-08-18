@@ -1,13 +1,14 @@
-import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
+import '../../domain/entities/user.dart';
 import '../../domain/params/change_password_param.dart';
 import '../../domain/params/forget_password_param.dart';
 import '../../domain/params/login_param.dart';
 import '../../domain/params/register_param.dart';
 import '../../domain/repositories/auth_repository.dart';
+import '../../presentation/manager/bloc/auth_bloc.dart';
 import '../data_source/auth_local_data_source.dart';
 import '../data_source/auth_remote_data_source.dart';
 
@@ -66,4 +67,8 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, UserStatus>> checkUserType() async =>
       await AppUtils.safeCall(() async =>
           storage.getToken() == null ? UserStatus.guest : UserStatus.student);
+
+  @override
+  Future<Either<Failure, User>> me() async =>
+      await AppUtils.safeCall(() async => await dataSource.getMe());
 }

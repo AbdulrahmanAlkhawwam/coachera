@@ -1,4 +1,3 @@
-import 'package:coachera/features/auth/domain/use_cases/check_user_type_uc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/auth/data/data_source/auth_local_data_source.dart';
@@ -6,7 +5,9 @@ import '../../features/auth/data/data_source/auth_remote_data_source.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
 import '../../features/auth/domain/repositories/auth_repository.dart';
 import '../../features/auth/domain/use_cases/change_password_uc.dart';
+import '../../features/auth/domain/use_cases/check_user_type_uc.dart';
 import '../../features/auth/domain/use_cases/forget_password_uc.dart';
+import '../../features/auth/domain/use_cases/get_me_uc.dart';
 import '../../features/auth/domain/use_cases/guest_login_uc.dart';
 import '../../features/auth/domain/use_cases/login_uc.dart';
 import '../../features/auth/domain/use_cases/logout_uc.dart';
@@ -33,6 +34,7 @@ Future<void> initializeAuthServices(GetIt sl) async {
   sl.registerLazySingleton<LogoutUC>(() => LogoutUC(repository: sl()));
   sl.registerLazySingleton<OtpUC>(() => OtpUC(repository: sl()));
   sl.registerLazySingleton<RegisterUC>(() => RegisterUC(repository: sl()));
+  sl.registerLazySingleton<GetMeUC>(() => GetMeUC(repository: sl()));
   sl.registerLazySingleton<CheckUserTypeUC>(
     () => CheckUserTypeUC(repository: sl()),
   );
@@ -44,6 +46,7 @@ Future<void> initializeAuthServices(GetIt sl) async {
 
   // State Management
   sl.registerFactory<AuthBloc>(() => AuthBloc(
+        getMeUC: sl(),
         changePasswordUC: sl(),
         forgetPasswordUC: sl(),
         guestLoginUC: sl(),

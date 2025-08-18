@@ -4,6 +4,7 @@ import '../../domain/params/change_password_param.dart';
 import '../../domain/params/forget_password_param.dart';
 import '../../domain/params/login_param.dart';
 import '../../domain/params/register_param.dart';
+import '../model/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<String> login(LoginParam param);
@@ -17,6 +18,8 @@ abstract class AuthRemoteDataSource {
   Future<void> forgetPassword(ForgetPasswordParam param);
 
   Future<void> changePassword(ChangePasswordParam param);
+
+  Future<UserModel> getMe();
 }
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
@@ -99,5 +102,11 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         },
       );
     });
+  }
+
+  @override
+  Future<UserModel> getMe() async {
+    final response = await http.get(Endpoint.me);
+    return UserModel.fromJson(response.data);
   }
 }

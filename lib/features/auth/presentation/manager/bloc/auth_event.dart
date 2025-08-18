@@ -46,3 +46,5 @@ class ChangePassword extends AuthEvent {
 
   const ChangePassword({required this.param});
 }
+
+class GetMe extends AuthEvent {}

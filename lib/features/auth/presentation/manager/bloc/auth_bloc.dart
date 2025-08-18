@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/utils/message.dart';
+import '../../../domain/entities/user.dart';
 import '../../../domain/params/change_password_param.dart';
 import '../../../domain/params/forget_password_param.dart';
 import '../../../domain/params/login_param.dart';
@@ -11,6 +12,7 @@ import '../../../domain/params/register_param.dart';
 import '../../../domain/use_cases/change_password_uc.dart';
 import '../../../domain/use_cases/check_user_type_uc.dart';
 import '../../../domain/use_cases/forget_password_uc.dart';
+import '../../../domain/use_cases/get_me_uc.dart';
 import '../../../domain/use_cases/guest_login_uc.dart';
 import '../../../domain/use_cases/login_uc.dart';
 import '../../../domain/use_cases/logout_uc.dart';
@@ -29,6 +31,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final ForgetPasswordUC forgetPasswordUC;
   final ChangePasswordUC changePasswordUC;
   final OtpUC otpUC;
+  final GetMeUC getMeUC;
+
   final CheckUserTypeUC checkUserTypeUC;
 
   AuthBloc({
@@ -39,6 +43,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.checkUserTypeUC,
     required this.logoutUC,
     required this.otpUC,
+    required this.getMeUC,
     required this.registerUC,
   }) : super(AuthState()) {
     on<Login>(_onLogin);
@@ -49,6 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<OTPValidation>(_onOtpValidation);
     on<Register>(_onRegister);
     on<CheckUserType>(_checkUserType);
+    on<GetMe>(_getUserProfile);
   }
 
   FutureOr<void> _onLogin(Login event, Emitter<AuthState> emit) async {
@@ -160,5 +166,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (userType) => emit(
           state.copyWith(status: AuthStatus.success, userStatus: userType)),
     );
+  }
+
+  FutureOr<void> _getUserProfile(GetMe event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    final response = await getMeUC();
+
+    response.fold(
+        (failure) => emit(state.copyWith(
+              status: AuthStatus.error,
+              message: Message.fromFailure(failure),
+            )),
+        (user) => emit(state.copyWith(
+              status: AuthStatus.success,
+              user: user,
+            )));
   }
 }

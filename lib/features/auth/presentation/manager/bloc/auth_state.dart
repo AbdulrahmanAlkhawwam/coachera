@@ -22,12 +22,15 @@ class AuthState {
   final UserStatus userStatus;
   final AuthStatus status;
   final Message? message;
+  final User? user;
+
   final String? pin;
 
   const AuthState({
     this.userStatus = UserStatus.unknown,
     this.status = AuthStatus.init,
     this.message,
+    this.user,
     this.pin,
   });
 
@@ -35,9 +38,11 @@ class AuthState {
     UserStatus? userStatus,
     AuthStatus? status,
     Message? message,
+    User? user,
     String? pin,
   }) =>
       AuthState(
+        user: user ?? this.user,
         userStatus: userStatus ?? this.userStatus,
         status: status ?? this.status,
         message: message ?? this.message,
