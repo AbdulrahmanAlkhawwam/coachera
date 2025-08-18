@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../auth/presentation/pages/profile_screen.dart';
-import '../../../../course/presentation/pages/courses_screen.dart';
+import '../../../../course/presentation/pages/recommended_courses_screen.dart';
 import '../../pages/favorite_screen.dart';
 import '../../pages/home_screen.dart';
 
@@ -20,7 +20,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   Widget getCurrentScreen() => switch (screenIndex) {
         0 => HomeScreen(),
-        1 => RecommendationCoursesScreen(),
+        1 => RecommendedCoursesScreen(),
         2 => FavoriteScreen(),
         _ => ProfileScreen(),
       };

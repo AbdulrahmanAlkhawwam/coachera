@@ -1,7 +1,6 @@
-import 'package:coachera/features/home/presentation/manager/bloc/favorite_bloc.dart';
-import 'package:coachera/features/home/presentation/manager/cubit/navigation_cubit.dart';
+
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
-import 'package:flutter/material.dart' hide Theme;
+import 'package:flutter/material.dart' hide Theme, Material;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +9,8 @@ import '../core/theme/theme.dart';
 import '../core/service_locator/service_locator.dart';
 import 'auth/presentation/manager/bloc/auth_bloc.dart';
 import 'course/presentation/bloc/bloc/course_bloc.dart';
+import 'home/presentation/manager/bloc/favorite_bloc.dart';
+import 'home/presentation/manager/cubit/navigation_cubit.dart';
 import 'home/presentation/manager/cubit/theme_notifier.dart';
 
 class App extends StatefulWidget {
@@ -21,20 +22,13 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl.get<AuthBloc>(), lazy: false),
+        BlocProvider(
+          create: (_) => sl.get<AuthBloc>()..add(CheckUserType()),
+          lazy: false,
+        ),
         BlocProvider(create: (_) => sl.get<CourseBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<NavigationCubit>(), lazy: false),
         BlocProvider(create: (_) => sl.get<FavoriteBloc>(), lazy: false),
@@ -50,6 +44,8 @@ class _AppState extends State<App> {
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state.status == AuthStatus.authorized) {
+                context.read<FavoriteBloc>().add(GetFavorites());
+                context.read<AuthBloc>().add(GetMe());
                 // context.read<CourseBloc>().add(GetCourses());
                 // context.read<UserBloc>().add(GetAccount());
                 // context.read<OrderBloc>().add(GetOrders());

@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import '../constants/env.dart';
 import '../constants/routes.dart';
 import '../constants/strings.dart';
+import '../helpers/database_helper.dart';
 import '../helpers/http/http_service.dart';
 import '../helpers/notifications_helper.dart';
 import '../helpers/storage_helper.dart';
@@ -39,20 +40,19 @@ Future<void> initializeCoreServices(GetIt sl) async {
   // final notifications = NotificationsHelperImpl.initializedInstance;
   // sl.registerLazySingleton<NotificationsHelper>(() => notifications);
 
-  // final db = await DatabaseHelperImpl.instance();
-  // sl.registerLazySingleton<DatabaseHelper>(
-  //   () => db,
-  //   dispose: (db) => db.close(),
-  // );
+  final db = await DatabaseHelperImpl.instance();
+  sl.registerLazySingleton<DatabaseHelper>(
+    () => db,
+    dispose: (db) => db.close(),
+  );
 
   SharedPreferences preferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => preferences);
   sl.registerLazySingleton<StorageHelper>(() => StorageHelperImpl(sl()));
-
   sl.registerSingleton<String>(
       preferences.getString(accessTokenKey) != null &&
-                  preferences.getBool(guestKey) != null ||
-              preferences.getBool(guestKey) != false
+              (preferences.getBool(guestKey) != null ||
+                  preferences.getBool(guestKey) != false)
           ? Routes.main
           : Routes.login,
       instanceName: Routes.initialRouteKey);

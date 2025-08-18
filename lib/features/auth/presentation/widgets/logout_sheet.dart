@@ -13,9 +13,13 @@ class LogoutSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == AuthStatus.unauthorized) {
           context.pushReplacement(Routes.login);
+        }
+        if (state.status == AuthStatus.error) {
+          context.pop();
+          context.showErrorSnackBar(massage: state.message);
         }
       },
       builder: (context, state) {
