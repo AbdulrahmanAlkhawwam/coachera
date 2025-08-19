@@ -7,113 +7,109 @@
   },
   "screens": {
     "FAQ": {
-      "screens": {
-        "FAQ": {
-          "q1": {
-            "Question": "What is Coachera?",
-            "Answer": {
-              "a1": "Coachera is a mobile app designed to help you build better habits, track progress, and follow personalized coaching programs.",
-              "a2": "Whether you're working on mindfulness, fitness, learning, or productivity, Coachera guides you step by step."
-            }
-          },
-          "q2": {
-            "Question": "How do I sign up for Coachera?",
-            "Answer": {
-              "a1": "You can sign up using your email or social media accounts (Google, Facebook).",
-              "a2": "Once registered, you can complete your profile and start browsing available courses."
-            }
-          },
-          "q3": {
-            "Question": "Do I need an internet connection to use Coachera?",
-            "Answer": {
-              "a1": "Some features, like course videos and syncing progress, require an internet connection.",
-              "a2": "However, downloaded content (if supported) can be accessed offline."
-            }
-          },
-          "q4": {
-            "Question": "How do I enroll in a course?",
-            "Answer": {
-              "a1": "Tap on a course from the main screen, then press the “Enroll” or “Start” button.",
-              "a2": "Some courses may require completing prerequisites."
-            }
-          },
-          "q5": {
-            "Question": "How can I track my progress in a course?",
-            "Answer": {
-              "a1": "Your progress is shown as a percentage on the course details page.",
-              "a2": "You’ll see checkmarks on completed lessons and chapters."
-            }
-          },
-          "q6": {
-            "Question": "Can I reset my progress in a course?",
-            "Answer": {
-              "a1": "Yes. Go to the course settings and select “Reset Progress.”",
-              "a2": "This will remove completion data but keep the course in your enrolled list."
-            }
-          },
-          "q7": {
-            "Question": "I'm having issues with video playback. What should I do?",
-            "Answer": {
-              "a1": "Make sure you have a stable internet connection.",
-              "a2": "Try closing and reopening the app. If the issue persists, try updating the app or clearing the app cache from settings."
-            }
-          },
-          "q8": {
-            "Question": "Can I watch videos offline?",
-            "Answer": {
-              "a1": "Currently, downloading videos may be available only for premium users.",
-              "a2": "You can check if the \"Download\" button appears on the lesson page."
-            }
-          },
-          "q9": {
-            "Question": "How do I change my password?",
-            "Answer": {
-              "a1": "Go to Profile → Settings → Account → Change Password.",
-              "a2": "Follow the prompts to update your password."
-            }
-          },
-          "q10": {
-            "Question": "I forgot my password. How can I reset it?",
-            "Answer": {
-              "a1": "On the login screen, tap \"Forgot Password\" and enter your email.",
-              "a2": "A reset link will be sent to your inbox."
-            }
-          },
-          "q11": {
-            "Question": "How is my personal data protected?",
-            "Answer": {
-              "a1": "Coachera uses secure encryption for data storage and transfer.",
-              "a2": "Your personal information is never shared without your consent. See our Privacy Policy for details."
-            }
-          },
-          "q12": {
-            "Question": "How do I get personalized coaching?",
-            "Answer": {
-              "a1": "Complete the onboarding quiz when you sign up.",
-              "a2": "Based on your goals and preferences, Coachera recommends personalized programs. You can also manually explore and join coaching tracks."
-            }
-          },
-          "q13": {
-            "Question": "Can I give feedback about a course or the app?",
-            "Answer": {
-              "a1": "Yes! Go to Profile → Feedback or use the “Rate this course” option at the end of each module.",
-              "a2": "Your feedback helps us improve."
-            }
-          },
-          "q14": {
-            "Question": "Is Coachera free to use?",
-            "Answer": {
-              "a1": "Coachera offers free content and features.",
-              "a2": "A premium plan unlocks advanced coaching programs, offline downloads, and personalized support."
-            }
-          },
-          "q15": {
-            "Question": "How can I cancel my subscription?",
-            "Answer": {
-              "a1": "Go to your device’s App Store or Play Store → Subscriptions → Coachera → Cancel.",
-              "a2": "Your access will remain active until the end of the billing cycle."
-            }
-          }
+      "q1": {
+        "Question": "What is Coachera?",
+        "Answer": {
+          "a1": "Coachera is a mobile app designed to help you build better habits, track progress, and follow personalized coaching programs.",
+          "a2": "Whether you're working on mindfulness, fitness, learning, or productivity, Coachera guides you step by step."
+        }
+      },
+      "q2": {
+        "Question": "How do I sign up for Coachera?",
+        "Answer": {
+          "a1": "You can sign up using your email or social media accounts (Google, Facebook).",
+          "a2": "Once registered, you can complete your profile and start browsing available courses."
+        }
+      },
+      "q3": {
+        "Question": "Do I need an internet connection to use Coachera?",
+        "Answer": {
+          "a1": "Some features, like course videos and syncing progress, require an internet connection.",
+          "a2": "However, downloaded content (if supported) can be accessed offline."
+        }
+      },
+      "q4": {
+        "Question": "How do I enroll in a course?",
+        "Answer": {
+          "a1": "Tap on a course from the main screen, then press the “Enroll” or “Start” button.",
+          "a2": "Some courses may require completing prerequisites."
+        }
+      },
+      "q5": {
+        "Question": "How can I track my progress in a course?",
+        "Answer": {
+          "a1": "Your progress is shown as a percentage on the course details page.",
+          "a2": "You’ll see checkmarks on completed lessons and chapters."
+        }
+      },
+      "q6": {
+        "Question": "Can I reset my progress in a course?",
+        "Answer": {
+          "a1": "Yes. Go to the course settings and select “Reset Progress.”",
+          "a2": "This will remove completion data but keep the course in your enrolled list."
+        }
+      },
+      "q7": {
+        "Question": "I'm having issues with video playback. What should I do?",
+        "Answer": {
+          "a1": "Make sure you have a stable internet connection.",
+          "a2": "Try closing and reopening the app. If the issue persists, try updating the app or clearing the app cache from settings."
+        }
+      },
+      "q8": {
+        "Question": "Can I watch videos offline?",
+        "Answer": {
+          "a1": "Currently, downloading videos may be available only for premium users.",
+          "a2": "You can check if the \"Download\" button appears on the lesson page."
+        }
+      },
+      "q9": {
+        "Question": "How do I change my password?",
+        "Answer": {
+          "a1": "Go to Profile → Settings → Account → Change Password.",
+          "a2": "Follow the prompts to update your password."
+        }
+      },
+      "q10": {
+        "Question": "I forgot my password. How can I reset it?",
+        "Answer": {
+          "a1": "On the login screen, tap \"Forgot Password\" and enter your email.",
+          "a2": "A reset link will be sent to your inbox."
+        }
+      },
+      "q11": {
+        "Question": "How is my personal data protected?",
+        "Answer": {
+          "a1": "Coachera uses secure encryption for data storage and transfer.",
+          "a2": "Your personal information is never shared without your consent. See our Privacy Policy for details."
+        }
+      },
+      "q12": {
+        "Question": "How do I get personalized coaching?",
+        "Answer": {
+          "a1": "Complete the onboarding quiz when you sign up.",
+          "a2": "Based on your goals and preferences, Coachera recommends personalized programs. You can also manually explore and join coaching tracks."
+        }
+      },
+      "q13": {
+        "Question": "Can I give feedback about a course or the app?",
+        "Answer": {
+          "a1": "Yes! Go to Profile → Feedback or use the “Rate this course” option at the end of each module.",
+          "a2": "Your feedback helps us improve."
+        }
+      },
+      "q14": {
+        "Question": "Is Coachera free to use?",
+        "Answer": {
+          "a1": "Coachera offers free content and features.",
+          "a2": "A premium plan unlocks advanced coaching programs, offline downloads, and personalized support."
+        }
+      },
+      "q15": {
+        "Question": "How can I cancel my subscription?",
+        "Answer": {
+          "a1": "Go to your device’s App Store or Play Store → Subscriptions → Coachera → Cancel.",
+          "a2": "Your access will remain active until the end of the billing cycle."
         }
       }
     },
