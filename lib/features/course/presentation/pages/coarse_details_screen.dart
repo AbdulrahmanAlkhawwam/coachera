@@ -1,11 +1,15 @@
-import 'package:better_player_plus/better_player_plus.dart';
-import 'package:coachera/core/utils/app_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/utils/app_context.dart';
+import '../../../../core/utils/app_image.dart';
+import '../../../home/presentation/manager/bloc/favorite_bloc.dart';
 import '../../domain/entities/course.dart';
+import '../../domain/entities/module.dart';
+import '../bloc/bloc/course_bloc.dart';
 import '../widgets/course_description.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -19,31 +23,19 @@ class CourseDetailsScreen extends StatefulWidget {
 
 class _CourseDetailsScreenState extends State<CourseDetailsScreen>
     with SingleTickerProviderStateMixin {
-  // late BetterPlayerController _betterPlayerController;
   late TabController _tabController;
-  int? _expandedIndex;
+  String? _expandedIndex;
 
   @override
   void initState() {
     super.initState();
-    BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-      BetterPlayerDataSourceType.network,
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    );
-    // _betterPlayerController = BetterPlayerController(
-    //   const BetterPlayerConfiguration(
-    //     autoPlay: false,
-    //     aspectRatio: 16 / 9,
-    //   ),
-    //   betterPlayerDataSource: dataSource,
-    // );
-
+    context.read<FavoriteBloc>().add(GetFavorite(courseId: widget.course.id));
+    context.read<CourseBloc>().add(GetModules(courseId: widget.course.id));
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
-    // _betterPlayerController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -67,13 +59,10 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
         child: Column(
           children: [
             AppImage(
-              // todo : fix this space holder
               widget.course.image,
               fit: BoxFit.cover,
               width: double.infinity,
-              height: 160,
             ),
-            // BetterPlayer(controller: _betterPlayerController),
             Expanded(
               child: Column(
                 children: [
@@ -90,10 +79,37 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                   ?.copyWith(color: Colors.white),
                             ),
                             Spacer(),
-                            IconButton(
-                                // todo : add logic for favorite
-                                onPressed: () {},
-                                icon: Icon(TablerIcons.heart))
+                            BlocConsumer<FavoriteBloc, FavoriteState>(
+                              listener: (context, state) {
+                                if (state.status == FavoriteStatus.error) {
+                                  context.showErrorSnackBar(
+                                      massage: state.message);
+                                }
+                              },
+                              builder: (context, state) => IconButton(
+                                onPressed: () => state.isFavorite ?? false
+                                    ? context.read<FavoriteBloc>().add(
+                                        DeleteFavorite(
+                                            courseId: widget.course.id))
+                                    : context.read<FavoriteBloc>().add(
+                                        AddFavorite(
+                                            courseId: widget.course.id)),
+                                icon: state.status == FavoriteStatus.loading
+                                    ? Shimmer.fromColors(
+                                        baseColor: Colors.grey.shade300,
+                                        highlightColor: Colors.grey.shade100,
+                                        child: Icon(TablerIcons.heart_filled),
+                                      )
+                                    : Icon(
+                                        state.isFavorite ?? true
+                                            ? TablerIcons.heart_filled
+                                            : TablerIcons.heart,
+                                        color: state.isFavorite ?? false
+                                            ? context.colors.error
+                                            : null,
+                                      ),
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),
@@ -175,12 +191,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           children: [
             Expanded(
               child: ElevatedButton(
-                // style: ElevatedButton.styleFrom(
-                //   backgroundColor: const Color(0xFFFFBD12),
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(12),
-                //   ),
-                // ),
                 onPressed: () {},
                 child: const Text("Buy Now",
                     style: TextStyle(color: Colors.black)),
@@ -189,12 +199,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
             const SizedBox(width: 8.0),
             Expanded(
               child: FilledButton(
-                // style: ElevatedButton.styleFrom(
-                //   backgroundColor: const Color(0xFFFFBD12),
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(12),
-                //   ),
-                // ),
                 onPressed: () {},
                 child: const Text("Buy Now",
                     style: TextStyle(color: Colors.black)),
@@ -236,79 +240,92 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   }
 
   Widget _buildLessonsTab() {
-    final List<Map<String, dynamic>> sections =
-        List.generate(3, (sectionIndex) {
-      return {
-        "title": "Section ${sectionIndex + 1}",
-        "lessons": List.generate(4, (lessonIndex) {
-          return {
-            "title": "Lesson ${lessonIndex + 1}",
-            "duration": "${10 + lessonIndex} min",
-          };
-        }),
-      };
-    });
+    final List<Module> modules = context.read<CourseBloc>().state.modules ;
 
     return ListView.builder(
       padding: const EdgeInsets.all(16),
-      itemCount: sections.length,
-      itemBuilder: (context, sectionIndex) {
-        final section = sections[sectionIndex];
-        final isExpanded = _expandedIndex == sectionIndex;
+      itemCount: modules.length,
+      itemBuilder: (context, moduleIndex) {
+        final module = modules[moduleIndex];
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              module.title,
+              style: const TextStyle(
+                color: Color(0xFF00D1B7),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            ...List.generate(module.sections.length, (sectionIndex) {
+              final section = module.sections[sectionIndex];
+              final isExpanded = _expandedIndex == '$moduleIndex-$sectionIndex';
 
-        return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          decoration: BoxDecoration(
-            // color: const Color(0xFF2D2D30),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Theme(
-            data: Theme.of(context).copyWith(
-              dividerColor: Colors.transparent,
-              unselectedWidgetColor: Colors.white,
-              colorScheme: ColorScheme.dark(),
-            ),
-            child: ExpansionTile(
-              onExpansionChanged: (expanded) {
-                setState(() {
-                  _expandedIndex = expanded ? sectionIndex : null;
-                });
-              },
-              initiallyExpanded: isExpanded,
-              trailing: Icon(
-                isExpanded ? TablerIcons.plus : TablerIcons.minus,
-                color: Colors.white,
-              ),
-              title: Text(
-                section['title'],
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2D2D30),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-              children: List.generate(section['lessons'].length, (lessonIndex) {
-                final lesson = section['lessons'][lessonIndex];
-                return ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  title: Text(
-                    lesson['title'],
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    lesson['duration'],
-                    style: const TextStyle(color: Color(0xFFA7A7A7)),
-                  ),
-                  trailing: const Icon(
-                    Icons.play_circle_fill,
-                    color: Color(0xFFFFBD12),
-                  ),
-                  onTap: () {
-                    // Handle lesson tap
+                child: ExpansionTile(
+                  onExpansionChanged: (expanded) {
+                    setState(() => _expandedIndex =
+                        expanded ? '$moduleIndex-$sectionIndex' : null);
                   },
-                );
-              }),
-            ),
-          ),
+                  initiallyExpanded: isExpanded,
+                  trailing: Icon(
+                    isExpanded ? Icons.remove : Icons.add,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    section.title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  children: List.generate(
+                    section.materials.length,
+                    (lessonIndex) {
+                      final lesson = section.materials[lessonIndex];
+                      return ListTile(
+                        leading: CircleAvatar(
+                          radius: 16,
+                          backgroundColor: const Color(0xFF00D1B7),
+                          child: Text(
+                            '${lessonIndex + 1}'.padLeft(2, '0'),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          lesson.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        trailing: Icon(
+                          // todo : add logic for locked
+                          // lesson['locked']
+                          true ? Icons.lock_outline : Icons.play_circle_fill,
+                          color:
+                              // lesson['locked']
+                              true ? Colors.grey : const Color(0xFFFFBD12),
+                          size: 28,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
+            }),
+          ],
         );
       },
     );

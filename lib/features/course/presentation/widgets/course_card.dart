@@ -1,12 +1,11 @@
-import 'package:coachera/core/utils/app_context.dart';
-import 'package:coachera/core/utils/app_image.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
+import '../../../../core/utils/app_context.dart';
 import '../../../../core/constants/routes.dart';
-import '../../../home/presentation/manager/bloc/favorite_bloc.dart';
+import '../../../../core/utils/app_image.dart';
 import '../../domain/entities/course.dart';
 
 class CourseCard extends StatelessWidget {
@@ -20,9 +19,6 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final textTheme = Theme.of(context).textTheme;
-    // final colorScheme = Theme.of(context).colorScheme;
-
     return GestureDetector(
       onTap: () => context.push(
         Routes.courseDetails,
@@ -83,31 +79,32 @@ class CourseCard extends StatelessWidget {
                       Text('${course.rating}',
                           style: context.textTheme.bodySmall),
                       const Spacer(),
-                      IconButton(
-                        style: ButtonStyle(
-                          shape: WidgetStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                          ),
-                        ),
-                        onPressed: () => context
-                            .read<FavoriteBloc>()
-                            .add(AddFavorite(courseId: course.id)),
-                        icon: Icon(
-                          context
-                                      .read<FavoriteBloc>()
-                                      .state
-                                      .courses
-                                      ?.firstOrNull
-                                      ?.id ==
-                                  1
-                              ? TablerIcons.heart_filled
-                              : TablerIcons.heart,
-                          size: 18,
-                          color: context.colors.primary,
-                        ),
-                      ),
+                      // todo : fix this
+                      // IconButton(
+                      //   style: ButtonStyle(
+                      //     shape: WidgetStateProperty.all<OutlinedBorder>(
+                      //       RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(16.0),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // onPressed: () => context
+                      //     .read<FavoriteBloc>()
+                      //     .add(AddFavorite(courseId: course.id)),
+                      // icon: Icon(
+                      //   context
+                      //               .read<FavoriteBloc>()
+                      //               .state
+                      //               .courses
+                      //               ?.firstOrNull
+                      //               ?.id ==
+                      //           1
+                      //       ? TablerIcons.heart_filled
+                      //       : TablerIcons.heart,
+                      //   size: 18,
+                      //   color: context.colors.primary,
+                      // ),
+                      // ),
                     ],
                   )
                 ],

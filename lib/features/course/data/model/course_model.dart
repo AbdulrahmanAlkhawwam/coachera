@@ -1,9 +1,7 @@
 import 'package:coachera/features/course/data/model/module_model.dart';
 
 import '../../../category/data/model/category_model.dart';
-import '../../../category/domain/entities/category.dart';
 import '../../domain/entities/course.dart';
-import '../../domain/entities/module.dart';
 
 class CourseModel extends Course {
   CourseModel({
