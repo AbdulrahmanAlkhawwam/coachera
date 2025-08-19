@@ -24,11 +24,16 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   @override
   Future<Either<Failure, List<Course>>> getFavorites() async =>
       await AppUtils.safeCall(() async => await dataSource
-          .getFavorite()
+          .getFavorites()
           .then((courses) => storage.enterCourses(courses)));
 
   @override
   Future<Either<Failure, void>> removeFavorite(int courseId) async =>
       await AppUtils.safeCall(
           () async => await dataSource.removeFavorite(courseId));
+
+  @override
+  Future<Either<Failure, bool>> getFavorite(int courseId) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getFavorite(courseId));
 }

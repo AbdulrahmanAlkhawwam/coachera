@@ -6,11 +6,19 @@ sealed class FavoriteEvent {}
 class GetFavorites extends FavoriteEvent {}
 
 class DeleteFavorite extends FavoriteEvent {
-  final int courseId ;
+  final int courseId;
+
   DeleteFavorite({required this.courseId});
 }
 
 class AddFavorite extends FavoriteEvent {
-  final int courseId ;
+  final int courseId;
+
   AddFavorite({required this.courseId});
+}
+
+class GetFavorite extends FavoriteEvent {
+  final int courseId;
+
+  GetFavorite({required this.courseId});
 }
