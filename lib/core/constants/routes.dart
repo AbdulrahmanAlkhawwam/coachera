@@ -22,7 +22,9 @@ class Endpoint {
 
   static String addFavorite(courseId) => '/favorites/$courseId/student';
 
-  static String deleteFavorite(courseId) => '/favorites/$courseId/student';
+  static String deleteFavorite(courseId) => '/favorites/$courseId';
+
+  static String getFavorite(courseId) => '/favorites/check/$courseId';
 
   /// Auth
   static String login = '/auth/login';
@@ -35,8 +37,9 @@ class Endpoint {
   static String categories = '/categories';
   static String changePassword = '/auth/reset-password';
 
-  static String getOrganization(orgId) => '/api/organizations/$orgId';
+  static String courseModules(courseId) => '/modules/courses/$courseId';
 
+  static String getOrganization(orgId) => '/api/organizations/$orgId';
 }
 
 class Routes {
