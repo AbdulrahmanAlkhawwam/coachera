@@ -23,9 +23,11 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, void>> login(LoginParam param) async =>
-      await AppUtils.safeCall(() async => await dataSource
-          .login(param)
-          .then((token) => storage.saveToken(token)));
+      await AppUtils.safeCall(
+          () async => await dataSource.login(param).then((token) {
+                storage.removeGuest();
+                return storage.setToken(token);
+              }));
 
   @override
   Future<Either<Failure, void>> logout() async =>
@@ -39,7 +41,9 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, void>> register(RegisterParam param) async =>
-      await AppUtils.safeCall(() async => await dataSource.register(param));
+      await AppUtils.safeCall(() async => await dataSource
+          .registerUser(param)
+          .then((_) => dataSource.registerStudent()));
 
   @override
   Future<Either<Failure, void>> guestLogin() async {

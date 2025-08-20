@@ -2,15 +2,21 @@ import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/storage_helper.dart';
 
 abstract class AuthLocalDataSource {
-  Future<void> localLogout();
-
-  Future<void> saveToken(String token);
-
   Future<void> guestLogin();
 
-  String? getToken();
+  Future<void> localLogout();
+
+  Future<void> setGuest(bool guest);
+
+  Future<void> removeGuest();
 
   bool? getGuest();
+
+  Future<void> setToken(String token);
+
+  Future<void> removeToken();
+
+  String? getToken();
 }
 
 class AuthLocalDataSourceImpl extends AuthLocalDataSource {
@@ -20,18 +26,13 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
 
   @override
   Future<void> localLogout() async {
-    await storage.remove(accessTokenKey);
-    await storage.remove(guestKey);
-  }
-
-  @override
-  Future<void> saveToken(String token) async {
-    await storage.setString(accessTokenKey, token);
+    removeToken();
+    removeToken();
   }
 
   @override
   Future<void> guestLogin() async {
-    await storage.setBool(guestKey, true);
+    setGuest(true);
   }
 
   @override
@@ -42,5 +43,25 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   @override
   bool? getGuest() {
     return storage.getBool(guestKey);
+  }
+
+  @override
+  Future<void> setToken(String token) async {
+    await storage.setString(accessTokenKey, token);
+  }
+
+  @override
+  Future<void> setGuest(bool guest) async {
+    await storage.setBool(guestKey, guest);
+  }
+
+  @override
+  removeToken() async {
+    await storage.remove(accessTokenKey);
+  }
+
+  @override
+  removeGuest() async {
+    await storage.remove(guestKey);
   }
 }

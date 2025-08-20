@@ -32,7 +32,7 @@ class LogoutSheet extends StatelessWidget {
           default:
             return Padding(
               padding: EdgeInsets.only(
-                bottom: MediaQuery.viewInsetsOf(context).bottom + 32,
+                bottom: context.bottomPadding + 32,
                 top: 32,
                 left: 24,
                 right: 24,

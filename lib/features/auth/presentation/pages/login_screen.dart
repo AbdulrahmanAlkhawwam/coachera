@@ -160,8 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.outline)),
                               TextButton(
-                                onPressed: () =>
-                                    context.pushReplacement(Routes.register),
+                                onPressed: () => context.push(Routes.register),
                                 child: Text(
                                     LocaleKeys.screens_login_register.tr(),
                                     style: context.textTheme.bodyMedium
