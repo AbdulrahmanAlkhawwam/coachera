@@ -1,6 +1,5 @@
-import 'package:coachera/features/course/data/model/material_model.dart';
-
 import '../../../quiz/data/model/quiz_model.dart';
+import 'material_type.dart';
 
 class Material {
   final DateTime createdAt;

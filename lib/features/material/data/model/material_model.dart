@@ -1,3 +1,4 @@
+import '../../domain/entities/material_type.dart';
 import '../../../quiz/data/model/quiz_model.dart';
 import '../../domain/entities/material.dart';
 
@@ -43,20 +44,3 @@ class MaterialModel extends Material {
 }
 
 enum MaterialType { ARTICLE, QUIZ, VIDEO }
-
-final materialTypeValues = EnumValues({
-  "ARTICLE": MaterialType.ARTICLE,
-  "QUIZ": MaterialType.QUIZ,
-  "VIDEO": MaterialType.VIDEO,
-});
-
-class EnumValues<T> {
-  final Map<String, T> map;
-  late final Map<T, String> reverseMap;
-
-  EnumValues(this.map) {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-  }
-
-  Map<T, String> get reverse => reverseMap;
-}
