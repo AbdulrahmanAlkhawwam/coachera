@@ -1,6 +1,5 @@
+import '../../../course/data/model/section_model.dart';
 import '../../domain/entities/module.dart';
-import '../../domain/entities/section.dart';
-import 'section_model.dart';
 
 class ModuleModel extends Module {
   ModuleModel({

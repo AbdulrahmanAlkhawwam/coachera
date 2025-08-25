@@ -1,6 +1,4 @@
-
-
-import '../../data/model/section_model.dart';
+import '../../../course/data/model/section_model.dart';
 
 class Module {
   final dynamic createdAt;
