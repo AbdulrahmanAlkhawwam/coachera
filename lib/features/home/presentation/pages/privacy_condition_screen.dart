@@ -1,220 +1,178 @@
-import 'package:coachera/core/localization/keys.g.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:easy_localization/easy_localization.dart'; // مهم للترجمة
 
 import '../../../../core/utils/app_context.dart';
 
-final List<Map<String, dynamic>> faq = [
-  {
-    "Question": LocaleKeys.screens_FAQ_q1_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q1_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q1_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q2_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q2_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q2_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q3_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q3_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q3_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q4_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q4_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q4_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q5_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q5_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q5_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q6_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q6_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q6_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q7_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q7_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q7_Answer_a2.tr(),
-      LocaleKeys.screens_FAQ_q7_Answer_a3.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q8_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q8_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q8_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q9_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q9_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q9_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q10_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q10_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q10_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q11_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q11_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q11_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q12_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q12_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q12_Answer_a2.tr(),
-      LocaleKeys.screens_FAQ_q12_Answer_a3.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q13_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q13_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q13_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q14_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q14_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q14_Answer_a2.tr(),
-    ]
-  },
-  {
-    "Question": LocaleKeys.screens_FAQ_q15_Question.tr(),
-    "Answer": [
-      LocaleKeys.screens_FAQ_q15_Answer_a1.tr(),
-      LocaleKeys.screens_FAQ_q15_Answer_a2.tr(),
-    ]
-  },
-];
-
-class PrivacyConditionScreen extends StatefulWidget {
+class PrivacyConditionScreen extends StatelessWidget {
   const PrivacyConditionScreen({super.key});
 
   @override
-  State<PrivacyConditionScreen> createState() => _PrivacyConditionScreenState();
-}
-
-class _PrivacyConditionScreenState extends State<PrivacyConditionScreen>
-    with SingleTickerProviderStateMixin {
-  int? _expandedIndex;
-
-  @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> data = [
+      {"type": "bigTitle", "content": "screens.privacy.title"},
+      {"type": "title", "content": "screens.privacy.info_collection.title"},
+      {"type": "body", "content": "screens.privacy.info_collection.body"},
+      {"type": "title", "content": "screens.privacy.usage.title"},
+      {"type": "body", "content": "screens.privacy.usage.body"},
+      {"type": "title", "content": "screens.privacy.control.title"},
+      {"type": "body", "content": "screens.privacy.control.body"},
+      {"type": "bigTitle", "content": "screens.terms.title"},
+      {"type": "title", "content": "screens.terms.use_service.title"},
+      {"type": "body", "content": "screens.terms.use_service.body"},
+      {"type": "title", "content": "screens.terms.user_responsibility.title"},
+      {"type": "body", "content": "screens.terms.user_responsibility.body"},
+      {"type": "title", "content": "screens.terms.intellectual_property.title"},
+      {"type": "body", "content": "screens.terms.intellectual_property.body"},
+      {"type": "title", "content": "screens.terms.service_modifications.title"},
+      {"type": "body", "content": "screens.terms.service_modifications.body"},
+      {"type": "title", "content": "screens.terms.termination.title"},
+      {"type": "body", "content": "screens.terms.termination.body"},
+      {"type": "title", "content": "screens.terms.limitation_liability.title"},
+      {"type": "body", "content": "screens.terms.limitation_liability.body"},
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => Navigator.canPop(context) ? context.pop() : null,
-          icon: Icon(context.isLTR
-              ? TablerIcons.chevron_left
-              : TablerIcons.chevron_right),
-        ),
-        title: Text("Privacy and Conditions"),
+        title: const Text("privacy_terms.title").tr(),
       ),
-      body: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
-        padding: EdgeInsets.only(
-          top: 16,
-          left: 16.0,
-          right: 16.0,
-          bottom: 16 + context.bottomPadding,
-        ),
-        itemCount: faq.length,
-        itemBuilder: (context, index) {
-          final isExpanded = _expandedIndex == index;
-
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: ExpansionTile(
-                onExpansionChanged: (expanded) =>
-                    setState(() => _expandedIndex = expanded ? index : null),
-                initiallyExpanded: isExpanded,
-                trailing:
-                    Icon(isExpanded ? TablerIcons.plus : TablerIcons.minus),
-                title: Text(faq[index]['Question']!),
-                children: List.generate(
-                  faq[index]['Answer'].length,
-                  (answerIndex) => Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            radius: 3,
-                            backgroundColor: context.colors.onPrimaryContainer
-                                .withAlpha(160),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            faq[index]['Answer'][answerIndex],
-                            style: context.textTheme.bodyMedium?.copyWith(
-                                color: context.colors.onPrimaryContainer
-                                    .withAlpha(160)),
-                          ),
-                        ),
-                      ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.separated(
+          separatorBuilder: (context, index) => data[index]["type"] != "title"
+              ? const SizedBox(height: 16)
+              : const SizedBox(),
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            final item = data[index];
+            if (item["type"] == "title" || item["type"] == "bigTitle") {
+              return Text(
+                item["content"]!.tr(),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: item["type"] == "bigTitle"
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      color: item["type"] == "bigTitle"
+                          ? context.colors.primary
+                          : context.colors.outlineVariant.withAlpha(240),
                     ),
-                  ),
-                )
-                // List.generate(_['lessons'].length, (lessonIndex) {
-                // final lesson = section['lessons'][lessonIndex];
-                // return ListTile(
-                //   contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                //   title: Text(
-                //     lesson['title'],
-                //     style: const TextStyle(color: Colors.white),
-                //   ),
-                //   subtitle: Text(
-                //     lesson['duration'],
-                //     style: const TextStyle(color: Color(0xFFA7A7A7)),
-                //   ),
-                //   trailing: const Icon(
-                //     Icons.play_circle_fill,
-                //     color: Color(0xFFFFBD12),
-                //   ),
-                //   onTap: () {
-                //     Handle lesson tap
-                // },
-                // );
-                // }),
-                ),
-            /*   ),
-         */
-          );
-        },
+              );
+            } else {
+              return Text(
+                item["content"]!.tr(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: context.colors.outlineVariant.withAlpha(160),
+                    ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
 }
+
+// import 'package:flutter/material.dart';
+//
+// import '../../../../core/utils/app_context.dart';
+//
+// class PrivacyConditionScreen extends StatelessWidget {
+//   const PrivacyConditionScreen({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final List<Map<String, String>> data = [
+//       {"type": "bigTitle", "content": "Privacy Policy"},
+//       {"type": "title", "content": "Information Collection"},
+//       {
+//         "type": "body",
+//         "content":
+//             "We may collect your name, email, and usage data to personalize your experience."
+//       },
+//       {"type": "title", "content": "How We Use Data"},
+//       {
+//         "type": "body",
+//         "content":
+//             "Your data is used only to improve our services, provide support, and keep Coachera secure."
+//       },
+//       {"type": "title", "content": "Your Control"},
+//       {
+//         "type": "body",
+//         "content":
+//             "You can request to delete your data at any time by contacting our support team."
+//       },
+//       {"type": "bigTitle", "content": "Terms & Conditions"},
+//       {"type": "title", "content": "1. Use of Service"},
+//       {
+//         "type": "body",
+//         "content":
+//             "Coachera provides digital coaching and habit tracking for educational and personal development purposes. You agree not to misuse the app or attempt unauthorized access."
+//       },
+//       {"type": "title", "content": "2. User Responsibility"},
+//       {
+//         "type": "body",
+//         "content":
+//             "You are responsible for your account activity. Do not share your credentials or post harmful, misleading, or illegal content."
+//       },
+//       {"type": "title", "content": "3. Intellectual Property"},
+//       {
+//         "type": "body",
+//         "content":
+//             "All content, logos, and designs within the app are owned by Coachera. You may not copy or distribute without permission."
+//       },
+//       {"type": "title", "content": "4. Service Modifications"},
+//       {
+//         "type": "body",
+//         "content":
+//             "We may update or suspend features for maintenance or improvements, with or without notice."
+//       },
+//       {"type": "title", "content": "5. Termination"},
+//       {
+//         "type": "body",
+//         "content":
+//             "We reserve the right to terminate or suspend your access if you violate these terms."
+//       },
+//       {"type": "title", "content": "6. Limitation of Liability"},
+//       {
+//         "type": "body",
+//         "content":
+//             "Coachera is provided 'as is'. We are not liable for any indirect, incidental, or consequential damages arising from app use."
+//       }
+//     ];
+//
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Privacy & Terms"),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: ListView.separated(
+//           separatorBuilder: (context, index) => data[index]["type"] != "title"
+//               ? const SizedBox(height: 16)
+//               : const SizedBox(),
+//           itemCount: data.length,
+//           itemBuilder: (context, index) {
+//             final item = data[index];
+//             if (item["type"] == "title" || item["type"] == "bigTitle") {
+//               return Text(
+//                 item["content"]!,
+//                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
+//                     fontWeight: item["type"] == "bigTitle"
+//                         ? FontWeight.bold
+//                         : FontWeight.normal,
+//                     color: item["type"] == "bigTitle"
+//                         ? context.colors.primary
+//                         : context.colors.outlineVariant.withAlpha(240)),
+//               );
+//             } else {
+//               return Text(
+//                 item["content"]!,
+//                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+//                     color: context.colors.outlineVariant.withAlpha(160)),
+//               );
+//             }
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }

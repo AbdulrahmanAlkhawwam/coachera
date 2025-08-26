@@ -5,6 +5,27 @@
 abstract class  LocaleKeys {
   static const messages_Login_title = 'messages.Login.title';
   static const messages_Login_body = 'messages.Login.body';
+  static const screens_privacy_terms_title = 'screens.privacy_terms.title';
+  static const screens_privacy_title = 'screens.privacy.title';
+  static const screens_privacy_info_collection_title = 'screens.privacy.info_collection.title';
+  static const screens_privacy_info_collection_body = 'screens.privacy.info_collection.body';
+  static const screens_privacy_usage_title = 'screens.privacy.usage.title';
+  static const screens_privacy_usage_body = 'screens.privacy.usage.body';
+  static const screens_privacy_control_title = 'screens.privacy.control.title';
+  static const screens_privacy_control_body = 'screens.privacy.control.body';
+  static const screens_terms_title = 'screens.terms.title';
+  static const screens_terms_use_service_title = 'screens.terms.use_service.title';
+  static const screens_terms_use_service_body = 'screens.terms.use_service.body';
+  static const screens_terms_user_responsibility_title = 'screens.terms.user_responsibility.title';
+  static const screens_terms_user_responsibility_body = 'screens.terms.user_responsibility.body';
+  static const screens_terms_intellectual_property_title = 'screens.terms.intellectual_property.title';
+  static const screens_terms_intellectual_property_body = 'screens.terms.intellectual_property.body';
+  static const screens_terms_service_modifications_title = 'screens.terms.service_modifications.title';
+  static const screens_terms_service_modifications_body = 'screens.terms.service_modifications.body';
+  static const screens_terms_termination_title = 'screens.terms.termination.title';
+  static const screens_terms_termination_body = 'screens.terms.termination.body';
+  static const screens_terms_limitation_liability_title = 'screens.terms.limitation_liability.title';
+  static const screens_terms_limitation_liability_body = 'screens.terms.limitation_liability.body';
   static const screens_FAQ_q1_Question = 'screens.FAQ.q1.Question';
   static const screens_FAQ_q1_Answer_a1 = 'screens.FAQ.q1.Answer.a1';
   static const screens_FAQ_q1_Answer_a2 = 'screens.FAQ.q1.Answer.a2';
