@@ -17,7 +17,7 @@ class OrganizationBloc extends Bloc<OrganizationEvent, OrganizationState> {
   OrganizationBloc({
     required this.getOrganizationUc,
   }) : super(OrganizationState()) {
-    // on<GetCategoryPaginated>(_getCategories);
+    on<GetOrganization>(_getOrganization);
   }
 
 // FutureOr<void> _getCategories(
@@ -57,4 +57,20 @@ class OrganizationBloc extends Bloc<OrganizationEvent, OrganizationState> {
 //     },
 //   );
 // }
+
+  FutureOr<void> _getOrganization(
+      GetOrganization event, Emitter<OrganizationState> emit) async {
+    emit(state.copyWith(status: OrganizationStatus.loading));
+    final response = await getOrganizationUc.call(event.orgId);
+    response.fold(
+      (failure) => emit(state.copyWith(
+        status: OrganizationStatus.error,
+        message: Message.fromFailure(failure),
+      )),
+      (organization) => emit(state.copyWith(
+        status: OrganizationStatus.success,
+        organization: organization,
+      )),
+    );
+  }
 }
