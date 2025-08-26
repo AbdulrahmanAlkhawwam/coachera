@@ -3,7 +3,7 @@ class Review {
   final DateTime updatedAt;
   final int id;
   final int courseId;
-  final double rating;
+  final int rating;
   final String comment;
 
   Review({
