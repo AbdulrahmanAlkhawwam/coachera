@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
+import '../../../../core/components/rate.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_image.dart';
@@ -64,17 +64,11 @@ class CourseCard extends StatelessWidget {
                           ?.copyWith(color: context.colors.primary)),
                   Row(
                     children: [
-                      RatingBarIndicator(
-                        rating: (course.rating * 2).round() / 2,
-                        itemBuilder: (context, index) => Icon(
-                          TablerIcons.star_filled,
-                          color: context.colors.secondary,
-                        ),
-                        itemCount: 5,
-                        itemSize: 16.0,
-                        unratedColor: Colors.amber.withAlpha(120),
-                        direction: Axis.horizontal,
+                      Rate(
+                        rate: (course.rating * 2).round() / 2,
+                        startSize: 16.0,
                       ),
+                    
                       const SizedBox(width: 4),
                       Text('${course.rating}',
                           style: context.textTheme.bodySmall),

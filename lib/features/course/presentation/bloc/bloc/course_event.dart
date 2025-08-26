@@ -12,11 +12,6 @@ class GetCoursesPaginated extends CourseEvent {
     required this.reset,
   });
 }
-class GetModules extends CourseEvent{
-  final int courseId ;
-  GetModules({required this.courseId});
-}
-
 class GetRecommendedCourses extends CourseEvent {
   final RecommendedCoursesParam param;
 

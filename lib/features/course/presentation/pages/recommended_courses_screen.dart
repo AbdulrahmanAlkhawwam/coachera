@@ -28,9 +28,10 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
         if (state.status == CourseStatus.error) {
           context.showErrorSnackBar(massage: state.message);
         }
-        if (state.status == CourseStatus.success) {
-          Navigator.canPop(context) ? context.pop() : null;
-        }
+        // todo :: fix this
+        // if (state.status == CourseStatus.success) {
+        //   Navigator.canPop(context) ? context.pop() : null;
+        // }
       },
       builder: (context, state) => Scaffold(
         appBar: AppBar(
@@ -61,34 +62,137 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
             )
           ],
         ),
+        // todo : now fix this http://pub.dev/packages/infinite_scroll_pagination
         body: PaginatedScrollList<Course>(
-            listItem: state.courses,
-            fetchPage: (page) async => context
-                .read<CourseBloc>()
-                .add(GetRecommendedCourses(
-                  param:
-                      RecommendedCoursesParam(filter: FilterData(), page: page),
-                  reset: page == 0,
-                )),
-            pageSize: 10,
-            itemSeparator: const SizedBox(height: 0),
-            itemBuilder: (context, course, index) => CourseCard(course: course),
-            shimmerBuilder: () => Shimmer.fromColors(
-                  baseColor: Colors.grey.shade800,
-                  highlightColor: Colors.grey.shade700,
-                  child: Container(
-                    height: 280,
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.grey.shade800,
-                    ),
-                  ),
-                )),
+          listItem: state.courses,
+          fetchPage: (page) async => context
+              .read<CourseBloc>()
+              .add(GetRecommendedCourses(
+                param:
+                    RecommendedCoursesParam(filter: FilterData(), page: page),
+                reset: page == 0,
+              )),
+          pageSize: 10,
+          itemSeparator: const SizedBox(height: 0),
+          itemBuilder: (context, course, index) => CourseCard(course: course),
+          shimmerBuilder: () => _detailedShimmerCard(),
+        ),
       ),
     );
   }
+}
+
+Widget _detailedShimmerCard() {
+  return Shimmer.fromColors(
+    baseColor: Colors.grey.shade800,
+    highlightColor: Colors.grey.shade600,
+    child: Container(
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade900,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 🔹 Image placeholder
+          Container(
+            height: 160,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade700,
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 🔹 Title placeholder
+                Container(
+                  height: 18,
+                  width: 140,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade700,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                const SizedBox(height: 8),
+
+                // 🔹 Subtitle placeholder
+                Container(
+                  height: 14,
+                  width: 220,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade700,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // 🔹 Price placeholder
+                Container(
+                  height: 16,
+                  width: 90,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade700,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // 🔹 Rating + Favorite row
+                Row(
+                  children: [
+                    // Stars placeholder
+                    Row(
+                      children: List.generate(
+                        5,
+                        (index) => Container(
+                          margin: const EdgeInsets.only(right: 4),
+                          height: 14,
+                          width: 14,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade700,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+
+                    // Rating number placeholder
+                    Container(
+                      height: 14,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade700,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+
+                    const Spacer(),
+
+                    // Favorite icon placeholder
+                    Container(
+                      height: 24,
+                      width: 24,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade700,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }
 
 // import 'dart:async';
@@ -202,9 +306,9 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
 // import '../../data/model/course_model.dart';
 // import '../bloc/bloc/instructor_bloc.dart';
 //
-// // import '../manager/manager/organization_event.dart';
-// // import '../manager/manager/organization_state.dart';
-// // import '../../domain/entities/organization_model.dart';
+// // import '../manager/manager/review_event.dart';
+// // import '../manager/manager/review_state.dart';
+// // import '../../domain/entities/review_model.dart';
 // // import '../../../../core/components/paginated_scroll_list.dart'; // your widget
 // import '../../../../core/utils/app_context.dart';
 //
@@ -264,7 +368,7 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../manager/manager/organization_bloc.dart';
+// import '../manager/manager/review_bloc.dart';
 //
 // class CoursesScreen extends StatefulWidget {
 //   const CoursesScreen({super.key});
@@ -317,10 +421,10 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
 
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import '../manager/manager/organization_bloc.dart'; // adjust import to your path
-// // import '../manager/manager/organization_state.dart';
-// // import '../manager/manager/organization_event.dart';
-// // import '../../domain/entities/organization_model.dart'; // your model
+// import '../manager/manager/review_bloc.dart'; // adjust import to your path
+// // import '../manager/manager/review_state.dart';
+// // import '../manager/manager/review_event.dart';
+// // import '../../domain/entities/review_model.dart'; // your model
 //
 // class CoursesScreen extends StatelessWidget {
 //   const CoursesScreen({super.key});

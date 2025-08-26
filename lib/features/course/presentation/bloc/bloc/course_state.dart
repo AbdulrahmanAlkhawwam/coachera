@@ -12,7 +12,6 @@ class CourseState {
   final CourseStatus status;
   final Message? message;
   final bool hasMore;
-  final List<Module> modules;
 
   final int page;
 
@@ -23,7 +22,6 @@ class CourseState {
     this.message,
     this.hasMore = true,
     this.page = 0,
-    this.modules = const [],
     this.courses = const [],
   });
 
@@ -33,14 +31,12 @@ class CourseState {
     List<Course>? courses,
     bool? hasMore,
     int? page,
-    List<Module>? modules,
   }) =>
       CourseState(
         status: status ?? this.status,
         message: message ?? this.message,
         hasMore: hasMore ?? this.hasMore,
         page: page ?? this.page,
-        modules: modules ?? this.modules,
         courses: courses ?? this.courses,
       );
 }

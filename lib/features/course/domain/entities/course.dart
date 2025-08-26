@@ -1,5 +1,5 @@
 import '../../../category/data/model/category_model.dart';
-import '../../data/model/module_model.dart';
+import '../../../module/data/model/module_model.dart';
 
 class Course {
   final DateTime createdAt;
@@ -16,7 +16,7 @@ class Course {
 
   final List<dynamic> learningPathIds;
   final List<dynamic> instructors;
-  final dynamic image;
+  final String? image;
   final List<ModuleModel> modules;
 
   Course({
