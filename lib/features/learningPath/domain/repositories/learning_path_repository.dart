@@ -1,16 +1,7 @@
-import 'package:dartz/dartz.dart';
-import '../../../../core/error/failures.dart';
 
-// import '../../../home/domain/entities/user.dart';
-import '../../../home/presentation/widgets/filter_sheet.dart';
-import '../entities/course.dart';
-import '../entities/module.dart';
-
-abstract class ModuleRepository {
+abstract class LearningPathRepository {
   // Future<Either<Failure, List<Course>>> getCourses({int? page});
-
-  Future<Either<Failure,List<Module>>> getCourseModules ({int? courseId});
-
+  //
   // Future<Either<Failure, List<Course>>> getRecommendedCourses({
   //   int? page,
   //   required FilterData filter,
