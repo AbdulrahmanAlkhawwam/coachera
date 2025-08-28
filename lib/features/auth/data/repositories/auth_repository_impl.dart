@@ -42,8 +42,8 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, void>> register(RegisterParam param) async =>
       await AppUtils.safeCall(() async => await dataSource
-          .registerUser(param)
-          .then((_) => dataSource.registerStudent()));
+          .registerUser(param.userParam)
+          .then((_) => dataSource.registerStudent(param.studentParam)));
 
   @override
   Future<Either<Failure, void>> guestLogin() async {

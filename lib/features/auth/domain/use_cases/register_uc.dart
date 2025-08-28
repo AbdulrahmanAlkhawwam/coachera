@@ -5,13 +5,13 @@ import '../../../../core/usecases/usecase.dart';
 import '../params/register_param.dart';
 import '../repositories/auth_repository.dart';
 
-class RegisterUC extends UseCase< /*User*/ void, RegisterParam> {
+class RegisterUC extends UseCase<void, RegisterParam> {
   final AuthRepository repository;
 
   RegisterUC({required this.repository});
 
   @override
-  Future<Either<Failure, /*user*/ void>> call(RegisterParam param) async {
+  Future<Either<Failure, void>> call(RegisterParam param) async {
     return await repository.register(param);
   }
 }

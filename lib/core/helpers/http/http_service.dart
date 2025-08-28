@@ -132,17 +132,14 @@ class HttpService implements HttpClient {
 
   HttpResponse _handleResponse(http.Response response) {
     var code = response.statusCode;
-    // if (response.statusCode != json.decode(response.body)['status']) {
-    //   code = int.tryParse(json.decode(response.body)['status']) is int
-    //       ? int.tryParse(json.decode(response.body)['status'])
-    //       : response.statusCode;
-    // }
     switch (code) {
       case >= 200 && < 300:
         return _parseResponse(response);
       case 400:
         throw BadRequestException();
       case 401:
+        storage.remove(accessTokenKey);
+        storage.remove(guestKey);
         throw UnauthorizedException();
       case 402:
         throw PaymentRequiredException();

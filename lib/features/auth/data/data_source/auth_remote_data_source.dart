@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+
 import '../../../../core/constants/routes.dart';
 import '../../../../core/helpers/http/http_service.dart';
 import '../../domain/params/change_password_param.dart';
@@ -13,9 +15,9 @@ abstract class AuthRemoteDataSource {
 
   Future<bool> otp(LoginParam param);
 
-  Future<void> registerUser(RegisterParam param);
+  Future<void> registerUser(RegisterUserParam param);
 
-  Future<void> registerStudent();
+  Future<void> registerStudent(RegisterStudentParam param);
 
   Future<void> forgetPassword(ForgetPasswordParam param);
 
@@ -65,8 +67,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<void> registerUser(RegisterParam param) {
-    // TODO: Fix return value, possibly return UserModel later
+  Future<void> registerUser(RegisterUserParam param) {
     return http.handleApiCall(() async {
       await http.post(
         Endpoint.registerUser,
@@ -81,18 +82,18 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<void> registerStudent() {
+  Future<void> registerStudent(RegisterStudentParam param) {
     return http.handleApiCall(() async {
       await http.post(
         Endpoint.registerStudent,
         body: {
-          "birthDate": "1990-01-15",
-          "education": "Bachelor's Degree",
-          "firstName": "John",
-          "gender": "MALE",
-          "lastName": "Doe",
-          "phoneNumber": "+1234567890",
-          "address": "quis irure"
+          "birthDate": DateFormat("yyyy-MM-dd").format(param.birthDate),
+          "education": param.education,
+          "firstName": param.firstName,
+          "gender": param.gender,
+          "lastName": param.lastName,
+          "phoneNumber": "+${param.phoneNumber}",
+          "address": param.address
         },
       );
     });
