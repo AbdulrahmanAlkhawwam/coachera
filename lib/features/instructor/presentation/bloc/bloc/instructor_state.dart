@@ -13,21 +13,20 @@ class InstructorState {
   final Message? message;
   final bool hasMore;
   final int page;
-
-  // final List<Course> courses;
+  final List<Instructor> instructors;
 
   const InstructorState({
     this.status = InstructorStatus.init,
     this.message,
     this.hasMore = true,
     this.page = 0,
-    // this.courses = const [],
+    this.instructors = const [],
   });
 
   InstructorState copyWith({
     InstructorStatus? status,
     Message? message,
-    // List<Course>? courses,
+    List<Instructor>? instructors,
     bool? hasMore,
     int? page,
   }) =>
@@ -36,6 +35,6 @@ class InstructorState {
         message: message ?? this.message,
         hasMore: hasMore ?? this.hasMore,
         page: page ?? this.page,
-        // courses: courses ?? this.courses,
+        instructors: instructors ?? this.instructors,
       );
 }

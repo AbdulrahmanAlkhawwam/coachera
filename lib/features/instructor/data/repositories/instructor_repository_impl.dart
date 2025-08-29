@@ -1,8 +1,9 @@
-import 'package:coachera/features/course/domain/entities/course.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
+import '../../../home/domain/param/list_param.dart';
+import '../../domain/entities/instructor.dart';
 import '../../domain/repositories/instructor_repository.dart';
 import '../data_source/instructor_remote_data_source.dart';
 
@@ -15,6 +16,12 @@ class InstructorRepositoryImpl extends InstructorRepository {
     required this.dataSource,
     // required this.storage,
   });
+
+  @override
+  Future<Either<Failure, List<Instructor>>> getInstructors(
+          ListParam param) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getInstructors(param));
 
 // @override
 // Future<Either<Failure, List<Course>>> getCourses({int? page}) async =>

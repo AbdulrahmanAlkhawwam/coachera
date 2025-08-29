@@ -1,15 +1,19 @@
-
-
 // import '../../../home/data/models/user_model.dart';
 
+import 'package:coachera/core/constants/strings.dart';
+
+import '../../../../core/constants/routes.dart';
 import '../../../../core/helpers/http/http_service.dart';
+import '../../../home/domain/param/list_param.dart';
+import '../model/instructor_model.dart';
 
 abstract class InstructorRemoteDataSource {
-  // Future <CourseModel> getCourse ({int id});
+  Future<List<InstructorModel>> getInstructors(ListParam param);
+// Future <CourseModel> getCourse ({int id});
 
-  // Future<List<CourseModel>> getCourses({int? page});
-  //
-  // Future<List<CourseModel>> getRecommendedCourses({int? page});
+// Future<List<CourseModel>> getCourses({int? page});
+//
+// Future<List<CourseModel>> getRecommendedCourses({int? page});
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -25,36 +29,54 @@ class InstructorRemoteDataSourceImpl extends InstructorRemoteDataSource {
 
   InstructorRemoteDataSourceImpl({required this.http});
 
-  // @override
-  // Future<List<CourseModel>> getCourses({int? page}) async {
-  //   final response = await http.handleApiCall(() async => await http.get(
-  //         Endpoint.courses,
-  //         queryParameters: {
-  //           "page": page.toString(),
-  //         },
-  //       ));
-  //
-  //   final List<dynamic> courses = response.data['content'];
-  //
-  //   return courses.map((e) => CourseModel.fromJson(e)).toList();
-  // }
-  //
-  // @override
-  // Future<List<CourseModel>> getRecommendedCourses({int? page}) async {
-  //   final response = await http.handleApiCall(() async => await http.get(
-  //         Endpoint.recommendedCourses,
-  //         queryParameters: {
-  //           "page": page.toString(),
-  //           "size": 15.toString(),
-  //           "sortBy": "id",
-  //           "sortDirection": "desc"
-  //         },
-  //       ));
-  //
-  //   final List<dynamic> courses = response.data['data'];
-  //
-  //   return courses.map((e) => CourseModel.fromJson(e)).toList();
-  // }
+  @override
+  Future<List<InstructorModel>> getInstructors(ListParam param) async {
+    final response = await http.handleApiCall(() async => await http.get(
+          Endpoint.instructors,
+          queryParameters: {
+            "page": param.page.toString(),
+            "size": pageSize.toString(),
+            if (param.sort.sortBy != null) "sortBy": param.sort.sortBy!,
+            if (param.sort.sortDirection != null)
+              "sortDirection": param.sort.sortDirection!,
+          },
+        ));
+
+    final List<dynamic> instructors = response.data["content"];
+
+    return instructors.map((e) => InstructorModel.fromJson(e)).toList();
+  }
+
+// @override
+// Future<List<CourseModel>> getCourses({int? page}) async {
+//   final response = await http.handleApiCall(() async => await http.get(
+//         Endpoint.courses,
+//         queryParameters: {
+//           "page": page.toString(),
+//         },
+//       ));
+//
+//   final List<dynamic> courses = response.data['content'];
+//
+//   return courses.map((e) => CourseModel.fromJson(e)).toList();
+// }
+//
+// @override
+// Future<List<CourseModel>> getRecommendedCourses({int? page}) async {
+//   final response = await http.handleApiCall(() async => await http.get(
+//         Endpoint.recommendedCourses,
+//         queryParameters: {
+//           "page": page.toString(),
+//           "size": 15.toString(),
+//           "sortBy": "id",
+//           "sortDirection": "desc"
+//         },
+//       ));
+//
+//   final List<dynamic> courses = response.data['data'];
+//
+//   return courses.map((e) => CourseModel.fromJson(e)).toList();
+// }
 //
 // @override
 // Future<String> login(LoginParam param) async {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1021305298584",
+    "project_id": "coachera-dev",
+    "storage_bucket": "coachera-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021305298584:android:295952f433f871d549baed",
+        "android_client_info": {
+          "package_name": "com.example.coachera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOo_QADJNlgaG8dznJzY04mMq2TfYBUso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
