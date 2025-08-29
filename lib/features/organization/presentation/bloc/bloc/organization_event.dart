@@ -8,3 +8,9 @@ class GetOrganization extends OrganizationEvent {
 
   GetOrganization({required this.orgId});
 }
+
+class GetOrganizations extends OrganizationEvent{
+  final ListParam param ;
+
+  GetOrganizations({required this.param});
+}

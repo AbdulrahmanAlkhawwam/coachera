@@ -4,8 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/utils/message.dart';
+import '../../../../home/domain/param/list_param.dart';
 import '../../../domain/entities/organization.dart';
 import '../../../domain/use_cases/get_organization_uc.dart';
+import '../../../domain/use_cases/get_organizations_uc.dart';
 
 part 'organization_event.dart';
 
@@ -13,50 +15,15 @@ part 'organization_state.dart';
 
 class OrganizationBloc extends Bloc<OrganizationEvent, OrganizationState> {
   final GetOrganizationUC getOrganizationUc;
+  final GetOrganizationsUC getOrganizationsUC;
 
   OrganizationBloc({
     required this.getOrganizationUc,
+    required this.getOrganizationsUC,
   }) : super(OrganizationState()) {
     on<GetOrganization>(_getOrganization);
+    on<GetOrganizations>(_getOrganizations);
   }
-
-// FutureOr<void> _getCategories(
-//   GetCategoryPaginated event,
-//   Emitter<CategoryState> emit,
-// ) async {
-//   final isFirstPage = event.page == 0;
-//
-//   if (isFirstPage) {
-//     emit(state.copyWith(
-//       status: CourseStatus.loading,
-//       courses: [],
-//       message: null,
-//     ));
-//   }
-//
-//   final response = await getCategoriesUc.call(event.page);
-//
-//   response.fold(
-//     (failure) {
-//       event.completer.completeError(Message.fromFailure(failure));
-//       emit(state.copyWith(
-//         status: CourseStatus.error,
-//         message: Message.fromFailure(failure),
-//       ));
-//     },
-//     (newCourses) {
-//       final updatedCourses = List<Category>.from(state.courses ?? [])
-//         ..addAll(newCourses);
-//
-//       event.completer.complete(newCourses);
-//
-//       emit(state.copyWith(
-//         status: CourseStatus.success,
-//         courses: updatedCourses,
-//       ));
-//     },
-//   );
-// }
 
   FutureOr<void> _getOrganization(
       GetOrganization event, Emitter<OrganizationState> emit) async {
@@ -71,6 +38,25 @@ class OrganizationBloc extends Bloc<OrganizationEvent, OrganizationState> {
         status: OrganizationStatus.success,
         organization: organization,
       )),
+    );
+  }
+
+  FutureOr<void> _getOrganizations(
+      GetOrganizations event, Emitter<OrganizationState> emit) async {
+    emit(state.copyWith(status: OrganizationStatus.loading));
+    if (event.param.page == 0) {
+      emit(state.copyWith(organizations: []));
+    }
+    final response = await getOrganizationsUC(event.param);
+    response.fold(
+      (failure) => emit(state.copyWith(
+        status: OrganizationStatus.error,
+        message: Message.fromFailure(failure),
+      )),
+      (organizations) => emit(state.copyWith(
+          status: OrganizationStatus.success,
+          organizations: [...state.organizations, ...organizations],
+          page: event.param.page)),
     );
   }
 }
