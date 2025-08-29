@@ -15,9 +15,7 @@ abstract class AuthRemoteDataSource {
 
   Future<bool> otp(LoginParam param);
 
-  Future<void> registerUser(RegisterUserParam param);
-
-  Future<void> registerStudent(RegisterStudentParam param);
+  Future<void> register(RegisterParam param);
 
   Future<void> forgetPassword(ForgetPasswordParam param);
 
@@ -67,37 +65,29 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<void> registerUser(RegisterUserParam param) {
+  Future<void> register(RegisterParam param) {
     return http.handleApiCall(() async {
-      await http.post(
+      final response = await http.post(
         Endpoint.registerUser,
         body: {
           'username': param.name,
           'email': param.email,
           'password': param.password,
           'role': 'student',
+          'details': {
+            "birthDate": DateFormat("yyyy-MM-dd").format(param.birthDate),
+            "education": param.education,
+            "firstName": param.firstName,
+            "gender": param.gender,
+            "lastName": param.lastName,
+            "phoneNumber": "+${param.phoneNumber}",
+            "address": param.address
+          }
         },
       );
     });
   }
 
-  @override
-  Future<void> registerStudent(RegisterStudentParam param) {
-    return http.handleApiCall(() async {
-      await http.post(
-        Endpoint.registerStudent,
-        body: {
-          "birthDate": DateFormat("yyyy-MM-dd").format(param.birthDate),
-          "education": param.education,
-          "firstName": param.firstName,
-          "gender": param.gender,
-          "lastName": param.lastName,
-          "phoneNumber": "+${param.phoneNumber}",
-          "address": param.address
-        },
-      );
-    });
-  }
 
   @override
   Future<void> forgetPassword(ForgetPasswordParam param) {

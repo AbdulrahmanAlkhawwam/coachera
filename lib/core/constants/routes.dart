@@ -16,6 +16,7 @@ import '../../features/home/presentation/pages/settings_screen.dart';
 import '../../features/instructor/presentation/pages/instructors_screen.dart';
 import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
 import '../../features/material/presentation/pages/video_lesson_screen.dart';
+import '../../features/organization/presentation/pages/organizations_screen.dart';
 import '../../features/payment/presentation/pages/payment_screen.dart';
 import '../../features/review/presentation/pages/reviews_screen.dart';
 import '../../features/search/presentation/pages/search_screen.dart';
@@ -53,6 +54,8 @@ class Endpoint {
   static String courseReviews(courseId) => '/reviews/course/$courseId';
   static String reviews = '/reviews/my-reviews';
 
+  /// organization
+  static String getOrganizations = '/organizations';
   static String getOrganization(orgId) => '/organizations/$orgId';
 
   static String courseModules(courseId) => '/modules/courses/$courseId';
@@ -78,6 +81,7 @@ class Routes {
   static const String reviews = '/profile/reviews';
   static const String instructor = '/home/instructor';
   static const String learningPaths = '/home/learning-path';
+  static const String organizations = '/home/organizations';
   static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
@@ -111,6 +115,7 @@ class Routes {
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
+    organizations: (context, argument) => OrganizationsScreen(),
     main: (context, arguments) => MainScreen(page: arguments?['page'] ?? 0),
     setting: (context, argument) => SettingsScreen(),
     payment: (context, argument) => PaymentsScreen(),

@@ -1,26 +1,7 @@
 class RegisterParam {
-  final RegisterStudentParam studentParam;
-  final RegisterUserParam userParam;
-
-  RegisterParam({
-    required this.userParam,
-    required this.studentParam,
-  });
-}
-
-class RegisterUserParam {
   final String name;
   final String email;
   final String password;
-
-  RegisterUserParam({
-    required this.name,
-    required this.email,
-    required this.password,
-  });
-}
-
-class RegisterStudentParam {
   final DateTime birthDate;
   final String education;
   final String firstName;
@@ -29,13 +10,16 @@ class RegisterStudentParam {
   final String phoneNumber;
   final String address;
 
-  RegisterStudentParam({
-    required this.firstName,
-    required this.lastName,
-    required this.gender,
-    required this.address,
+  RegisterParam({
+    required this.name,
+    required this.email,
+    required this.password,
     required this.birthDate,
     required this.education,
+    required this.firstName,
+    required this.gender,
+    required this.lastName,
     required this.phoneNumber,
+    required this.address,
   });
 }

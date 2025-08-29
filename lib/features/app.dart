@@ -53,11 +53,7 @@ class _AppState extends State<App> {
         listeners: [
           BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state.status == AuthStatus.error &&
-                  state.message!.code == 401) {
-                context.pushReplacement(Routes.login);
-                context.showErrorSnackBar(massage: state.message);
-              }
+
               if (state.status == AuthStatus.authorized) {
                 context.read<FavoriteBloc>().add(GetFavorites());
               }

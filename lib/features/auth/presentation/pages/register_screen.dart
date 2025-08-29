@@ -259,24 +259,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 // : () {},
                                 : () => _key.currentState!.validate()
                                     ? context.read<AuthBloc>().add(Register(
-                                        param: RegisterParam(
-                                            studentParam: RegisterStudentParam(
-                                              firstName:
-                                                  firstNameController.text,
-                                              lastName: lastNameController.text,
-                                              gender: gender.name,
-                                              address: _addressController.text,
-                                              birthDate: birthdate,
-                                              education:
-                                                  _educationController.text,
-                                              phoneNumber: phoneController.text,
-                                            ),
-                                            userParam: RegisterUserParam(
-                                              name: _userNameController.text,
-                                              email: _emailController.text,
-                                              password:
-                                                  _passwordController.text,
-                                            ))))
+                                            param: RegisterParam(
+                                          firstName: firstNameController.text,
+                                          lastName: lastNameController.text,
+                                          gender: gender.name,
+                                          address: _addressController.text,
+                                          birthDate: birthdate,
+                                          education: _educationController.text,
+                                          phoneNumber: phoneController.text,
+                                          name: _userNameController.text,
+                                          email: _emailController.text,
+                                          password: _passwordController.text,
+                                        )))
                                     : null,
                             child: bloc.state.status == AuthStatus.loading
                                 ? Center(
