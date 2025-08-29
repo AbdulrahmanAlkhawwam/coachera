@@ -1,6 +1,4 @@
-import 'package:coachera/features/course/presentation/pages/recommended_courses_screen.dart';
-import 'package:coachera/features/home/presentation/pages/faq_screen.dart';
-import 'package:coachera/features/home/presentation/pages/privacy_condition_screen.dart';
+import 'package:coachera/features/material/presentation/pages/quiz_lesson_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
@@ -8,15 +6,23 @@ import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
 import '../../features/auth/presentation/pages/reset_password_screen.dart';
 import '../../features/auth/presentation/pages/verification_screen.dart';
-import '../../features/category/presentation/pages/search_screen.dart';
 import '../../features/course/presentation/pages/coarse_details_screen.dart';
+import '../../features/course/presentation/pages/recommended_courses_screen.dart';
+import '../../features/home/presentation/pages/faq_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/home/presentation/pages/main_screen.dart';
+import '../../features/home/presentation/pages/privacy_condition_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
-import '../../features/lesson/presentation/pages/video_lesson_screen.dart';
+import '../../features/material/presentation/pages/video_lesson_screen.dart';
+import '../../features/payment/presentation/pages/payment_screen.dart';
+import '../../features/review/presentation/pages/reviews_screen.dart';
+import '../../features/search/presentation/pages/search_screen.dart';
 import '../service_locator/service_locator.dart';
 
 class Endpoint {
+  /// search
+  static String getEntities = '/search/entities';
+
   /// Favorite
   static String getFavorites = '/favorites/student';
 
@@ -30,6 +36,7 @@ class Endpoint {
   static String login = '/auth/login';
   static String logout = '/auth/logout';
   static String me = '/students/me';
+  static String registerUser = '/auth/register';
   static String forgetPassword = '/auth/forgot-password';
   static String validateOTP = '/auth/validate-otp';
   static String courses = '/courses';
@@ -37,9 +44,17 @@ class Endpoint {
   static String categories = '/categories';
   static String changePassword = '/auth/reset-password';
 
+  /// review
+  static String courseReviews(courseId) => '/reviews/course/$courseId';
+  static String reviews = '/reviews/my-reviews';
+
+  static String getOrganization(orgId) => '/organizations/$orgId';
+
   static String courseModules(courseId) => '/modules/courses/$courseId';
 
-  static String getOrganization(orgId) => '/api/organizations/$orgId';
+  /// material
+  static String getMaterials(materialId) => '/materials/$materialId';
+  static String submitQuiz = '/quizzes/verify';
 }
 
 class Routes {
@@ -49,7 +64,10 @@ class Routes {
   static const String home = "/home";
   static const String main = "/main";
   static const String courseDetails = '/courses/course';
-  static const String videoLesson = "/courses/course/lesson";
+  static const String videoLesson = "/courses/course/video-material";
+  static const String quizLesson = '/courses/course/quiz-material';
+  static const String payment = '/profile/payment';
+  static const String reviews = '/profile/reviews';
   static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
@@ -74,15 +92,20 @@ class Routes {
     search: (context, arguments) => SearchScreen(),
     faq: (context, arguments) => FAQScreen(),
     privacy: (context, arguments) => PrivacyConditionScreen(),
-    videoLesson: (context, arguments) => VideoLessonScreen(
-          lesson: arguments['lesson'],
-        ),
+    videoLesson: (context, arguments) =>
+        VideoLessonScreen(lesson: arguments['material']),
+    quizLesson: (context, arguments) =>
+        QuizLessonScreen(quiz: arguments["material"]),
+
     // courses: (context, arguments) => CoursesScreen(),
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
     main: (context, arguments) => MainScreen(page: arguments?['page'] ?? 0),
     setting: (context, argument) => SettingsScreen(),
+    payment: (context, argument) => PaymentsScreen(),
+    reviews: (context, argument) => ReviewsScreen(),
+    // editPayment:(context,argument)=>Payment,
     validateOtp: (context, argument) =>
         VerificationScreen(email: argument['email']),
     resetPassword: (context, argument) => ResetPasswordScreen(

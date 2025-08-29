@@ -1,5 +1,3 @@
-
-
 class Question {
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -22,4 +20,11 @@ class Question {
     required this.thirdAnswer,
     required this.forthAnswer,
   });
+
+  List<String?> get answers => [
+        firstAnswer,
+        secondAnswer,
+        thirdAnswer,
+        forthAnswer,
+      ];
 }

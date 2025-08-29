@@ -1,11 +1,14 @@
 import '../../../../core/constants/routes.dart';
 import '../../../../core/helpers/http/http_service.dart';
+import '../../domain/param/quiz_param.dart';
 import '../model/material_model.dart';
 
 abstract class MaterialRemoteDataSource {
   // Future <CourseModel> getCourse ({int id});
 
   Future<MaterialModel> getMaterial({int? id});
+
+  Future<void> submitQuiz(QuizParam param);
 // Future<List<CourseModel>> getCourses({int? page});
 // Future<String> login(LoginParam param);
 
@@ -45,6 +48,18 @@ class MaterialRemoteDataSourceImpl extends MaterialRemoteDataSource {
       () async => await http.get(Endpoint.getMaterials(id)),
     );
     return MaterialModel.fromJson(response.data);
+  }
+
+  @override
+  Future<void> submitQuiz(QuizParam param) async {
+    final response = await http.handleApiCall(() async => await http.post(
+          Endpoint.submitQuiz,
+          body: {
+            "quizId": param.quizId,
+            "questions": param.questions,
+          },
+        ));
+    print(response.data);
   }
 
 // @override

@@ -8,3 +8,9 @@ class GetMaterial extends MaterialEvent {
 
   GetMaterial({required this.materialId});
 }
+
+class SubmitQuiz extends MaterialEvent {
+  final QuizParam param;
+
+  SubmitQuiz({required this.param});
+}

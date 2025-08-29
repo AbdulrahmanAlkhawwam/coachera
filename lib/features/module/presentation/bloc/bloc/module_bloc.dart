@@ -22,7 +22,10 @@ class ModuleBloc extends Bloc<ModuleEvent, ModuleState> {
 
   FutureOr<void> _getCourseModules(
       GetModules event, Emitter<ModuleState> emit) async {
-    emit(state.copyWith(status: ModuleStatus.loading));
+    emit(state.copyWith(
+      status: ModuleStatus.loading,
+      modules: [],
+    ));
     final response = await getCourseModulesUC(event.courseId);
 
     response.fold(
