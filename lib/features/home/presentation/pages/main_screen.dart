@@ -18,8 +18,12 @@ class MainScreen extends StatelessWidget {
     page = null;
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if ((state.status == AuthStatus.error && state.message!.code == 500) ||
-            (state.status == AuthStatus.error && state.message!.code == 401)) {
+        if ((state.status == AuthStatus.error &&
+                state.message!.code == 500 &&
+                state.userStatus != UserStatus.guest) ||
+            (state.status == AuthStatus.error &&
+                state.message!.code == 401 &&
+                state.userStatus != UserStatus.guest)) {
           context.pushReplacement(Routes.login);
           context.showErrorSnackBar(massage: state.message);
         }

@@ -49,30 +49,18 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => sl.get<InstructorBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<LearningPathBloc>(), lazy: false),
       ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) {
-
-              if (state.status == AuthStatus.authorized) {
-                context.read<FavoriteBloc>().add(GetFavorites());
-              }
-            },
-          ),
-        ],
-        child: ChangeNotifierProvider(
-          create: (_) => sl<ThemeNotifier>(),
-          builder: (context, child) => MaterialApp(
-            initialRoute: Routes.initialRoute,
-            onGenerateRoute: Routes.onGenerateRoute,
-            debugShowCheckedModeBanner: false,
-            theme: Theme.lightTheme,
-            themeMode: context.watch<ThemeNotifier>().themeMode,
-            darkTheme: Theme.darkTheme,
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-          ),
+      child: ChangeNotifierProvider(
+        create: (_) => sl<ThemeNotifier>(),
+        builder: (context, child) => MaterialApp(
+          initialRoute: Routes.initialRoute,
+          onGenerateRoute: Routes.onGenerateRoute,
+          debugShowCheckedModeBanner: false,
+          theme: Theme.lightTheme,
+          themeMode: context.watch<ThemeNotifier>().themeMode,
+          darkTheme: Theme.darkTheme,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
         ),
       ),
     );

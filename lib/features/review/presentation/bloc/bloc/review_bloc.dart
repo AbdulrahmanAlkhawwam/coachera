@@ -26,7 +26,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
 
   FutureOr<void> _getCourseReviews(
       GetCourseReview event, Emitter<ReviewState> emit) async {
-    emit(state.copyWith(status: ReviewStatus.loading));
+    emit(state.copyWith(
+      status: ReviewStatus.loading,
+      reviews: [],
+    ));
     final response = await getCourseReviewUC(event.courseId);
     response.fold(
       (failure) => emit(state.copyWith(
@@ -42,7 +45,10 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
 
   FutureOr<void> _getReviews(
       GetReviews event, Emitter<ReviewState> emit) async {
-    emit(state.copyWith(status: ReviewStatus.loading));
+    emit(state.copyWith(
+      status: ReviewStatus.loading,
+      reviews: [],
+    ));
     final response = await getReviewsUC();
     response.fold(
       (failure) => emit(state.copyWith(
