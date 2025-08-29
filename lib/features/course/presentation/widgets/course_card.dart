@@ -1,6 +1,5 @@
+import 'package:coachera/core/components/tag_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/rate.dart';
 import '../../../../core/utils/app_context.dart';
@@ -33,16 +32,32 @@ class CourseCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(16)),
-              child: AppImage(
-                course.image ??
-                    "https://placehold.co/${context.widget}x160?text=${course.title.trim()}",
-                height: 160,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            Stack(
+              alignment: context.isRTL ? Alignment.topRight : Alignment.topLeft,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(16)),
+                  child: AppImage(
+                    course.image ??
+                        "https://placehold.co/${context.widget}x160?text=${course.title.trim()}",
+                    height: 160,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  child: TagItem(
+                    isSelected: true,
+                    onSelect: (value) {},
+                    text: course.categories.first.title,
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(12),
