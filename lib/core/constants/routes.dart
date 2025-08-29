@@ -1,4 +1,3 @@
-import 'package:coachera/features/material/presentation/pages/quiz_lesson_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
@@ -11,10 +10,12 @@ import '../../features/course/presentation/pages/recommended_courses_screen.dart
 import '../../features/home/presentation/pages/faq_screen.dart';
 import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/home/presentation/pages/main_screen.dart';
+import '../../features/home/presentation/pages/notification_screen.dart';
 import '../../features/home/presentation/pages/privacy_condition_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
 import '../../features/instructor/presentation/pages/instructors_screen.dart';
 import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
+import '../../features/material/presentation/pages/quiz_lesson_screen.dart';
 import '../../features/material/presentation/pages/video_lesson_screen.dart';
 import '../../features/organization/presentation/pages/organizations_screen.dart';
 import '../../features/payment/presentation/pages/payment_screen.dart';
@@ -23,6 +24,12 @@ import '../../features/search/presentation/pages/search_screen.dart';
 import '../service_locator/service_locator.dart';
 
 class Endpoint {
+  /// notifications
+  static String deviceToken = '/notifications/register-device';
+  static String unreadCount = '/notifications/unread-count';
+  static String notifications = '/notifications/my';
+  static String markNotificationsRead = '/notifications/mark-read';
+
   /// search
   static String getEntities = '/search/entities';
 
@@ -56,6 +63,7 @@ class Endpoint {
 
   /// organization
   static String getOrganizations = '/organizations';
+
   static String getOrganization(orgId) => '/organizations/$orgId';
 
   static String courseModules(courseId) => '/modules/courses/$courseId';
@@ -82,6 +90,7 @@ class Routes {
   static const String instructor = '/home/instructor';
   static const String learningPaths = '/home/learning-path';
   static const String organizations = '/home/organizations';
+  static const String notification = '/home/notification';
   static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
@@ -110,17 +119,17 @@ class Routes {
         VideoLessonScreen(lesson: arguments['material']),
     quizLesson: (context, arguments) =>
         QuizLessonScreen(quiz: arguments["material"]),
-
     instructor: (context, arguments) => InstructorScreen(),
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
+    notification: (context, argument) => NotificationScreen(),
     organizations: (context, argument) => OrganizationsScreen(),
     main: (context, arguments) => MainScreen(page: arguments?['page'] ?? 0),
     setting: (context, argument) => SettingsScreen(),
     payment: (context, argument) => PaymentsScreen(),
     reviews: (context, argument) => ReviewsScreen(),
-    learningPaths:(context,argument)=>LearningPathsScreen(),
+    learningPaths: (context, argument) => LearningPathsScreen(),
     validateOtp: (context, argument) =>
         VerificationScreen(email: argument['email']),
     resetPassword: (context, argument) => ResetPasswordScreen(

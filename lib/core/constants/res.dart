@@ -11,6 +11,8 @@ class Res {
   static String favoriteDark = 'assets/svgs/favorite_dark.svg';
   static String searchDark = 'assets/svgs/search_dark.svg';
   static String searchLight = 'assets/svgs/search_light.svg';
+  static String notificationDark = 'assets/svgs/notification_dark.svg';
+  static String notificationLight = 'assets/svgs/notification_light.svg';
 
   /// payment
   static String googlePay = 'assets/svgs/google_pay.svg';
