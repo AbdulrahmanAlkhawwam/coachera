@@ -28,7 +28,7 @@ class FavoriteLocalDataSourceImpl extends FavoriteLocalDataSource {
     for (final course in favorite) {
       await database.insert(
         favoriteTable,
-        course.toJson(),
+        course.toDatabase(),
       );
     }
     return favorite;

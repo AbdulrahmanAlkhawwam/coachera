@@ -9,6 +9,8 @@ class Res {
   static String logoutDark = 'assets/svgs/logout_dark.svg';
   static String favoriteLight = 'assets/svgs/favorite_light.svg';
   static String favoriteDark = 'assets/svgs/favorite_dark.svg';
+  static String searchDark = 'assets/svgs/search_dark.svg';
+  static String searchLight = 'assets/svgs/search_light.svg';
 
   /// payment
   static String googlePay = 'assets/svgs/google_pay.svg';

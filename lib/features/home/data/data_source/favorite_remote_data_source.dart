@@ -22,22 +22,16 @@ class FavoriteRemoteDataSourceImpl extends FavoriteRemoteDataSource {
     final response = await http
         .handleApiCall(() async => await http.get(Endpoint.getFavorites));
     final List<dynamic> courses = response.data;
-    // todo : wait the backend to change the bug (DTO String here)
-    return courses.map((e) => CourseModel.fromJson(e)).toList();
+    return courses.map((e) => CourseModel.fromJson(e["course"])).toList();
   }
 
   @override
-  Future<void> addFavorite(int courseId) async {
-    final response = await http.handleApiCall(
-        () async => await http.post(Endpoint.addFavorite(courseId)));
-    print(response.toString());
-  }
+  Future<void> addFavorite(int courseId) async => await http.handleApiCall(
+      () async => await http.post(Endpoint.addFavorite(courseId)));
 
   @override
-  Future<void> removeFavorite(int courseId) async {
-    await http.handleApiCall(
-        () async => await http.delete(Endpoint.deleteFavorite(courseId)));
-  }
+  Future<void> removeFavorite(int courseId) async => await http.handleApiCall(
+      () async => await http.delete(Endpoint.deleteFavorite(courseId)));
 
   @override
   Future<bool> getFavorite(int courseId) async {

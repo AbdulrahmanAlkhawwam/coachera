@@ -11,7 +11,7 @@ enum FavoriteStatus {
 class FavoriteState {
   final FavoriteStatus status;
   final Message? message;
-  final List<Course>? courses;
+  final List<Course> courses;
   final bool? isFavorite ;
 
   const FavoriteState({

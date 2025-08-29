@@ -1,10 +1,9 @@
 import 'package:coachera/core/constants/res.dart';
 import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/utils/app_image.dart';
-import 'package:coachera/features/app.dart';
+import 'package:coachera/features/course/presentation/widgets/course_horizontal_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/utils/app_context.dart';
 import '../../../auth/presentation/manager/bloc/auth_bloc.dart';
@@ -30,66 +29,117 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.status == AuthStatus.error && state.message!.value == "401") {
-          context.pushReplacement(Routes.login);
+        print("123432123${state.userStatus}");
+        if (state.status == AuthStatus.error) {
           context.showErrorSnackBar(massage: state.message);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Favorites"),
-          // actions: [
-          //   IconButton(
-          //     onPressed: () {},
-          //     icon: Icon(TablerIcons.bell_ringing),
-          //   )
-          // ],
-        ),
-        body: context.read<AuthBloc>().state.userStatus == UserStatus.guest
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Spacer(),
-                      AppImage(
-                        context.isDark ? Res.favoriteDark : Res.favoriteLight,
-                        height: 160,
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        "No favorite yet!",
-                        style: context.textTheme.headlineSmall
-                            ?.copyWith(color: context.colors.onSurface),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        textAlign: TextAlign.center,
-                        "You're browsing as a guest right now. \nPlease log in to access your favorite items",
-                        style: context.textTheme.bodyMedium?.copyWith(
-                            color: context.colors.onPrimaryContainer
-                                .withAlpha(160)),
-                      ),
-                      Spacer(),
-                      OutlinedButton(
-                        onPressed: () => context.pushReplacement(Routes.login),
-                        child: Text('Login now !'),
-                      ),
-                      Spacer(),
-                    ],
+      child: BlocConsumer<FavoriteBloc, FavoriteState>(
+          listener: (context, state) {},
+          builder: (context, state) => switch (state.status) {
+                FavoriteStatus.loading =>
+                  const Center(child: CircularProgressIndicator()),
+                _ => Scaffold(
+                    appBar: AppBar(
+                      title: Text("Favorites"),
+                    ),
+                    body: context.read<AuthBloc>().state.userStatus ==
+                            UserStatus.guest
+                        ? _guestHolder()
+                        : state.courses.isEmpty
+                            ? _emptyList()
+                            : ListView.separated(
+                                itemBuilder: (context, index) =>
+                                    CourseHorizontalCard(
+                                  course: context
+                                      .read<FavoriteBloc>()
+                                      .state
+                                      .courses[index],
+                                ),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(height: 8.0),
+                                itemCount: context
+                                        .read<FavoriteBloc>()
+                                        .state
+                                        .courses
+                                        .length ??
+                                    0,
+                              ),
                   ),
-                ),
-              )
-            : ListView.separated(
-                itemBuilder: (context, index) => Container(
-                  width: double.infinity,
-                  height: 80,
-                  color: context.colors.primary,
-                ),
-                separatorBuilder: (context, index) => SizedBox(height: 8.0),
-                itemCount: 10,
-              ),
+              }),
+    );
+  }
+
+  Widget _guestHolder() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Spacer(),
+            AppImage(
+              context.isDark ? Res.favoriteDark : Res.favoriteLight,
+              height: 160,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "You are Guest",
+              style: context.textTheme.headlineSmall
+                  ?.copyWith(color: context.colors.onSurface),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.center,
+              "You're browsing as a guest right now. \nPlease log in to access your favorite items",
+              style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colors.onPrimaryContainer.withAlpha(160)),
+            ),
+            Spacer(),
+            OutlinedButton(
+              onPressed: () => context.pushReplacement(Routes.login),
+              child: Text('Login now !'),
+            ),
+            Spacer(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _emptyList() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Spacer(),
+            AppImage(
+              context.isDark ? Res.searchDark : Res.searchLight,
+              height: 160,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "No Favorite",
+              style: context.textTheme.headlineSmall
+                  ?.copyWith(color: context.colors.onSurface),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.center,
+              "You're browsing as a guest right now. \nPlease log in to access your favorite items",
+              style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colors.onPrimaryContainer.withAlpha(160)),
+            ),
+            Spacer(),
+            OutlinedButton(
+              onPressed: () => context.pushReplacement(Routes.courses),
+              child: Text('View Courses'),
+            ),
+            Spacer(),
+          ],
+        ),
       ),
     );
   }
