@@ -6,14 +6,18 @@ class BoundedList extends StatelessWidget {
   final EdgeInsets? padding;
   final Widget? child;
   final List<Widget>? children;
+  final CrossAxisAlignment? crossAxisAlignment;
+  final MainAxisAlignment? mainAxisAlignment;
 
   const BoundedList({
     super.key,
     this.padding,
     this.child,
     this.children,
+    this.crossAxisAlignment,
+    this.mainAxisAlignment,
   }) : assert(child != null || children != null,
-  "You must provide either child or children");
+            "You must provide either child or children");
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +26,8 @@ class BoundedList extends StatelessWidget {
         final bottomPadding = context.bottomPadding;
         return SingleChildScrollView(
           padding: padding?.copyWith(
-            bottom: (padding?.bottom ?? 0) + bottomPadding,
-          ) ??
+                bottom: (padding?.bottom ?? 0) + bottomPadding,
+              ) ??
               EdgeInsets.only(bottom: bottomPadding),
           child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -34,7 +38,13 @@ class BoundedList extends StatelessWidget {
                   bottomPadding,
             ),
             child: IntrinsicHeight(
-              child: child ?? Column(children: children!),
+              child: child ??
+                  Column(
+                      crossAxisAlignment:
+                          crossAxisAlignment ?? CrossAxisAlignment.stretch,
+                      mainAxisAlignment:
+                          mainAxisAlignment ?? MainAxisAlignment.start,
+                      children: children!),
             ),
           ),
         );

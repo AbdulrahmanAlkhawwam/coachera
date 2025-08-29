@@ -1,7 +1,7 @@
-import 'package:coachera/core/error/failure_message.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
+import '../error/failure_message.dart';
 import '../error/failures.dart';
 import '../localization/keys.g.dart';
 
@@ -26,12 +26,13 @@ class Message extends Equatable {
     for (final entry in failureMessage.entries) {
       if (failure.runtimeType == entry.key) {
         return Message(
-          title: entry.value['title']?.tr(),
-          value: entry.value['value']?.tr(),
+          title: entry.value['title']?.toString().tr(),
+          value: entry.value['value']?.toString().tr(),
+          code: int.parse(entry.value['statusCode']!.toString()),
         );
       }
     }
-    
+
     return Message(
       title: LocaleKeys.errors_unknown_error_title.tr(),
       value: LocaleKeys.errors_unknown_error_message.tr(),

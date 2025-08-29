@@ -45,7 +45,6 @@ class _FilterSheetState extends State<FilterSheet> {
             children: [
               _buildHeader(context),
 
-              // Categories
               if (widget.categories != null &&
                   widget.categories!.isNotEmpty) ...[
                 const SizedBox(height: 8.0),
@@ -86,7 +85,7 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
               ],
               const SizedBox(height: 8.0),
-              const SectionTitle(title: "Sort Type"),
+              const SectionTitle(title: "Sort Direction"),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,

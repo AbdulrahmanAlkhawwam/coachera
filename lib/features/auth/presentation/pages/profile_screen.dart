@@ -61,21 +61,6 @@ class _ProfileHeader extends StatelessWidget {
             ),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            // actions: [
-            //   IconButton(
-            //     style: IconButton.styleFrom(
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(16.0),
-            //         side: BorderSide(color: context.colors.surface),
-            //       ),
-            //     ),
-            //     onPressed: () {},
-            //     icon: Icon(
-            //       TablerIcons.dots,
-            //       color: context.colors.surface,
-            //     ),
-            //   )
-            // ],
           ),
           const SizedBox(height: 16),
           CircleAvatar(
@@ -86,8 +71,7 @@ class _ProfileHeader extends StatelessWidget {
               backgroundColor: Colors.transparent,
               child: ClipOval(
                 child: AppImage(
-                  user?.address,
-                  // 'https://images.unsplash.com/photo-1603415526960-f8f2a2fc86e7',
+                  "https://avatar.iran.liara.run/public/${user?.gender == 'male' ? 'boy' : 'girl'}?username=${user?.firstName}_${user?.lastName}",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -130,12 +114,12 @@ class _ProfileList extends StatelessWidget {
       {
         'icon': TablerIcons.credit_card,
         'label': 'Payments',
-        'route': 'Routes.settings',
+        'route': Routes.payment,
       },
       {
         'icon': TablerIcons.quote,
         'label': 'Reviews',
-        'route': 'Routes.settings',
+        'route': Routes.reviews,
       },
       {
         'icon': TablerIcons.certificate,

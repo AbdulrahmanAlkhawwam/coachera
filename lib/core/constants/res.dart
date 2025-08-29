@@ -9,4 +9,10 @@ class Res {
   static String logoutDark = 'assets/svgs/logout_dark.svg';
   static String favoriteLight = 'assets/svgs/favorite_light.svg';
   static String favoriteDark = 'assets/svgs/favorite_dark.svg';
+
+  /// payment
+  static String googlePay = 'assets/svgs/google_pay.svg';
+  static String masterCardPay = 'assets/svgs/master_card_pay.svg';
+  static String visaPay = 'assets/svgs/visa_pay.svg';
+  static String applePay = 'assets/svgs/apple_pay.svg';
 }

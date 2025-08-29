@@ -12,6 +12,8 @@ import 'course/presentation/bloc/bloc/course_bloc.dart';
 import 'home/presentation/manager/bloc/favorite_bloc.dart';
 import 'home/presentation/manager/cubit/navigation_cubit.dart';
 import 'home/presentation/manager/cubit/theme_notifier.dart';
+import 'instructor/presentation/bloc/bloc/instructor_bloc.dart';
+import 'learningPath/presentation/bloc/bloc/learning_path_bloc.dart';
 import 'material/presentation/bloc/bloc/material_bloc.dart';
 import 'module/presentation/bloc/bloc/module_bloc.dart';
 import 'organization/presentation/bloc/bloc/organization_bloc.dart';
@@ -44,6 +46,8 @@ class _AppState extends State<App> {
         BlocProvider(create: (_) => sl.get<ReviewBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<OrganizationBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<SearchBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<InstructorBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<LearningPathBloc>(), lazy: false),
       ],
       child: MultiBlocListener(
         listeners: [
