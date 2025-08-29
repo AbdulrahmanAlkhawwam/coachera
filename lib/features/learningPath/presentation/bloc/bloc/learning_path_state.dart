@@ -11,32 +11,29 @@ enum LearningPathStatus {
 class LearningPathState {
   final LearningPathStatus status;
   final Message? message;
-  final bool hasMore;
 
   final int page;
 
-  // final List<Course> courses;
+  final List<LearningPath> learningPath;
 
   const LearningPathState({
     this.status = LearningPathStatus.init,
     this.message,
-    this.hasMore = true,
     this.page = 0,
-    // this.courses = const [],
+    this.learningPath = const [],
   });
 
   LearningPathState copyWith({
     LearningPathStatus? status,
     Message? message,
-    // List<Course>? courses,
+    List<LearningPath>? learningPath,
     bool? hasMore,
     int? page,
   }) =>
       LearningPathState(
         status: status ?? this.status,
         message: message ?? this.message,
-        hasMore: hasMore ?? this.hasMore,
         page: page ?? this.page,
-        // courses: courses ?? this.courses,
+        learningPath: learningPath ?? this.learningPath,
       );
 }

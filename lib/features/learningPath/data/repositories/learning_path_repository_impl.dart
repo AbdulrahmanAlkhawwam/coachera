@@ -1,9 +1,12 @@
+import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:coachera/features/course/domain/entities/course.dart';
+import 'package:coachera/features/home/domain/param/list_param.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
+import '../../domain/entities/learning_path.dart';
 import '../../domain/repositories/learning_path_repository.dart';
 import '../data_source/learning_path_remote_data_source.dart';
 
@@ -17,19 +20,25 @@ class LearningPathRepositoryImpl extends LearningPathRepository {
     // required this.storage,
   });
 
-  // @override
-  // Future<Either<Failure, List<Course>>> getCourses({int? page}) async =>
-  //     await AppUtils.safeCall(
-  //         () async => await dataSource.getCourses(page: page));
-  //
-  // @override
-  // Future<Either<Failure, List<Course>>> getRecommendedCourses(
-  //         {int? page, required FilterData filter}) async =>
-  //     await AppUtils.safeCall(
-  //         () async => await dataSource.getRecommendedCourses(
-  //               page: page,
-  //               filter: filter,
-  //             ));
+  @override
+  Future<Either<Failure, List<LearningPath>>> getLearningPaths(
+          ListParam param) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getLearningPaths(param));
+
+// @override
+// Future<Either<Failure, List<Course>>> getCourses({int? page}) async =>
+//     await AppUtils.safeCall(
+//         () async => await dataSource.getCourses(page: page));
+//
+// @override
+// Future<Either<Failure, List<Course>>> getRecommendedCourses(
+//         {int? page, required FilterData filter}) async =>
+//     await AppUtils.safeCall(
+//         () async => await dataSource.getRecommendedCourses(
+//               page: page,
+//               filter: filter,
+//             ));
 //
 // @override
 // Future<Either<Failure, bool>> checkToken() async =>

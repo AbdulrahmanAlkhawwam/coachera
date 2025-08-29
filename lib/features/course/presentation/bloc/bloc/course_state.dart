@@ -11,7 +11,6 @@ enum CourseStatus {
 class CourseState {
   final CourseStatus status;
   final Message? message;
-  final bool hasMore;
 
   final int page;
 
@@ -20,7 +19,6 @@ class CourseState {
   const CourseState({
     this.status = CourseStatus.init,
     this.message,
-    this.hasMore = true,
     this.page = 0,
     this.courses = const [],
   });
@@ -35,7 +33,6 @@ class CourseState {
       CourseState(
         status: status ?? this.status,
         message: message ?? this.message,
-        hasMore: hasMore ?? this.hasMore,
         page: page ?? this.page,
         courses: courses ?? this.courses,
       );

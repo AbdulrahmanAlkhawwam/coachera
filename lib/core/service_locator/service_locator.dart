@@ -6,6 +6,8 @@ import 'category_services.dart';
 import 'course_services.dart';
 import 'favorite_services.dart';
 import 'home_services.dart';
+import 'instructor_services.dart';
+import 'learning_path_services.dart';
 import 'material_services.dart';
 import 'module_services.dart';
 import 'organization_services.dart';
@@ -28,4 +30,6 @@ Future<void> initializeApp() async {
   await initializeOrganizationServices(sl);
   await initializeSettingsServices(sl);
   await initializeSearchServices(sl);
+  await initializeInstructorServices(sl);
+  await initializeLearningPathServices(sl);
 }

@@ -7,10 +7,10 @@ import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_image.dart';
 import '../../domain/entities/course.dart';
 
-class CourseCard extends StatelessWidget {
+class CourseHorizontalCard extends StatelessWidget {
   final Course course;
 
-  const CourseCard({super.key, required this.course});
+  const CourseHorizontalCard({super.key, required this.course});
 
   String colorToHex(Color color) {
     return color.value.toRadixString(16).padLeft(8, '0').toUpperCase();

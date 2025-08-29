@@ -13,6 +13,8 @@ import '../../features/home/presentation/pages/home_screen.dart';
 import '../../features/home/presentation/pages/main_screen.dart';
 import '../../features/home/presentation/pages/privacy_condition_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
+import '../../features/instructor/presentation/pages/instructors_screen.dart';
+import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
 import '../../features/material/presentation/pages/video_lesson_screen.dart';
 import '../../features/payment/presentation/pages/payment_screen.dart';
 import '../../features/review/presentation/pages/reviews_screen.dart';
@@ -31,6 +33,9 @@ class Endpoint {
   static String deleteFavorite(courseId) => '/favorites/$courseId';
 
   static String getFavorite(courseId) => '/favorites/check/$courseId';
+
+  /// instructor
+  static String instructors = '/instructors';
 
   /// Auth
   static String login = '/auth/login';
@@ -55,6 +60,9 @@ class Endpoint {
   /// material
   static String getMaterials(materialId) => '/materials/$materialId';
   static String submitQuiz = '/quizzes/verify';
+
+  /// learning path
+  static String learningPaths = '/learning-paths';
 }
 
 class Routes {
@@ -68,6 +76,8 @@ class Routes {
   static const String quizLesson = '/courses/course/quiz-material';
   static const String payment = '/profile/payment';
   static const String reviews = '/profile/reviews';
+  static const String instructor = '/home/instructor';
+  static const String learningPaths = '/home/learning-path';
   static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
@@ -97,7 +107,7 @@ class Routes {
     quizLesson: (context, arguments) =>
         QuizLessonScreen(quiz: arguments["material"]),
 
-    // courses: (context, arguments) => CoursesScreen(),
+    instructor: (context, arguments) => InstructorScreen(),
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
@@ -105,7 +115,7 @@ class Routes {
     setting: (context, argument) => SettingsScreen(),
     payment: (context, argument) => PaymentsScreen(),
     reviews: (context, argument) => ReviewsScreen(),
-    // editPayment:(context,argument)=>Payment,
+    learningPaths:(context,argument)=>LearningPathsScreen(),
     validateOtp: (context, argument) =>
         VerificationScreen(email: argument['email']),
     resetPassword: (context, argument) => ResetPasswordScreen(

@@ -1,56 +1,61 @@
-
-
 // import '../../../home/data/models/user_model.dart';
 
+import '../../../../core/constants/routes.dart';
+import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/http/http_service.dart';
+import '../../../home/domain/param/list_param.dart';
+import '../model/learning_path_model.dart';
 
 abstract class LearningPathRemoteDataSource {
-
-  // Future<List<CourseModel>> getLearningPaths({int? page});
-
+  Future<List<LearningPathModel>> getLearningPaths(ListParam param);
 }
+
 class LearningPathRemoteDataSourceImpl extends LearningPathRemoteDataSource {
   final HttpService http;
 
   LearningPathRemoteDataSourceImpl({required this.http});
 
-  // @override
-  // Future<List<CourseModel>> getCourses({int? page}) async {
-  //   final response = await http.handleApiCall(() async => await http.get(
-  //         Endpoint.courses,
-  //         queryParameters: {
-  //           "page": page.toString(),
-  //         },
-  //       ));
-  //
-  //   final List<dynamic> courses = response.data['content'];
-  //
-  //   return courses.map((e) => CourseModel.fromJson(e)).toList();
-  // }
+  @override
+  Future<List<LearningPathModel>> getLearningPaths(ListParam param) async {
+    final response = await http.handleApiCall(() async => await http.get(
+          Endpoint.learningPaths,
+          queryParameters: {
+            "page": param.page.toString(),
+            "size": pageSize.toString(),
+            if (param.sort.sortBy != null) "sortBy": param.sort.sortBy!,
+            if (param.sort.sortDirection != null)
+              "sortDirection": param.sort.sortDirection!,
+          },
+        ));
 
-  // @override
-  // Future<List<CourseModel>> getRecommendedCourses(
-  //     {int? page, required FilterData filter}) async {
-  //   final response = await http.handleApiCall(() async => await http.get(
-  //         Endpoint.recommendedCourses,
-  //         queryParameters: {
-  //           "page": page.toString(),
-  //           "size": 15.toString(),
-  //           if (filter.sortBy != null) "sortBy": filter.sortBy!,
-  //           if (filter.sortType != null) "sortDirection": filter.sortType!,
-  //         },
-  //       ));
-  //
-  //   final List<dynamic> courses = response.data["content"];
-  //
-  //   return courses.map((e) => CourseModel.fromJson(e)).toList();
-  // }
+    final List<dynamic> learningPaths = response.data['content'];
 
-  // @override
-  // Future<List<CourseModel>> getLearningPaths({int? page}) {
-  //   TODO: implement getLearningPaths
-    // throw UnimplementedError();
-  // }
+    return learningPaths.map((e) => LearningPathModel.fromJson(e)).toList();
+  }
+
+// @override
+// Future<List<CourseModel>> getRecommendedCourses(
+//     {int? page, required FilterData filter}) async {
+//   final response = await http.handleApiCall(() async => await http.get(
+//         Endpoint.recommendedCourses,
+//         queryParameters: {
+//           "page": page.toString(),
+//           "size": 15.toString(),
+//           if (filter.sortBy != null) "sortBy": filter.sortBy!,
+//           if (filter.sortType != null) "sortDirection": filter.sortType!,
+//         },
+//       ));
+//
+//   final List<dynamic> courses = response.data["content"];
+//
+//   return courses.map((e) => CourseModel.fromJson(e)).toList();
+// }
+
+// @override
+// Future<List<CourseModel>> getLearningPaths({int? page}) {
+//   TODO: implement getLearningPaths
+// throw UnimplementedError();
+// }
 
 // @override
 // Future<String> login(LoginParam param) async {

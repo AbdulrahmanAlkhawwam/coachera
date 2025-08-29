@@ -1,6 +1,8 @@
 import 'package:coachera/core/constants/routes.dart';
+import 'package:coachera/core/constants/strings.dart';
 
 import '../../../../core/helpers/http/http_service.dart';
+import '../../../home/domain/param/list_param.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../model/course_model.dart';
 
@@ -11,8 +13,7 @@ abstract class CourseRemoteDataSource {
 
   Future<List<CourseModel>> getCourses({int? page});
 
-  Future<List<CourseModel>> getRecommendedCourses(
-      {int? page, required FilterData filter});
+  Future<List<CourseModel>> getRecommendedCourses(ListParam param);
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -43,15 +44,15 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
   }
 
   @override
-  Future<List<CourseModel>> getRecommendedCourses(
-      {int? page, required FilterData filter}) async {
+  Future<List<CourseModel>> getRecommendedCourses(ListParam param) async {
     final response = await http.handleApiCall(() async => await http.get(
           Endpoint.recommendedCourses,
           queryParameters: {
-            "page": page.toString(),
-            "size": 15.toString(),
-            if (filter.sortBy != null) "sortBy": filter.sortBy!,
-            if (filter.sortType != null) "sortDirection": filter.sortType!,
+            "page": param.page.toString(),
+            "size": pageSize.toString(),
+            if (param.sort.sortBy != null) "sortBy": param.sort.sortBy!,
+            if (param.sort.sortDirection != null)
+              "sortDirection": param.sort.sortDirection!,
           },
         ));
 

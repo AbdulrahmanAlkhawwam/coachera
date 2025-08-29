@@ -1,5 +1,9 @@
 import 'dart:io';
 
+import 'package:coachera/core/helpers/notification_services.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../firebase_options.dart';
 import '../constants/env.dart';
 import '../constants/routes.dart';
 import '../constants/strings.dart';
@@ -36,9 +41,17 @@ Future<void> initializeCoreServices(GetIt sl) async {
   ]);
 
   await EasyLocalization.ensureInitialized();
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
+  // Stripe.publishableKey = Env.stripeKey;
+  // await Stripe.instance.applySettings();
 
+  // await Firebase.initializeApp();
   // final notifications = NotificationsHelperImpl.initializedInstance;
   // sl.registerLazySingleton<NotificationsHelper>(() => notifications);
+  // sl.registerLazySingleton<NotificationService>(() => NotificationService());
+  // await NotificationService.init();
 
   final db = await DatabaseHelperImpl.instance();
   sl.registerLazySingleton<DatabaseHelper>(

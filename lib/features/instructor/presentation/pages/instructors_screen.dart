@@ -27,15 +27,8 @@ class _InstructorScreenState extends State<InstructorScreen> {
   void initState() {
     super.initState();
     _pagingController.addPageRequestListener((pageKey) {
-      context.read<InstructorBloc>().add(GetInstructors(
-            param: ListParam(
-              page: pageKey,
-              sort: SortParam(
-                sortBy: null,
-                sortDirection: null,
-              ),
-            ),
-          ));
+      context.read<InstructorBloc>().add(
+          GetInstructors(param: ListParam(page: pageKey, sort: SortParam())));
     });
   }
 

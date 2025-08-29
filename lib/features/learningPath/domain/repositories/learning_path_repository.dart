@@ -1,6 +1,13 @@
 
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/failures.dart';
+import '../../../course/domain/entities/course.dart';
+import '../../../home/domain/param/list_param.dart';
+import '../entities/learning_path.dart';
+
 abstract class LearningPathRepository {
-  // Future<Either<Failure, List<Course>>> getCourses({int? page});
+  Future<Either<Failure, List<LearningPath>>> getLearningPaths(ListParam param );
   //
   // Future<Either<Failure, List<Course>>> getRecommendedCourses({
   //   int? page,

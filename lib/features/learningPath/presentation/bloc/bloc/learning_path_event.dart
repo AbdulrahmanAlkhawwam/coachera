@@ -3,6 +3,12 @@ part of 'learning_path_bloc.dart';
 @immutable
 sealed class LearningPathEvent {}
 
+class GetLearningPaths extends LearningPathEvent{
+  final ListParam param ;
+
+  GetLearningPaths({required this.param});
+}
+
 // class GetCoursesPaginated extends LearningPathEvent {
 //   final int page;
 //   final bool reset;
