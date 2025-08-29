@@ -11,24 +11,12 @@ import '../../features/home/domain/use_cases/get_favorites_uc.dart';
 import '../../features/home/presentation/manager/bloc/favorite_bloc.dart';
 
 Future<void> initializeFavoriteServices(GetIt sl) async {
-  ///Data Source
   sl.registerLazySingleton<FavoriteRemoteDataSource>(
       () => FavoriteRemoteDataSourceImpl(http: sl()));
-
   sl.registerLazySingleton<FavoriteLocalDataSource>(
-    () => FavoriteLocalDataSourceImpl(
-      storage: sl(),
-      database: sl(),
-    ),
-  );
-
-  /// Repository
-  sl.registerLazySingleton<FavoriteRepository>(() => FavoriteRepositoryImpl(
-        storage: sl(),
-        dataSource: sl(),
-      ));
-
-  /// Use Cases
+      () => FavoriteLocalDataSourceImpl(storage: sl(), database: sl()));
+  sl.registerLazySingleton<FavoriteRepository>(
+      () => FavoriteRepositoryImpl(storage: sl(), dataSource: sl()));
   sl.registerLazySingleton<AddFavoriteUc>(
       () => AddFavoriteUc(repository: sl()));
   sl.registerLazySingleton<GetFavoritesUc>(
@@ -37,14 +25,11 @@ Future<void> initializeFavoriteServices(GetIt sl) async {
       () => DeleteFavoriteUc(repository: sl()));
   sl.registerLazySingleton<GetFavoriteUC>(
       () => GetFavoriteUC(repository: sl()));
-
-  /// State Management
   sl.registerFactory<FavoriteBloc>(
     () => FavoriteBloc(
-      getFavoritesUC: sl(),
-      addFavoriteUc: sl(),
-      deleteFavoriteUc: sl(),
-      getFavoritesUc: sl(),
-    ),
+        getFavoritesUC: sl(),
+        addFavoriteUc: sl(),
+        deleteFavoriteUc: sl(),
+        getFavoritesUc: sl()),
   );
 }
