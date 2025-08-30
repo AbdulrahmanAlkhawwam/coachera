@@ -1,6 +1,8 @@
-import 'package:coachera/core/utils/app_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../../../../core/utils/app_context.dart';
 import '../../domain/entities/category.dart';
 
 class CategoryCard extends StatelessWidget {
@@ -8,10 +10,12 @@ class CategoryCard extends StatelessWidget {
     super.key,
     this.color,
     required this.category,
+    this.loading = false,
   });
 
   final Color? color;
   final Category category;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +23,17 @@ class CategoryCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _iconUI(context),
+          loading ? _shimmerIcon(context) : _iconUI(context),
           const SizedBox(height: 8),
-          Text(
-            category.title,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colors.outline,
-            ),
-            textAlign: TextAlign.center,
-          ),
+          loading
+              ? _shimmerText(context)
+              : Text(
+                  category.title,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.colors.outline,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
         ],
       ),
     );
@@ -43,6 +49,32 @@ class CategoryCard extends StatelessWidget {
           TablerIcons.all[category.iconName],
           color: color ?? context.colors.primary,
           size: 32,
+        ),
+      );
+
+  Widget _shimmerIcon(BuildContext context) => Shimmer.fromColors(
+        baseColor: context.colors.surfaceContainer,
+        highlightColor: context.colors.outline,
+        child: Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      );
+
+  Widget _shimmerText(BuildContext context) => Shimmer.fromColors(
+        baseColor: context.colors.surfaceContainer,
+        highlightColor: context.colors.outline,
+        child: Container(
+          width: 60,
+          height: 14,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
       );
 }

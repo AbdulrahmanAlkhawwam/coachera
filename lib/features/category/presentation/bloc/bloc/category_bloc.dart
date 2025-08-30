@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/utils/message.dart';
+import '../../../../home/domain/param/list_param.dart';
 import '../../../domain/entities/category.dart';
 import '../../../domain/use_cases/get_categories_uc.dart';
 
@@ -12,10 +13,10 @@ part 'category_event.dart';
 part 'category_state.dart';
 
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
-  final GetCategoriesUc getCategoriesUc;
+  final GetCategoriesUC getCategoriesUC;
 
   CategoryBloc({
-    required this.getCategoriesUc,
+    required this.getCategoriesUC,
   }) : super(CategoryState()) {
     on<GetCategoryPaginated>(_getCategories);
   }
@@ -24,37 +25,20 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     GetCategoryPaginated event,
     Emitter<CategoryState> emit,
   ) async {
-    final isFirstPage = event.page == 0;
-
-    if (isFirstPage) {
-      emit(state.copyWith(
-        status: CourseStatus.loading,
-        courses: [],
-        message: null,
-      ));
+    emit(state.copyWith(status: CategoryStatus.loading));
+    if (event.param.page == 0) {
+      emit(state.copyWith(categories: []));
     }
-
-    final response = await getCategoriesUc.call(event.page);
-
+    final response = await getCategoriesUC(event.param);
     response.fold(
-      (failure) {
-        event.completer.completeError(Message.fromFailure(failure));
-        emit(state.copyWith(
-          status: CourseStatus.error,
-          message: Message.fromFailure(failure),
-        ));
-      },
-      (newCourses) {
-        final updatedCourses = List<Category>.from(state.courses ?? [])
-          ..addAll(newCourses);
-
-        event.completer.complete(newCourses);
-
-        emit(state.copyWith(
-          status: CourseStatus.success,
-          courses: updatedCourses,
-        ));
-      },
+      (failure) => emit(state.copyWith(
+        status: CategoryStatus.error,
+        message: Message.fromFailure(failure),
+      )),
+      (categories) => emit(state.copyWith(
+          status: CategoryStatus.success,
+          categories: [...state.categories, ...categories],
+          page: event.param.page)),
     );
   }
 }

@@ -11,9 +11,9 @@ Future<void> initializeCategoryServices(GetIt sl) async {
       () => CategoryRemoteDataSourceImpl(http: sl()));
   sl.registerLazySingleton<CategoryRepository>(
       () => CategoryRepositoryImpl(dataSource: sl()));
-  sl.registerLazySingleton<GetCategoriesUc>(
-      () => GetCategoriesUc(repository: sl()));
+  sl.registerLazySingleton<GetCategoriesUC>(
+      () => GetCategoriesUC(repository: sl()));
   sl.registerFactory<CategoryBloc>(
-    () => CategoryBloc(getCategoriesUc: sl()),
+    () => CategoryBloc(getCategoriesUC: sl()),
   );
 }

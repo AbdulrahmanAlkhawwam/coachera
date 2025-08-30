@@ -5,7 +5,13 @@ import '../../../category/domain/entities/category.dart';
 import '../../../category/presentation/widgets/category_card.dart';
 
 class CategoriesList extends StatelessWidget {
-  const CategoriesList({super.key, required this.categories});
+  const CategoriesList({
+    super.key,
+    required this.categories,
+    required this.loading,
+  });
+
+  final bool loading;
 
   final List<Category> categories;
 
@@ -13,9 +19,9 @@ class CategoriesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 240,
+      height: 200,
       child: GridView.builder(
-        itemCount: 8,
+        itemCount: loading ? 8 : categories.length + 1,
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: MediaQuery.of(context).size.width / 4,
           mainAxisExtent: 96,
@@ -23,25 +29,20 @@ class CategoriesList extends StatelessWidget {
           crossAxisSpacing: MediaQuery.of(context).size.width / 22,
           childAspectRatio: 1,
         ),
-        itemBuilder: (context, index) => index != 7
+        itemBuilder: (context, index) => index != categories.length && !loading
             ? CategoryCard(
+                loading: loading,
                 category: categories[index],
-                color:
-                    index %4 % 2 == 1 && index <= 4 ||
-                        index % 2 == 0 && index > 3
-                    ? context.colors.primary
-                        : context.colors.secondary,
+                color: context.colors.primary,
               )
             : CategoryCard(
+                loading: loading,
                 category: Category(
                   id: 0,
                   title: "more",
                   iconName: "category_2",
                 ),
-                color:
-                    index % 2 == 1 && index <= 4 || index % 2 == 0 && index > 3
-                        ? context.colors.primary
-                        : context.colors.secondary,
+                color: context.colors.secondary,
               ),
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),

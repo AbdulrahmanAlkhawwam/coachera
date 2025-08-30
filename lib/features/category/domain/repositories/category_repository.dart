@@ -2,10 +2,11 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 
 // import '../../../home/domain/entities/user.dart';
+import '../../../home/domain/param/list_param.dart';
 import '../entities/category.dart';
 
 abstract class CategoryRepository {
-  Future<Either<Failure, List<Category>>> getCategories({int? page});
+  Future<Either<Failure, List<Category>>> getCategories(ListParam param);
 
 // Future<Either<Failure, void>> login(LoginParam param);
 

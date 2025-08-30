@@ -2,15 +2,16 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecase.dart';
+import '../../../home/domain/param/list_param.dart';
 import '../entities/category.dart';
 import '../repositories/category_repository.dart';
 
-class GetCategoriesUc extends UseCase<List<Category>, int> {
+class GetCategoriesUC extends UseCase<List<Category>, ListParam> {
   final CategoryRepository repository;
 
-  GetCategoriesUc({required this.repository});
+  GetCategoriesUC({required this.repository});
 
   @override
-  Future<Either<Failure, List<Category>>> call(int? page) async =>
-      await repository.getCategories(page: page);
+  Future<Either<Failure, List<Category>>> call(ListParam param) async =>
+      await repository.getCategories(param);
 }

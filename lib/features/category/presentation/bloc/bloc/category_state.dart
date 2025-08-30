@@ -1,6 +1,6 @@
 part of 'category_bloc.dart';
 
-enum CourseStatus {
+enum CategoryStatus {
   init,
   loading,
   error,
@@ -9,24 +9,29 @@ enum CourseStatus {
 
 @immutable
 class CategoryState {
-  final CourseStatus status;
+  final CategoryStatus status;
   final Message? message;
-  final List<Category>? courses;
+  final int page;
+
+  final List<Category> categories;
 
   const CategoryState({
-    this.status = CourseStatus.init,
+    this.status = CategoryStatus.init,
     this.message,
-    this.courses = const [],
+    this.page = 0,
+    this.categories = const [],
   });
 
   CategoryState copyWith({
-    CourseStatus? status,
+    CategoryStatus? status,
     Message? message,
-    List<Category>? courses,
+    int? page,
+    List<Category>? categories,
   }) =>
       CategoryState(
         status: status ?? this.status,
         message: message ?? this.message,
-        courses: courses ?? this.courses,
+        page: page ?? this.page,
+        categories: categories ?? this.categories,
       );
 }

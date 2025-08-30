@@ -4,11 +4,7 @@ part of 'category_bloc.dart';
 sealed class CategoryEvent {}
 
 class GetCategoryPaginated extends CategoryEvent {
-  final int page;
-  final Completer<List<Category>> completer;
+  final ListParam param;
 
-  GetCategoryPaginated({
-    required this.page,
-    required this.completer,
-  });
+  GetCategoryPaginated({required this.param});
 }

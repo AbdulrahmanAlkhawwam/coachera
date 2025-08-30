@@ -4,7 +4,7 @@ class CategoryModel extends Category {
   CategoryModel({
     required super.id,
     required super.title,
-     super.iconName,
+    super.iconName,
   });
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
@@ -12,4 +12,10 @@ class CategoryModel extends Category {
         title: json['name'],
         iconName: json['icon'],
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': title,
+        'icon': iconName,
+      };
 }

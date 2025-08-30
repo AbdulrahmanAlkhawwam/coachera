@@ -1,6 +1,8 @@
 import 'package:coachera/core/constants/routes.dart';
 
+import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/http/http_service.dart';
+import '../../../home/domain/param/list_param.dart';
 import '../model/category_model.dart';
 
 // import '../../../home/data/models/user_model.dart';
@@ -8,7 +10,7 @@ import '../model/category_model.dart';
 abstract class CategoryRemoteDataSource {
   // Future <CourseModel> getCourse ({int id});
 
-  Future<List<CategoryModel>> getCategories({int? page});
+  Future<List<CategoryModel>> getCategories(ListParam param);
 // Future<List<CourseModel>> getCourses({int? page});
 // Future<String> login(LoginParam param);
 
@@ -26,15 +28,18 @@ class CategoryRemoteDataSourceImpl extends CategoryRemoteDataSource {
   CategoryRemoteDataSourceImpl({required this.http});
 
   @override
-  Future<List<CategoryModel>> getCategories({int? page}) async {
+  Future<List<CategoryModel>> getCategories(ListParam param) async {
     final response = await http.handleApiCall(
       () async => await http.get(
         Endpoint.categories,
         queryParameters: {
-          "page": page.toString(),
-          "size": 10.toString(),
-          "sortBy": "id",
-          "sortDirection": "desc"
+          "page": param.page.toString(),
+          "size": param.pageSize == null
+              ? pageSize.toString()
+              : param.pageSize.toString(),
+          if (param.sort.sortBy != null) "sortBy": param.sort.sortBy!,
+          if (param.sort.sortDirection != null)
+            "sortDirection": param.sort.sortDirection!,
         },
       ),
     );
