@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/app_context.dart';
 
 class TagItem extends StatefulWidget {
-  const TagItem({
+  const TagItem( {
     super.key,
     required this.isSelected,
     required this.onSelect,
