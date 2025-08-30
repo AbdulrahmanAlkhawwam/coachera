@@ -62,4 +62,10 @@ final failureMessage = {
     "title": LocaleKeys.errors_redirection_title,
     "value": LocaleKeys.errors_redirection_message,
   },
+  InternalServerErrorFailure: {
+    "statusCode": 500,
+    "title": LocaleKeys.errors_internal_server_error_title,
+    "value": LocaleKeys.errors_internal_server_error_message,
+  },
+
 };

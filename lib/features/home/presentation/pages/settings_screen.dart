@@ -13,8 +13,19 @@ import '../../../../core/components/theme_dialog.dart';
 import '../../../auth/presentation/manager/bloc/auth_bloc.dart';
 import '../../../auth/presentation/widgets/logout_sheet.dart';
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    context.read<AuthBloc>().add(CheckUserType());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

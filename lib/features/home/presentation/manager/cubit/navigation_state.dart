@@ -1,8 +1,12 @@
 part of 'navigation_cubit.dart';
 
 @immutable
-sealed class NavigationState {}
+class NavigationState {
+  final int index;
 
-final class InitState extends NavigationState {}
+  const NavigationState({this.index = 0});
 
-final class ChangeIndex extends NavigationState {}
+  NavigationState copyWith({int? index}) {
+    return NavigationState(index: index ?? this.index);
+  }
+}

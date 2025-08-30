@@ -60,6 +60,10 @@ class HttpRedirectionFailure extends Failure {
   const HttpRedirectionFailure([this.redirectUri]);
 }
 
+class InternalServerErrorFailure extends Failure {
+  const InternalServerErrorFailure();
+}
+
 // 💾 Cache / Offline
 class CacheReadFailure extends Failure {
   const CacheReadFailure();

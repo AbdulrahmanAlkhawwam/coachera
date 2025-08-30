@@ -31,6 +31,8 @@ class PreconditionFailedException implements Exception {}
 
 class TooManyRequestsException implements Exception {}
 
+class InternalServerErrorFException implements Exception {}
+
 class HttpRedirectionException implements Exception {
   final String message;
   final int statusCode;

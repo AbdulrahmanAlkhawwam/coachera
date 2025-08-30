@@ -1,6 +1,5 @@
-import 'package:coachera/features/course/data/model/material_model.dart';
 
-import '../../domain/entities/material.dart';
+import '../../../material/data/model/material_model.dart';
 import '../../domain/entities/section.dart';
 
 class SectionModel extends Section {

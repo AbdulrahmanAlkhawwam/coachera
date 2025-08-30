@@ -1,4 +1,4 @@
-import '../../data/model/material_model.dart';
+import '../../../material/data/model/material_model.dart';
 
 class Section {
   final DateTime createdAt;

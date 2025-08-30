@@ -126,6 +126,8 @@ abstract class  LocaleKeys {
   static const errors_retry_later_contact_support_message = 'errors.retry_later_contact_support.message';
   static const errors_unknown_error_title = 'errors.unknown_error.title';
   static const errors_unknown_error_message = 'errors.unknown_error.message';
+  static const errors_internal_server_error_title = 'errors.internal_server_error.title';
+  static const errors_internal_server_error_message = 'errors.internal_server_error.message';
   static const errors_purchase_failed_error_3_title = 'errors.purchase_failed_error_3.title';
   static const errors_purchase_failed_error_3_message = 'errors.purchase_failed_error_3.message';
   static const errors_already_subscribed_restore_title = 'errors.already_subscribed_restore.title';

@@ -245,6 +245,10 @@
       "title": "System Error",
       "message": "An internal error occurred. If this continues, please contact support."
     },
+    "internal_server_error": {
+      "title": "Internal Server Error",
+      "message": "An unexpected error occurred on the server. Please try again later."
+    },
     "retry_later_contact_support": {
       "title": "Please Try Again",
       "message": "We are unable to process your request at the moment. Try again later or contact support."
