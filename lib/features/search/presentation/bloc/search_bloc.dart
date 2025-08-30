@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:coachera/features/search/domain/entities/entity.dart';
 import 'package:coachera/features/search/domain/use_cases/get_entities_uc.dart';
+import 'package:coachera/features/search/domain/use_cases/search_uc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/utils/message.dart';
+import '../../domain/params/search_param.dart';
 
 part 'search_event.dart';
 
@@ -13,11 +15,14 @@ part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final GetEntitiesUC getEntitiesUC;
+  final SearchUC searchUC;
 
   SearchBloc({
     required this.getEntitiesUC,
+    required this.searchUC,
   }) : super(SearchState()) {
     on<GetEntities>(_getEntities);
+    on<Search>(_search);
   }
 
   // FutureOr<void> _getCategories(
@@ -73,6 +78,24 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       (entities) => emit(state.copyWith(
         status: SearchStatus.success,
         entities: entities,
+      )),
+    );
+  }
+
+  FutureOr<void> _search(Search event, Emitter<SearchState> emit) async {
+    if (event.param.input == "") {
+      emit(state.copyWith(status: SearchStatus.success, output: []));
+    }
+    emit(state.copyWith(status: SearchStatus.loading));
+    final response = await searchUC(event.param);
+    response.fold(
+      (failure) => emit(state.copyWith(
+        status: SearchStatus.error,
+        message: Message.fromFailure(failure),
+      )),
+      (output) => emit(state.copyWith(
+        status: SearchStatus.success,
+        output: output,
       )),
     );
   }

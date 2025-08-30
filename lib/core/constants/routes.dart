@@ -33,6 +33,8 @@ class Endpoint {
   /// search
   static String getEntities = '/search/entities';
 
+  static String search(String entity) => '/search/$entity';
+
   /// Favorite
   static String getFavorites = '/favorites/student';
 
@@ -52,6 +54,9 @@ class Endpoint {
   static String registerUser = '/auth/register';
   static String forgetPassword = '/auth/forgot-password';
   static String validateOTP = '/auth/validate-otp';
+
+  /// course
+  static String enroll(courseId) => '/enrollments/student/$courseId';
   static String courses = '/courses';
   static String recommendedCourses = '/courses/recommended';
   static String categories = '/categories';
@@ -90,6 +95,7 @@ class Routes {
   static const String instructor = '/home/instructor';
   static const String learningPaths = '/home/learning-path';
   static const String organizations = '/home/organizations';
+  static const String organizationDetails = '/home/organizations/organization';
   static const String notification = '/home/notification';
   static const String courses = "/courses";
   static const String search = "/home/search";
