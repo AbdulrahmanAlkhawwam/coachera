@@ -5,6 +5,7 @@ import '../../../../core/helpers/http/http_service.dart';
 import '../../../home/domain/param/list_param.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../model/course_model.dart';
+import '../model/enrollment_model.dart';
 
 // import '../../../home/data/models/user_model.dart';
 
@@ -14,6 +15,8 @@ abstract class CourseRemoteDataSource {
   Future<List<CourseModel>> getCourses({int? page});
 
   Future<List<CourseModel>> getRecommendedCourses(ListParam param);
+
+  Future<EnrollmentModel> enroll(int courseId);
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -59,6 +62,14 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
     final List<dynamic> courses = response.data["content"];
 
     return courses.map((e) => CourseModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<EnrollmentModel> enroll(int courseId) async {
+    final response = await http.handleApiCall(() async => await http.post(
+          Endpoint.enroll(courseId),
+        ));
+    return EnrollmentModel.fromJson(response.data);
   }
 
 // @override

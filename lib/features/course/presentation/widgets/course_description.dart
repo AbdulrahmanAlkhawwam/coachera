@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CourseDescription extends StatefulWidget {
-  final String title;
+  final String? title;
   final String body;
 
   const CourseDescription({
     super.key,
-    required this.title,
+    this.title,
     required this.body,
   });
 
@@ -24,14 +24,15 @@ class _CourseDescriptionState extends State<CourseDescription> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         /// Title
-        Text(
-          widget.title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+        if (widget.title != null)
+          Text(
+            widget.title!,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
-        ),
 
         const SizedBox(height: 8),
 

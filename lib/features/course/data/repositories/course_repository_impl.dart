@@ -1,4 +1,5 @@
 import 'package:coachera/features/course/domain/entities/course.dart';
+import 'package:coachera/features/course/domain/entities/enrollment.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
@@ -28,6 +29,10 @@ class CourseRepositoryImpl extends CourseRepository {
           ListParam param) async =>
       await AppUtils.safeCall(
           () async => await dataSource.getRecommendedCourses(param));
+
+  @override
+  Future<Either<Failure, Enrollment>> enroll(int courseId) async =>
+      await AppUtils.safeCall(() async => await dataSource.enroll(courseId));
 
 // @override
 // Future<Either<Failure, bool>> checkToken() async =>
