@@ -37,27 +37,12 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       bottom: context.bottomPadding,
                     ),
                     itemBuilder: (context, index) => ReviewCard(
-                      reviewerName: 'You',
-                      rating: context
-                          .read<ReviewBloc>()
-                          .state
-                          .reviews![index]
-                          .rating,
-                      reviewText: context
-                          .read<ReviewBloc>()
-                          .state
-                          .reviews![index]
-                          .comment,
-                      date: DateFormat("d MMM yyyy").format(context
-                          .read<ReviewBloc>()
-                          .state
-                          .reviews![index]
-                          .updatedAt),
+                      reviewer: 'You',
+                      review: context.read<ReviewBloc>().state.reviews[index],
                     ),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 8),
-                    itemCount:
-                        context.read<ReviewBloc>().state.reviews?.length ?? 0,
+                    itemCount: context.read<ReviewBloc>().state.reviews.length,
                   ),
               }),
     );

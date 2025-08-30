@@ -1,25 +1,21 @@
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:coachera/core/utils/app_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/rate.dart';
+import '../../domain/entities/review.dart';
 
 class ReviewCard extends StatelessWidget {
-  final String? courseTitle;
-  final String? reviewerName;
-  final int rating;
-  final String reviewText;
-  final String date;
+  final Review review;
+  final String? reviewer;
 
   const ReviewCard({
     super.key,
-    this.courseTitle,
-    required this.reviewerName,
-    required this.rating,
-    required this.reviewText,
-    required this.date,
+    required this.review,
+    this.reviewer,
   });
 
   @override
@@ -47,25 +43,25 @@ class ReviewCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (courseTitle != null)
-                      Text(
-                        courseTitle!,
-                        style: context.textTheme.titleSmall?.copyWith(
-                            color: context.colors.onPrimaryContainer),
-                      ),
+                    // if (review.courseId != null)
+                    //   Text(
+                    //     courseTitle!,
+                    //     style: context.textTheme.titleSmall?.copyWith(
+                    //         color: context.colors.onPrimaryContainer),
+                    //   ),
                     Text(
-                      reviewerName ?? "Unknown User",
+                      reviewer ?? "Unknown User",
                       style: context.textTheme.labelLarge
                           ?.copyWith(color: context.colors.primary),
                     ),
                     Text(
-                      date,
+                      DateFormat("d MMM yyyy").format(review.updatedAt),
                       style: context.textTheme.labelLarge
                           ?.copyWith(color: context.colors.outline),
                     ),
                     const SizedBox(height: 8),
                     Rate(
-                      rate: rating.toDouble(),
+                      rate: review.rating.toDouble(),
                       startSize: 16.0,
                     ),
                   ],
@@ -74,7 +70,7 @@ class ReviewCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              reviewText,
+              review.comment,
               style: context.textTheme.labelLarge,
             ),
             const SizedBox(height: 8),

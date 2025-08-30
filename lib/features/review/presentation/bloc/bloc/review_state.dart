@@ -11,12 +11,12 @@ enum ReviewStatus {
 class ReviewState {
   final ReviewStatus status;
   final Message? message;
-  final List<Review>? reviews;
+  final List<Review> reviews;
 
   const ReviewState({
     this.status = ReviewStatus.init,
     this.message,
-    this.reviews,
+    this.reviews = const [],
   });
 
   ReviewState copyWith({
