@@ -8,7 +8,7 @@ import '../../features/home/domain/use_cases/add_favorite_uc.dart';
 import '../../features/home/domain/use_cases/delete_favorite_uc.dart';
 import '../../features/home/domain/use_cases/get_favorite_uc.dart';
 import '../../features/home/domain/use_cases/get_favorites_uc.dart';
-import '../../features/home/presentation/manager/bloc/favorite_bloc.dart';
+import '../../features/home/presentation/manager/favorite_bloc/favorite_bloc.dart';
 
 Future<void> initializeFavoriteServices(GetIt sl) async {
   sl.registerLazySingleton<FavoriteRemoteDataSource>(

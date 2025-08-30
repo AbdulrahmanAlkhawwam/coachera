@@ -1,13 +1,13 @@
 import 'package:coachera/core/constants/res.dart';
 import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/utils/app_image.dart';
-import 'package:coachera/features/course/presentation/widgets/course_horizontal_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_context.dart';
 import '../../../auth/presentation/manager/bloc/auth_bloc.dart';
-import '../manager/bloc/favorite_bloc.dart';
+import '../../../course/presentation/widgets/course_horizontal_card.dart';
+import '../manager/favorite_bloc/favorite_bloc.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -20,6 +20,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<AuthBloc>().add(CheckUserType());
     context.read<AuthBloc>().state.userStatus != UserStatus.guest
         ? context.read<FavoriteBloc>().add(GetFavorites())
         : null;
@@ -29,7 +30,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        print("123432123${state.userStatus}");
         if (state.status == AuthStatus.error) {
           context.showErrorSnackBar(massage: state.message);
         }
