@@ -5,13 +5,14 @@ import 'package:provider/provider.dart';
 
 import '../core/constants/routes.dart';
 import '../core/theme/theme.dart';
-import '../core/utils/app_context.dart';
 import '../core/service_locator/service_locator.dart';
 import 'auth/presentation/manager/bloc/auth_bloc.dart';
+import 'category/presentation/bloc/bloc/category_bloc.dart';
 import 'course/presentation/bloc/bloc/course_bloc.dart';
-import 'home/presentation/manager/bloc/favorite_bloc.dart';
 import 'home/presentation/manager/cubit/navigation_cubit.dart';
 import 'home/presentation/manager/cubit/theme_notifier.dart';
+import 'home/presentation/manager/favorite_bloc/favorite_bloc.dart';
+import 'home/presentation/manager/notification_bloc/notification_bloc.dart';
 import 'instructor/presentation/bloc/bloc/instructor_bloc.dart';
 import 'learningPath/presentation/bloc/bloc/learning_path_bloc.dart';
 import 'material/presentation/bloc/bloc/material_bloc.dart';
@@ -33,34 +34,44 @@ class _AppState extends State<App> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => sl.get<AuthBloc>()
-            ..add(CheckUserType())
-            ..add(GetMe()),
+          create: (_) => sl.get<AuthBloc>()..add(CheckUserType()),
           lazy: false,
         ),
+        BlocProvider(
+          create: (_) => sl.get<FavoriteBloc>()..add(GetFavorites()),
+          lazy: false,
+        ),
+        BlocProvider(create: (_) => sl.get<NotificationBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<CourseBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<NavigationCubit>(), lazy: false),
-        BlocProvider(create: (_) => sl.get<FavoriteBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<ModuleBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<MaterialBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<ReviewBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<OrganizationBloc>(), lazy: false),
+        BlocProvider(create: (_) => sl.get<CategoryBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<SearchBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<InstructorBloc>(), lazy: false),
         BlocProvider(create: (_) => sl.get<LearningPathBloc>(), lazy: false),
       ],
-      child: ChangeNotifierProvider(
-        create: (_) => sl<ThemeNotifier>(),
-        builder: (context, child) => MaterialApp(
-          initialRoute: Routes.initialRoute,
-          onGenerateRoute: Routes.onGenerateRoute,
-          debugShowCheckedModeBanner: false,
-          theme: Theme.lightTheme,
-          themeMode: context.watch<ThemeNotifier>().themeMode,
-          darkTheme: Theme.darkTheme,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.authorized) {
+            context.read<NotificationBloc>().add(GetUnreadNotification());
+          }
+        },
+        child: ChangeNotifierProvider(
+          create: (_) => sl<ThemeNotifier>(),
+          builder: (context, child) => MaterialApp(
+            initialRoute: Routes.initialRoute,
+            onGenerateRoute: Routes.onGenerateRoute,
+            debugShowCheckedModeBanner: false,
+            theme: Theme.lightTheme,
+            themeMode: context.watch<ThemeNotifier>().themeMode,
+            darkTheme: Theme.darkTheme,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+          ),
         ),
       ),
     );

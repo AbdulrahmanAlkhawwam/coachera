@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1021305298584",
-    "project_id": "coachera-dev",
-    "storage_bucket": "coachera-dev.firebasestorage.app"
+    "project_number": "690396129580",
+    "project_id": "coachera-notifications",
+    "storage_bucket": "coachera-notifications.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1021305298584:android:295952f433f871d549baed",
+        "mobilesdk_app_id": "1:690396129580:android:2d2693a5d701072e17a489",
         "android_client_info": {
           "package_name": "com.example.coachera"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCOo_QADJNlgaG8dznJzY04mMq2TfYBUso"
+          "current_key": "AIzaSyCwfmFTyGWtNq_x21JdVPlYrL8e-EvsSSM"
         }
       ],
       "services": {

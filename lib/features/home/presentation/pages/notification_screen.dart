@@ -1,4 +1,5 @@
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -95,11 +96,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   color: context.colors.onPrimaryContainer.withAlpha(160)),
             ),
             Spacer(),
-            OutlinedButton(
-              onPressed: () => context.pushReplacement(Routes.login),
-              child: Text('Login now !'),
-            ),
-            Spacer(),
+            if (context.read<AuthBloc>().state.userStatus ==
+                UserStatus.guest) ...[
+              OutlinedButton(
+                onPressed: () => context.pushReplacement(Routes.login),
+                child: Text('Login now !'),
+              ),
+              Spacer(),
+            ]
           ],
         ),
       ),

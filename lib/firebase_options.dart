@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCOo_QADJNlgaG8dznJzY04mMq2TfYBUso',
-    appId: '1:1021305298584:android:295952f433f871d549baed',
-    messagingSenderId: '1021305298584',
-    projectId: 'coachera-dev',
-    storageBucket: 'coachera-dev.firebasestorage.app',
+    apiKey: 'AIzaSyCwfmFTyGWtNq_x21JdVPlYrL8e-EvsSSM',
+    appId: '1:690396129580:android:2d2693a5d701072e17a489',
+    messagingSenderId: '690396129580',
+    projectId: 'coachera-notifications',
+    storageBucket: 'coachera-notifications.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyANLQDmNy4rrToUIXX1uLDcqHZ6NtaTdAg',
-    appId: '1:1021305298584:ios:cbc8879bdf45d5cf49baed',
-    messagingSenderId: '1021305298584',
-    projectId: 'coachera-dev',
-    storageBucket: 'coachera-dev.firebasestorage.app',
+    apiKey: 'AIzaSyB_wG58rny8XcBkVcF72p6MgeAgXK5KNdY',
+    appId: '1:690396129580:ios:4be02485bd0bdef917a489',
+    messagingSenderId: '690396129580',
+    projectId: 'coachera-notifications',
+    storageBucket: 'coachera-notifications.firebasestorage.app',
     iosBundleId: 'com.example.coachera',
   );
+
 }
