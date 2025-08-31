@@ -10,11 +10,11 @@ import '../entities/enrollment.dart';
 abstract class CourseRepository {
   Future<Either<Failure, List<Course>>> getCourses({int? page});
 
-  Future<Either<Failure, List<Course>>> getRecommendedCourses(
-      ListParam param);
+  Future<Either<Failure, List<Course>>> getRecommendedCourses(ListParam param);
 
-  Future<Either<Failure,
-      Enrollment>> enroll(int courseId);
+  Future<Either<Failure, Enrollment>> enroll(int courseId);
+
+  Future<Either<Failure, List<Course>>> getInstructorCourses(int instructorId);
 
 // Future<Either<Failure, void>> login(LoginParam param);
 

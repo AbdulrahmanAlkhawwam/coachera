@@ -17,6 +17,8 @@ abstract class CourseRemoteDataSource {
   Future<List<CourseModel>> getRecommendedCourses(ListParam param);
 
   Future<EnrollmentModel> enroll(int courseId);
+
+  Future<List<CourseModel>> getInstructorCourses(int instructorId);
 // Future<String> login(LoginParam param);
 
 // Future<void> logout();
@@ -70,6 +72,16 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
           Endpoint.enroll(courseId),
         ));
     return EnrollmentModel.fromJson(response.data);
+  }
+
+  @override
+  Future<List<CourseModel>> getInstructorCourses(int instructorId) async {
+    final response = await http.handleApiCall(
+        () async => await http.get(Endpoint.instructorCourses(instructorId)));
+
+    final List<dynamic> courses = response.data["content"];
+
+    return courses.map((e) => CourseModel.fromJson(e)).toList();
   }
 
 // @override

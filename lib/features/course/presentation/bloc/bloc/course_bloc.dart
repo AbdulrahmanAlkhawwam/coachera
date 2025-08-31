@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:coachera/features/course/domain/use_cases/get_instructor_courses_uc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/utils/message.dart';
@@ -15,13 +16,16 @@ part 'course_state.dart';
 
 class CourseBloc extends Bloc<CourseEvent, CourseState> {
   final GetRecommendedCoursesUC getRecommendedCoursesUc;
+  final GetInstructorCoursesUC getInstructorCoursesUC;
   final EnrollCourseUC enrollCourseUc;
 
   CourseBloc({
     required this.getRecommendedCoursesUc,
+    required this.getInstructorCoursesUC,
     required this.enrollCourseUc,
   }) : super(CourseState()) {
     on<GetRecommendedCourses>(_getRecommendedCourses);
+    on<GetInstructorCourses>(_getInstructorCourses);
     on<EnrollCourse>(_enrollCourse);
   }
 
@@ -61,5 +65,21 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       )),
       (_) => emit(state.copyWith(status: CourseStatus.success)),
     );
+  }
+
+  FutureOr<void> _getInstructorCourses(
+      GetInstructorCourses event, Emitter<CourseState> emit) async {
+    emit(state.copyWith(status: CourseStatus.loading));
+    final response = await getInstructorCoursesUC(event.instructorId);
+
+    response.fold(
+        (failure) => emit(state.copyWith(
+              status: CourseStatus.error,
+              message: Message.fromFailure(failure),
+            )),
+        (instructorCourses) => emit(state.copyWith(
+              status: CourseStatus.success,
+              courses: instructorCourses,
+            )));
   }
 }

@@ -24,3 +24,9 @@ class EnrollCourse extends CourseEvent {
 
   EnrollCourse({required this.courseId});
 }
+
+class GetInstructorCourses extends CourseEvent {
+  final int instructorId ;
+
+  GetInstructorCourses({required this.instructorId});
+}

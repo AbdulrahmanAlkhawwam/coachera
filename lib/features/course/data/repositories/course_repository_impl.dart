@@ -34,6 +34,12 @@ class CourseRepositoryImpl extends CourseRepository {
   Future<Either<Failure, Enrollment>> enroll(int courseId) async =>
       await AppUtils.safeCall(() async => await dataSource.enroll(courseId));
 
+  @override
+  Future<Either<Failure, List<Course>>> getInstructorCourses(
+          int instructorId) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getInstructorCourses(instructorId));
+
 // @override
 // Future<Either<Failure, bool>> checkToken() async =>
 //     await AppUtils.safeCall(() => storage.checkToken());
