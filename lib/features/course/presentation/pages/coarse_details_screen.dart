@@ -1,14 +1,25 @@
-import 'package:flutter/material.dart';
+import 'package:coachera/features/home/presentation/widgets/organizations_list.dart';
+import 'package:coachera/features/instructor/presentation/bloc/bloc/instructor_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart' hide MaterialType;
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../core/components/list_tile_item.dart';
+import '../../../../core/components/rate.dart';
+import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/utils/app_image.dart';
-import '../../../home/presentation/manager/bloc/favorite_bloc.dart';
+import '../../../home/presentation/manager/favorite_bloc/favorite_bloc.dart';
+import '../../../material/domain/entities/material_type.dart';
+import '../../../module/presentation/bloc/bloc/module_bloc.dart';
+import '../../../material/data/model/material_model.dart';
+import '../../../organization/presentation/bloc/bloc/organization_bloc.dart';
+import '../../../organization/presentation/widgets/organization_card.dart';
+import '../../../review/presentation/bloc/bloc/review_bloc.dart';
+import '../../../review/presentation/widgets/review_card.dart';
 import '../../domain/entities/course.dart';
-import '../../domain/entities/module.dart';
 import '../bloc/bloc/course_bloc.dart';
 import '../widgets/course_description.dart';
 
@@ -30,7 +41,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   void initState() {
     super.initState();
     context.read<FavoriteBloc>().add(GetFavorite(courseId: widget.course.id));
-    context.read<CourseBloc>().add(GetModules(courseId: widget.course.id));
+    context.read<ReviewBloc>().add(GetCourseReview(courseId: widget.course.id));
+    context.read<ModuleBloc>().add(GetModules(courseId: widget.course.id));
+    context
+        .read<InstructorBloc>()
+        .add(GetCourseInstructors(courseId: widget.course.id));
+    context
+        .read<OrganizationBloc>()
+        .add(GetOrganization(orgId: widget.course.orgId));
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -73,12 +91,14 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                       children: [
                         Row(
                           children: [
-                            Text(
-                              widget.course.title,
-                              style: context.textTheme.titleLarge
-                                  ?.copyWith(color: Colors.white),
+                            Expanded(
+                              child: Text(
+                                widget.course.title,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.textTheme.titleLarge,
+                              ),
                             ),
-                            Spacer(),
                             BlocConsumer<FavoriteBloc, FavoriteState>(
                               listener: (context, state) {
                                 if (state.status == FavoriteStatus.error) {
@@ -96,8 +116,9 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                             courseId: widget.course.id)),
                                 icon: state.status == FavoriteStatus.loading
                                     ? Shimmer.fromColors(
-                                        baseColor: Colors.grey.shade300,
-                                        highlightColor: Colors.grey.shade100,
+                                        baseColor: context.colors.outline,
+                                        highlightColor:
+                                            context.colors.outlineVariant,
                                         child: Icon(TablerIcons.heart_filled),
                                       )
                                     : Icon(
@@ -115,41 +136,36 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                         const SizedBox(height: 8),
                         Row(
                           children: [
-                            RatingBarIndicator(
-                              rating: (widget.course.rating * 2).round() / 2,
-                              itemBuilder: (context, index) => Icon(
-                                TablerIcons.star_filled,
-                                color: context.colors.secondary,
-                              ),
-                              itemCount: 5,
-                              itemSize: 22.0,
-                              unratedColor: Colors.grey[600],
-                              direction: Axis.horizontal,
-                            ),
+                            Rate(rate: widget.course.rating * 2.round() / 2),
                             const SizedBox(width: 4),
-                            Text(widget.course.rating.toString(),
-                                style: TextStyle(color: Colors.white)),
+                            Text(widget.course.rating.toString()),
                             const SizedBox(width: 8),
                             Text(
                                 widget.course.instructors.length > 1
                                     ? "By Some Instructors"
                                     : widget.course.instructors.firstOrNull ==
                                             null
-                                        ? ""
-                                        : "by ${widget.course.instructors.first}",
-                                style: TextStyle(color: Color(0xFFA7A7A7))),
+                                        ? ''
+                                        : "by ${context.read<InstructorBloc>().state.instructors.firstOrNull?.name}",
+                                style: context.textTheme.bodyMedium?.copyWith(
+                                  color: context.colors.primary,
+                                  fontWeight: FontWeight.w600,
+                                )),
                           ],
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text("All Levels",
-                                style: TextStyle(color: Color(0xFFA7A7A7))),
-                            Text("1.2k students",
-                                style: TextStyle(color: Color(0xFFA7A7A7))),
-                            Text("12 Lessons",
-                                style: TextStyle(color: Color(0xFFA7A7A7))),
+                          children: [
+                            Text("${widget.course.price} \$",
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: context.colors.primary,
+                                )),
+                            Text(widget.course.durationHours,
+                                style: context.textTheme.bodyMedium?.copyWith(
+                                  color: context.colors.outlineVariant
+                                      .withAlpha(160),
+                                )),
                           ],
                         ),
                       ],
@@ -179,60 +195,40 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           ],
         ),
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(
             left: 24.0,
             right: 24.0,
             top: 16,
             bottom: 16 + context.bottomPadding),
-        child: Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text("Buy Now",
-                    style: TextStyle(color: Colors.black)),
-              ),
-            ),
-            const SizedBox(width: 8.0),
-            Expanded(
-              child: FilledButton(
-                onPressed: () {},
-                child: const Text("Buy Now",
-                    style: TextStyle(color: Colors.black)),
-              ),
-            ),
-          ],
+        child: FilledButton(
+          onPressed: () => context
+              .read<CourseBloc>()
+              .add(EnrollCourse(courseId: widget.course.id)),
+          child: const Text("Enroll Now"),
         ),
       ),
     );
   }
 
   Widget _buildDetailsTab() {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CourseDescription(
               title: "About this course",
-              body:
-                  "This course will guide you through the basics of mindfulness and how to apply meditation in your daily life. "
-                  "You'll learn different techniques, explore the science behind mindfulness, and develop habits that support mental well-being. "
-                  "By the end of this course, you will be able to integrate mindfulness into your routine and lead a more balanced life.",
+              body: widget.course.description,
             ),
-            const SizedBox(
-              height: 8.0,
-            ),
-            CourseDescription(
-              title: "About this course",
-              body:
-                  "This course will guide you through the basics of mindfulness and how to apply meditation in your daily life. "
-                  "You'll learn different techniques, explore the science behind mindfulness, and develop habits that support mental well-being. "
-                  "By the end of this course, you will be able to integrate mindfulness into your routine and lead a more balanced life.",
-            ),
+            const SizedBox(height: 8),
+// todo : don't forget to add instrctors list
+            BlocBuilder<OrganizationBloc, OrganizationState>(
+                builder: (context, state) => OrganizationCard(
+                      organization: state.organization,
+                      loading: state.status == OrganizationStatus.loading,
+                    ))
           ],
         ),
       ),
@@ -240,110 +236,183 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   }
 
   Widget _buildLessonsTab() {
-    final List<Module> modules = context.read<CourseBloc>().state.modules ;
+    return BlocBuilder<ModuleBloc, ModuleState>(
+      builder: (context, state) => state.status == ModuleStatus.loading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.status == ModuleStatus.loading
+                  ? 3
+                  : context.read<ModuleBloc>().state.modules.length,
+              itemBuilder: (context, moduleIndex) {
+                final module = state.status == ModuleStatus.loading
+                    ? null
+                    : context.read<ModuleBloc>().state.modules[moduleIndex];
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: modules.length,
-      itemBuilder: (context, moduleIndex) {
-        final module = modules[moduleIndex];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              module.title,
-              style: const TextStyle(
-                color: Color(0xFF00D1B7),
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            ...List.generate(module.sections.length, (sectionIndex) {
-              final section = module.sections[sectionIndex];
-              final isExpanded = _expandedIndex == '$moduleIndex-$sectionIndex';
-
-              return Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2D2D30),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ExpansionTile(
-                  onExpansionChanged: (expanded) {
-                    setState(() => _expandedIndex =
-                        expanded ? '$moduleIndex-$sectionIndex' : null);
-                  },
-                  initiallyExpanded: isExpanded,
-                  trailing: Icon(
-                    isExpanded ? Icons.remove : Icons.add,
-                    color: Colors.white,
-                  ),
-                  title: Text(
-                    section.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  children: List.generate(
-                    section.materials.length,
-                    (lessonIndex) {
-                      final lesson = section.materials[lessonIndex];
-                      return ListTile(
-                        leading: CircleAvatar(
-                          radius: 16,
-                          backgroundColor: const Color(0xFF00D1B7),
-                          child: Text(
-                            '${lessonIndex + 1}'.padLeft(2, '0'),
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    state.status == ModuleStatus.loading
+                        ? Shimmer.fromColors(
+                            baseColor: context.colors.outline,
+                            highlightColor: context.colors.outlineVariant,
+                            child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              width: context.width / 3,
+                              height: 10,
                             ),
-                          ),
-                        ),
-                        title: Text(
-                          lesson.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        trailing: Icon(
-                          // todo : add logic for locked
-                          // lesson['locked']
-                          true ? Icons.lock_outline : Icons.play_circle_fill,
-                          color:
-                              // lesson['locked']
-                              true ? Colors.grey : const Color(0xFFFFBD12),
-                          size: 28,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              );
-            }),
-          ],
-        );
-      },
+                          )
+                        : Text(module!.title.split(" -").first,
+                            style: context.textTheme.bodyLarge
+                                ?.copyWith(color: context.colors.onSurface)),
+                    const SizedBox(height: 8),
+                    ...List.generate(
+                      module?.sections.length ?? 0,
+                      (sectionIndex) {
+                        final section = module!.sections[sectionIndex];
+                        final isExpanded =
+                            _expandedIndex == '$moduleIndex-$sectionIndex';
+
+                        return state.status == ModuleStatus.loading
+                            ? Shimmer.fromColors(
+                                baseColor: context.colors.outline,
+                                highlightColor: context.colors.outlineVariant,
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(vertical: 8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  width: double.infinity,
+                                  height: 80,
+                                ),
+                              )
+                            : Container(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                decoration: BoxDecoration(
+                                  color: context.colors.primaryContainer,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: ExpansionTile(
+                                  onExpansionChanged: (expanded) {
+                                    setState(() => _expandedIndex = expanded
+                                        ? '$moduleIndex-$sectionIndex'
+                                        : null);
+                                  },
+                                  initiallyExpanded: isExpanded,
+                                  trailing: Icon(
+                                    isExpanded
+                                        ? TablerIcons.plus
+                                        : TablerIcons.minus,
+                                  ),
+                                  title: Text(section.title.split(" -").first),
+                                  children: List.generate(
+                                    section.materials.length,
+                                    (lessonIndex) {
+                                      final lesson =
+                                          section.materials[lessonIndex];
+                                      return ListTileItem(
+                                        icon: switch (lesson.type) {
+                                          MaterialType.VIDEO =>
+                                            TablerIcons.video,
+                                          MaterialType.QUIZ =>
+                                            TablerIcons.help_octagon,
+                                          MaterialType.ARTICLE =>
+                                            TablerIcons.news,
+                                        },
+                                        label: lesson.title.split(" -").first,
+                                        subLabel:
+                                            lesson.type.name.toLowerCase(),
+                                        onTap: () => context.push(
+                                            switch (lesson.type) {
+                                              MaterialType.VIDEO =>
+                                                Routes.videoLesson,
+                                              MaterialType.QUIZ =>
+                                                Routes.quizLesson,
+                                              MaterialType.ARTICLE =>
+                                                Routes.reviews,
+                                            },
+                                            arguments: {"material": lesson}),
+                                      );
+/*ListTile(
+                                        onTap: () {
+                                          String route;
+
+                                          if (lesson.type.name ==
+                                              MaterialType.VIDEO.name) {
+                                            route = Routes.videoLesson;
+                                          } else if (lesson.type.name ==
+                                              MaterialType.QUIZ.name) {
+                                            route = Routes.quizLesson;
+                                          } else {
+                                            route = Routes.reviews;
+                                          }
+
+                                          context.push(route,
+                                              arguments: {"material": lesson});
+                                        },
+                                        leading: CircleAvatar(
+                                          radius: 16,
+                                          backgroundColor:
+                                              context.colors.primary,
+                                          child: Text(
+                                              '${lessonIndex + 1}'
+                                                  .padLeft(2, '0'),
+                                              style: context
+                                                  .textTheme.labelLarge
+                                                  ?.copyWith(
+                                                      color: context
+                                                          .colors.onPrimary)),
+                                        ),
+                                        title: Text(
+                                          lesson.title.split(" -").first,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                            lesson.type.name.toLowerCase()),
+                                        trailing: Icon(
+                                          // todo : add logic for locked
+                                          // lesson['locked']
+                                          true
+                                              ? Icons.lock_outline
+                                              : Icons.play_circle_fill,
+                                          color:
+                                              // lesson['locked']
+                                              true
+                                                  ? Colors.grey
+                                                  : const Color(0xFFFFBD12),
+                                          size: 28,
+                                        ),
+                                      );*/
+                                    },
+                                  ),
+                                ),
+                              );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
     );
   }
 
   Widget _buildReviewsTab() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: 5,
-      itemBuilder: (context, index) => Card(
-        color: const Color(0xFF2D2D30),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        child: const ListTile(
-          title: Text("Great course!", style: TextStyle(color: Colors.white)),
-          subtitle: Text("Really helped me to stay focused.",
-              style: TextStyle(color: Color(0xFFA7A7A7))),
-        ),
-      ),
+    return BlocBuilder<ReviewBloc, ReviewState>(
+      builder: (context, state) => state.status == ReviewStatus.loading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: state.reviews.length,
+              itemBuilder: (context, index) =>
+                  ReviewCard(review: state.reviews[index])),
     );
   }
 }

@@ -13,6 +13,7 @@ import '../../features/home/presentation/pages/main_screen.dart';
 import '../../features/home/presentation/pages/notification_screen.dart';
 import '../../features/home/presentation/pages/privacy_condition_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
+import '../../features/instructor/presentation/pages/instructor_details_screen.dart';
 import '../../features/instructor/presentation/pages/instructors_screen.dart';
 import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
 import '../../features/material/presentation/pages/quiz_lesson_screen.dart';
@@ -46,6 +47,7 @@ class Endpoint {
 
   /// instructor
   static String instructors = '/instructors';
+  static String courseInstructors(courseId) => '/instructors/courses/$courseId';
 
   /// Auth
   static String login = '/auth/login';
@@ -61,6 +63,8 @@ class Endpoint {
   static String recommendedCourses = '/courses/recommended';
   static String categories = '/categories';
   static String changePassword = '/auth/reset-password';
+  static String instructorCourses(instructorId) =>
+      '/instructors/$instructorId/courses';
 
   /// review
   static String courseReviews(courseId) => '/reviews/course/$courseId';
@@ -92,7 +96,8 @@ class Routes {
   static const String quizLesson = '/courses/course/quiz-material';
   static const String payment = '/profile/payment';
   static const String reviews = '/profile/reviews';
-  static const String instructor = '/home/instructor';
+  static const String instructors = '/home/instructors';
+  static const String instructorDetails = '/home/instructors/instructor';
   static const String learningPaths = '/home/learning-path';
   static const String organizations = '/home/organizations';
   static const String organizationDetails = '/home/organizations/organization';
@@ -125,7 +130,10 @@ class Routes {
         VideoLessonScreen(lesson: arguments['material']),
     quizLesson: (context, arguments) =>
         QuizLessonScreen(quiz: arguments["material"]),
-    instructor: (context, arguments) => InstructorScreen(),
+    instructors: (context, arguments) => InstructorScreen(),
+    instructorDetails: (context, arguments) => InstructorDetailsScreen(
+          instructor: arguments['instructor'],
+        ),
     courseDetails: (context, arguments) =>
         CourseDetailsScreen(course: arguments['course']),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
