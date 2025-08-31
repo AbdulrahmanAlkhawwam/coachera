@@ -9,6 +9,8 @@ import '../model/instructor_model.dart';
 
 abstract class InstructorRemoteDataSource {
   Future<List<InstructorModel>> getInstructors(ListParam param);
+
+  Future<List<InstructorModel>> getCourseInstructors(int courseId);
 // Future <CourseModel> getCourse ({int id});
 
 // Future<List<CourseModel>> getCourses({int? page});
@@ -43,6 +45,16 @@ class InstructorRemoteDataSourceImpl extends InstructorRemoteDataSource {
         ));
 
     final List<dynamic> instructors = response.data["content"];
+
+    return instructors.map((e) => InstructorModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<InstructorModel>> getCourseInstructors(int courseId) async {
+    final response = await http.handleApiCall(
+        () async => await http.get(Endpoint.courseInstructors(courseId)));
+
+    final List<dynamic> instructors = response.data;
 
     return instructors.map((e) => InstructorModel.fromJson(e)).toList();
   }

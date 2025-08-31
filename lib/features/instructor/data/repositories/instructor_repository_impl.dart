@@ -23,6 +23,12 @@ class InstructorRepositoryImpl extends InstructorRepository {
       await AppUtils.safeCall(
           () async => await dataSource.getInstructors(param));
 
+  @override
+  Future<Either<Failure, List<Instructor>>> getCourseInstructors(
+          int courseId) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getCourseInstructors(courseId));
+
 // @override
 // Future<Either<Failure, List<Course>>> getCourses({int? page}) async =>
 //     await AppUtils.safeCall(

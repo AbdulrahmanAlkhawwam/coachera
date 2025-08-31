@@ -8,6 +8,7 @@ import '../entities/instructor.dart';
 abstract class InstructorRepository {
 
  Future<Either<Failure, List<Instructor>>> getInstructors (ListParam param );
+ Future<Either<Failure, List<Instructor>>> getCourseInstructors(int courseId);
 
   // Future<Either<Failure, List<Course>>> getCourses({int? page});
 

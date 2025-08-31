@@ -10,3 +10,9 @@ class GetInstructors extends InstructorEvent {
     required this.param,
   });
 }
+
+class GetCourseInstructors extends InstructorEvent {
+  final int courseId;
+
+  GetCourseInstructors({required this.courseId});
+}

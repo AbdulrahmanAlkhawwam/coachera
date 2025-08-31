@@ -95,7 +95,8 @@ class _InstructorScreenState extends State<InstructorScreen> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Instructor>(
                 itemBuilder: (context, item, index) => ListTile(
-                  onTap: () => context.push(Routes.instructor),
+                  onTap: () => context.push(Routes.instructorDetails,
+                      arguments: {'instructor': item}),
                   leading: CircleAvatar(child: Text(item.id.toString())),
                   title: Text(item.name),
                   subtitle: Text(item.bio,
