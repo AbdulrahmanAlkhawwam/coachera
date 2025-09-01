@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/constants/routes.dart';
 import '../../../course/domain/entities/course.dart';
-import '../../../course/presentation/widgets/course_vertical_card.dart';
+import '../../../course/presentation/widgets/course_card.dart';
 
 class CoursesList extends StatelessWidget {
   const CoursesList({
@@ -38,7 +38,7 @@ class CoursesList extends StatelessWidget {
           ),
           itemCount: loading ? 8 : courses.length,
           scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => CourseVerticalCard(
+          itemBuilder: (context, index) => CourseCard(
             loading: loading,
             course: loading ? null : courses[index],
           ),

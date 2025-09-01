@@ -26,7 +26,15 @@ class EnrollCourse extends CourseEvent {
 }
 
 class GetInstructorCourses extends CourseEvent {
-  final int instructorId ;
+  final int instructorId;
 
   GetInstructorCourses({required this.instructorId});
+}
+
+class GetUserCourses extends CourseEvent {}
+
+class GetLearningPathCourses extends CourseEvent {
+  final int learningPathId;
+
+  GetLearningPathCourses({required this.learningPathId});
 }

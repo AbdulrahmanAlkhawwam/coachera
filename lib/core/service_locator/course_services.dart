@@ -1,4 +1,5 @@
-
+import 'package:coachera/features/course/domain/use_cases/get_learning_path_courses_uc.dart';
+import 'package:coachera/features/course/domain/use_cases/get_progress_uc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/course/data/data_source/course_remote_data_source.dart';
@@ -18,11 +19,17 @@ Future<void> initializeCourseServices(GetIt sl) async {
       () => GetRecommendedCoursesUC(repository: sl()));
   sl.registerLazySingleton<GetInstructorCoursesUC>(
       () => GetInstructorCoursesUC(repository: sl()));
+  sl.registerLazySingleton<GetProgressUC>(
+      () => GetProgressUC(repository: sl()));
   sl.registerLazySingleton<EnrollCourseUC>(
       () => EnrollCourseUC(repository: sl()));
+  sl.registerLazySingleton<GetLearningPathCoursesUC>(
+      () => GetLearningPathCoursesUC(repository: sl()));
   sl.registerFactory<CourseBloc>(() => CourseBloc(
         getRecommendedCoursesUc: sl(),
+        getProgressUC: sl(),
         enrollCourseUc: sl(),
         getInstructorCoursesUC: sl(),
+        getLearningPathCoursesUC: sl(),
       ));
 }

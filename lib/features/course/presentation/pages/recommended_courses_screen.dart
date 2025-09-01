@@ -1,5 +1,7 @@
 import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/course/presentation/widgets/course_card.dart';
+import 'package:coachera/features/home/domain/entities/card_type.dart';
 import 'package:coachera/features/home/domain/param/sort_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,7 +13,6 @@ import '../../../home/domain/param/list_param.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../../domain/entities/course.dart';
 import '../bloc/bloc/course_bloc.dart';
-import '../widgets/course_horizontal_card.dart';
 
 class RecommendedCoursesScreen extends StatefulWidget {
   const RecommendedCoursesScreen({super.key});
@@ -97,7 +98,7 @@ class _RecommendedCoursesScreenState extends State<RecommendedCoursesScreen> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Course>(
                 itemBuilder: (context, item, index) =>
-                    CourseHorizontalCard(course: item),
+                    CourseCard(type: CardType.horizontal, course: item),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator()),
                 newPageProgressIndicatorBuilder: (context) =>

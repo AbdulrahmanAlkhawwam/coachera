@@ -6,15 +6,20 @@ import '../../../home/domain/param/list_param.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../entities/course.dart';
 import '../entities/enrollment.dart';
+import '../entities/progress.dart';
 
 abstract class CourseRepository {
-  Future<Either<Failure, List<Course>>> getCourses({int? page});
+  // Future<Either<Failure, List<Course>>> getCourses({int? page});
 
   Future<Either<Failure, List<Course>>> getRecommendedCourses(ListParam param);
 
   Future<Either<Failure, Enrollment>> enroll(int courseId);
 
   Future<Either<Failure, List<Course>>> getInstructorCourses(int instructorId);
+
+  Future<Either<Failure, List<Course>>> getLearningPathCourses (int learningPathId);
+
+  Future<Either<Failure, List<Progress>>> getProgress();
 
 // Future<Either<Failure, void>> login(LoginParam param);
 
