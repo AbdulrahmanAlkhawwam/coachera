@@ -13,6 +13,7 @@ class Res {
   static String searchLight = 'assets/svgs/search_light.svg';
   static String notificationDark = 'assets/svgs/notification_dark.svg';
   static String notificationLight = 'assets/svgs/notification_light.svg';
+  static String learningPathAds = 'assets/svgs/learning_path_ads.svg';
 
   /// payment
   static String googlePay = 'assets/svgs/google_pay.svg';

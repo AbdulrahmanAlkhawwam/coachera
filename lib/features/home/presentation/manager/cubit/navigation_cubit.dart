@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../auth/presentation/pages/profile_screen.dart';
 import '../../../../course/presentation/pages/recommended_courses_screen.dart';
+import '../../../../course/presentation/pages/user_courses_screen.dart';
 import '../../pages/favorite_screen.dart';
 import '../../pages/home_screen.dart';
 
@@ -11,10 +12,9 @@ part 'navigation_state.dart';
 class NavigationCubit extends Cubit<NavigationState> {
   NavigationCubit() : super(const NavigationState());
 
-  // الصفحات تبعك
   final List<Widget> screens = [
     HomeScreen(),
-    RecommendedCoursesScreen(),
+    UserCoursesScreen(),
     FavoriteScreen(),
     ProfileScreen(),
   ];

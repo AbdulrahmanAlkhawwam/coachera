@@ -1,3 +1,4 @@
+import 'package:coachera/features/learningPath/presentation/pages/learning_path_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
@@ -47,6 +48,7 @@ class Endpoint {
 
   /// instructor
   static String instructors = '/instructors';
+
   static String courseInstructors(courseId) => '/instructors/courses/$courseId';
 
   /// Auth
@@ -59,10 +61,16 @@ class Endpoint {
 
   /// course
   static String enroll(courseId) => '/enrollments/student/$courseId';
+  static String progress = '/enrollments/student';
   static String courses = '/courses';
   static String recommendedCourses = '/courses/recommended';
   static String categories = '/categories';
   static String changePassword = '/auth/reset-password';
+  static String confirmEmail = '/auth/confirm-email';
+
+  static String learningPathCourses(learningPathId) =>
+      '/learning-paths/courses/$learningPathId';
+
   static String instructorCourses(instructorId) =>
       '/instructors/$instructorId/courses';
 
@@ -98,7 +106,8 @@ class Routes {
   static const String reviews = '/profile/reviews';
   static const String instructors = '/home/instructors';
   static const String instructorDetails = '/home/instructors/instructor';
-  static const String learningPaths = '/home/learning-path';
+  static const String learningPaths = '/home/learning-paths';
+  static const String learningPath = '/home/learning-paths/learning-path';
   static const String organizations = '/home/organizations';
   static const String organizationDetails = '/home/organizations/organization';
   static const String notification = '/home/notification';
@@ -144,6 +153,8 @@ class Routes {
     payment: (context, argument) => PaymentsScreen(),
     reviews: (context, argument) => ReviewsScreen(),
     learningPaths: (context, argument) => LearningPathsScreen(),
+    learningPath: (context, argument) =>
+        LearningPathDetailsScreen(learningPath: argument['learning-path']),
     validateOtp: (context, argument) =>
         VerificationScreen(email: argument['email']),
     resetPassword: (context, argument) => ResetPasswordScreen(

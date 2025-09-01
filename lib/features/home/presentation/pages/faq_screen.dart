@@ -136,7 +136,7 @@ class _FAQScreenState extends State<FAQScreen>
             context.isLTR ? TablerIcons.chevron_left : TablerIcons.chevron_right,
           ),
         ),
-        title: Text("FAQ"), // <-- you can also localize this if needed
+        title: Text("FAQ"),
       ),
       body: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 16),

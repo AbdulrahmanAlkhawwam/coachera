@@ -11,7 +11,10 @@ import '../../../../core/components/rate.dart';
 import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/utils/app_image.dart';
+import '../../../home/domain/entities/card_type.dart';
 import '../../../home/presentation/manager/favorite_bloc/favorite_bloc.dart';
+import '../../../home/presentation/widgets/instructor_list.dart';
+import '../../../instructor/presentation/widgets/instructor_card.dart';
 import '../../../material/domain/entities/material_type.dart';
 import '../../../module/presentation/bloc/bloc/module_bloc.dart';
 import '../../../material/data/model/material_model.dart';
@@ -223,12 +226,46 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
               body: widget.course.description,
             ),
             const SizedBox(height: 8),
-// todo : don't forget to add instrctors list
             BlocBuilder<OrganizationBloc, OrganizationState>(
-                builder: (context, state) => OrganizationCard(
-                      organization: state.organization,
-                      loading: state.status == OrganizationStatus.loading,
-                    ))
+              builder: (context, state) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text("Course Organizations",
+                        style: context.textTheme.titleSmall),
+                  ),
+                  OrganizationCard(
+                    cardType: CardType.horizontal,
+                    organization: state.organization,
+                    loading: state.status == OrganizationStatus.loading,
+                  ),
+                ],
+              ),
+            ),
+            BlocBuilder<InstructorBloc, InstructorState>(
+              builder: (context, state) => state.instructors.length == 1
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Text("Course Instructors",
+                              style: context.textTheme.titleSmall),
+                        ),
+                        InstructorCard(
+                          cardType: CardType.horizontal,
+                          instructor: state.instructors.first,
+                          loading: state.status == InstructorStatus.loading,
+                        ),
+                      ],
+                    )
+                  : InstructorList(
+                      showMore: false,
+                      instructors: state.instructors,
+                      loading: state.status == InstructorStatus.loading,
+                    ),
+            ),
           ],
         ),
       ),

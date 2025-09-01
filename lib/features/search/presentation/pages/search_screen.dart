@@ -1,3 +1,5 @@
+import 'package:coachera/features/home/domain/entities/card_type.dart';
+import 'package:coachera/features/instructor/presentation/widgets/instructor_card.dart';
 import 'package:coachera/features/search/domain/entities/entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +12,11 @@ import '../../../../core/utils/app_context.dart';
 import '../../../category/presentation/bloc/bloc/category_bloc.dart';
 import '../../../course/domain/entities/course.dart';
 import '../../../course/presentation/bloc/bloc/course_bloc.dart';
-import '../../../course/presentation/widgets/course_horizontal_card.dart';
+import '../../../course/presentation/widgets/course_card.dart';
 import '../../../home/domain/param/list_param.dart';
 import '../../../home/domain/param/sort_param.dart';
 import '../../../home/presentation/widgets/courses_list.dart';
+import '../../../instructor/domain/entities/instructor.dart';
 import '../../../review/domain/entities/review.dart';
 import '../../../review/presentation/widgets/review_card.dart';
 import '../../domain/params/search_param.dart';
@@ -87,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           .name) {
                         "courses" => Routes.courses,
                         "reviews" => Routes.reviews,
-                        "instructors" => Routes.instructor,
+                        "instructors" => Routes.instructors,
                         "learning-paths" => Routes.learningPaths,
                         // "materials" => Routes.materials,
                         // "categories" => Routes.categories,
@@ -110,11 +113,16 @@ class _SearchScreenState extends State<SearchScreen> {
                             .firstOrNull
                             ?.name ??
                         "") {
-                      "courses" => CourseHorizontalCard(
-                          course: state.output[index] as Course),
+                      "courses" => CourseCard(
+                          type: CardType.horizontal,
+                          course: state.output[index] as Course,
+                        ),
                       "reviews" =>
                         ReviewCard(review: state.output[index] as Review),
-                      // "instructors" => InstructorCar(e),
+                      "instructors" => InstructorCard(
+                          cardType: CardType.horizontal,
+                          instructor: state.output[index] as Instructor,
+                        ),
                       // "learning-paths" => LearningPathModel.fromJson(e),
                       // "materials" => MaterialModel.fromJson(e),
                       "categories" => TagItem(
