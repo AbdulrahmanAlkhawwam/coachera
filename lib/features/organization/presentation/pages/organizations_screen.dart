@@ -1,5 +1,7 @@
 import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/home/domain/entities/card_type.dart';
+import 'package:coachera/features/organization/presentation/widgets/organization_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -63,7 +65,7 @@ class _OrganizationsScreenState extends State<OrganizationsScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Instructors"),
+            title: const Text("Organizations"),
             actions: [
               IconButton(
                 onPressed: () => showModalBottomSheet(
@@ -94,13 +96,14 @@ class _OrganizationsScreenState extends State<OrganizationsScreen> {
             child: PagedListView<int, Organization>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Organization>(
-                itemBuilder: (context, item, index) => ListTile(
-                  onTap: () => context.push(Routes.instructor),
-                  leading: CircleAvatar(child: Text(item.id.toString())),
-                  title: Text(item.orgName),
-                  subtitle: Text(item.orgDescription,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colors.outlineVariant.withAlpha(120))),
+                itemBuilder: (context, item, index) => Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: OrganizationCard(
+                    loading: false,
+                    cardType: CardType.horizontal,
+                    organization: item,
+                  ),
                 ),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator()),

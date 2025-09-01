@@ -43,4 +43,3 @@ class MaterialModel extends Material {
       };
 }
 
-enum MaterialType { ARTICLE, QUIZ, VIDEO }

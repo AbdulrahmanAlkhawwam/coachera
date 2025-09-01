@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/constants/routes.dart';
-import '../../../course/domain/entities/course.dart';
-import '../../../course/presentation/widgets/course_vertical_card.dart';
 import '../../../organization/domain/entities/organization.dart';
 
 class OrganizationsList extends StatelessWidget {
