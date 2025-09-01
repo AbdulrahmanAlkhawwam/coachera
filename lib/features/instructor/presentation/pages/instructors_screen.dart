@@ -1,6 +1,8 @@
 import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/home/domain/entities/card_type.dart';
 import 'package:coachera/features/home/domain/param/sort_param.dart';
+import 'package:coachera/features/instructor/presentation/widgets/instructor_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -94,14 +96,16 @@ class _InstructorScreenState extends State<InstructorScreen> {
             child: PagedListView<int, Instructor>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Instructor>(
-                itemBuilder: (context, item, index) => ListTile(
-                  onTap: () => context.push(Routes.instructorDetails,
-                      arguments: {'instructor': item}),
-                  leading: CircleAvatar(child: Text(item.id.toString())),
-                  title: Text(item.name),
-                  subtitle: Text(item.bio,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colors.outlineVariant.withAlpha(120))),
+                itemBuilder: (context, item, index) => Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 16,
+                  ),
+                  child: InstructorCard(
+                    instructor: item,
+                    cardType: CardType.horizontal,
+                    loading: false,
+                  ),
                 ),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator()),

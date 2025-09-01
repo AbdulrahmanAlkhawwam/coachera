@@ -1,11 +1,12 @@
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/course/presentation/widgets/course_card.dart';
+import 'package:coachera/features/home/domain/entities/card_type.dart';
 import 'package:coachera/features/instructor/presentation/bloc/bloc/instructor_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_image.dart';
 import '../../../course/presentation/bloc/bloc/course_bloc.dart';
-import '../../../course/presentation/widgets/course_horizontal_card.dart';
 import '../../domain/entities/instructor.dart';
 
 class InstructorDetailsScreen extends StatefulWidget {
@@ -173,7 +174,8 @@ class _InstructorDetailsScreenState extends State<InstructorDetailsScreen>
         padding: const EdgeInsets.all(16.0),
         itemCount: state.courses.length,
         scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => CourseHorizontalCard(
+        itemBuilder: (context, index) => CourseCard(
+          type: CardType.horizontal,
           course: state.courses[index],
         ),
       ),
