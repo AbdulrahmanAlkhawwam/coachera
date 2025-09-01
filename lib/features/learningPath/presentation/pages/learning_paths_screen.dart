@@ -63,7 +63,7 @@ class _LearningPathsScreenState extends State<LearningPathsScreen> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text("Instructors"),
+            title: const Text("Learning Paths"),
             actions: [
               IconButton(
                 onPressed: () => showModalBottomSheet(
@@ -94,8 +94,9 @@ class _LearningPathsScreenState extends State<LearningPathsScreen> {
             child: PagedListView<int, LearningPath>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<LearningPath>(
-                itemBuilder: (context, item, index) => ListTile(
-                  onTap: () => context.push(Routes.instructor),
+                itemBuilder: (context, item, index) =>  ListTile(
+                  onTap: () => context.push(Routes.learningPath,
+                      arguments: {"learning-path": item}),
                   leading: CircleAvatar(child: Text(item.id.toString())),
                   title: Text(item.title),
                   subtitle: Text(item.description,
