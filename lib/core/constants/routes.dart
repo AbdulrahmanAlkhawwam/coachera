@@ -17,6 +17,7 @@ import '../../features/home/presentation/pages/settings_screen.dart';
 import '../../features/instructor/presentation/pages/instructor_details_screen.dart';
 import '../../features/instructor/presentation/pages/instructors_screen.dart';
 import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
+import '../../features/material/presentation/pages/article_lesson_screen.dart';
 import '../../features/material/presentation/pages/quiz_lesson_screen.dart';
 import '../../features/material/presentation/pages/video_lesson_screen.dart';
 import '../../features/organization/presentation/pages/organizations_screen.dart';
@@ -102,6 +103,7 @@ class Routes {
   static const String courseDetails = '/courses/course';
   static const String videoLesson = "/courses/course/video-material";
   static const String quizLesson = '/courses/course/quiz-material';
+  static const String articleLesson = '/courses/course/article-material';
   static const String payment = '/profile/payment';
   static const String reviews = '/profile/reviews';
   static const String instructors = '/home/instructors';
@@ -139,6 +141,8 @@ class Routes {
         VideoLessonScreen(lesson: arguments['material']),
     quizLesson: (context, arguments) =>
         QuizLessonScreen(quiz: arguments["material"]),
+    articleLesson: (context, arguments) =>
+        ArticleLessonScreen(material: arguments["material"]),
     instructors: (context, arguments) => InstructorScreen(),
     instructorDetails: (context, arguments) => InstructorDetailsScreen(
           instructor: arguments['instructor'],

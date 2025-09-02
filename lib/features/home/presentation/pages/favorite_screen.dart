@@ -1,12 +1,13 @@
 import 'package:coachera/core/constants/res.dart';
 import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/utils/app_image.dart';
+import 'package:coachera/features/home/domain/entities/card_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_context.dart';
 import '../../../auth/presentation/manager/bloc/auth_bloc.dart';
-import '../../../course/presentation/widgets/course_horizontal_card.dart';
+import '../../../course/presentation/widgets/course_card.dart';
 import '../manager/favorite_bloc/favorite_bloc.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -20,7 +21,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthBloc>().add(CheckUserType());
     context.read<AuthBloc>().state.userStatus != UserStatus.guest
         ? context.read<FavoriteBloc>().add(GetFavorites())
         : null;
@@ -28,45 +28,51 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state.status == AuthStatus.error) {
-          context.showErrorSnackBar(massage: state.message);
-        }
+    context.read<AuthBloc>().add(CheckUserType());
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<FavoriteBloc>().add(GetFavorites());
       },
-      child: BlocConsumer<FavoriteBloc, FavoriteState>(
-          listener: (context, state) {},
-          builder: (context, state) => switch (state.status) {
-                FavoriteStatus.loading =>
-                  const Center(child: CircularProgressIndicator()),
-                _ => Scaffold(
-                    appBar: AppBar(
-                      title: Text("Favorites"),
-                    ),
-                    body: context.read<AuthBloc>().state.userStatus ==
-                            UserStatus.guest
-                        ? _guestHolder()
-                        : state.courses.isEmpty
-                            ? _emptyList()
-                            : ListView.separated(
-                                itemBuilder: (context, index) =>
-                                    CourseHorizontalCard(
-                                  course: context
-                                      .read<FavoriteBloc>()
-                                      .state
-                                      .courses[index],
-                                ),
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(height: 8.0),
-                                itemCount: context
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.status == AuthStatus.error) {
+            context.showErrorSnackBar(massage: state.message);
+          }
+        },
+        child: BlocConsumer<FavoriteBloc, FavoriteState>(
+            listener: (context, state) {},
+            builder: (context, state) => switch (state.status) {
+                  FavoriteStatus.loading =>
+                    const Center(child: CircularProgressIndicator()),
+                  _ => Scaffold(
+                      appBar: AppBar(
+                        title: Text("Favorites"),
+                      ),
+                      body: context.read<AuthBloc>().state.userStatus ==
+                              UserStatus.guest
+                          ? _guestHolder()
+                          : state.courses.isEmpty
+                              ? _emptyList()
+                              : ListView.separated(
+                                  itemBuilder: (context, index) => CourseCard(
+                                    type: CardType.horizontal,
+                                    course: context
                                         .read<FavoriteBloc>()
                                         .state
-                                        .courses
-                                        .length ??
-                                    0,
-                              ),
-                  ),
-              }),
+                                        .courses[index],
+                                  ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(height: 8.0),
+                                  itemCount: context
+                                          .read<FavoriteBloc>()
+                                          .state
+                                          .courses
+                                          .length ??
+                                      0,
+                                ),
+                    ),
+                }),
+      ),
     );
   }
 
@@ -96,6 +102,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   color: context.colors.onPrimaryContainer.withAlpha(160)),
             ),
             Spacer(),
+            FilledButton(
+                onPressed: () =>
+                    context.read<FavoriteBloc>().add(GetFavorites()),
+                child: Text("Lets Try Again !")),
+            const SizedBox(height: 8),
             OutlinedButton(
               onPressed: () => context.pushReplacement(Routes.login),
               child: Text('Login now !'),
@@ -133,6 +144,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   color: context.colors.onPrimaryContainer.withAlpha(160)),
             ),
             Spacer(),
+            FilledButton(
+                onPressed: () =>
+                    context.read<FavoriteBloc>().add(GetFavorites()),
+                child: Text("Lets Try Again !")),
+            const SizedBox(height: 8),
             OutlinedButton(
               onPressed: () => context.pushReplacement(Routes.courses),
               child: Text('View Courses'),

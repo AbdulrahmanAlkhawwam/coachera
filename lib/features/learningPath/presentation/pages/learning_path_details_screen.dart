@@ -173,12 +173,12 @@ class _LearningPathDetailsScreenState extends State<LearningPathDetailsScreen>
             right: 24.0,
             top: 16,
             bottom: 16 + context.bottomPadding),
-        child: FilledButton(
-          onPressed: () => context
-              .read<CourseBloc>()
-              .add(EnrollCourse(courseId: widget.learningPath.id)),
-          child: const Text("Enroll Now"),
-        ),
+        // child: FilledButton(
+        //   onPressed: () => context
+        //       .read<CourseBloc>()
+        //       .add(EnrollCourse(courseId: widget.learningPath.id)),
+        //   child: const Text("Enroll Now"),
+        // ),
       ),
     );
   }

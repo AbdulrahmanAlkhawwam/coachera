@@ -8,6 +8,7 @@ class ListTileItem extends StatelessWidget {
   final Color? backgroundColor;
   final Color? iconColor;
   final String? subLabel;
+  final IconData? trailing;
 
   final Function()? onTap;
   final Color? trailingColor;
@@ -20,6 +21,7 @@ class ListTileItem extends StatelessWidget {
     this.backgroundColor,
     this.iconColor,
     this.subLabel,
+    this.trailing,
     this.trailingColor,
     this.onTap,
   });
@@ -41,7 +43,8 @@ class ListTileItem extends StatelessWidget {
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
       ),
       subtitle: subLabel != null ? Text(subLabel!) : null,
-      trailing: const Icon(Icons.chevron_right),
+      trailing:
+          trailing != null ? Icon(trailing) : const Icon(Icons.chevron_right),
       iconColor: trailingColor,
       onTap: onTap ?? () => context.push(route!),
     );

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
+import '../../../../core/components/rate.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../course/presentation/widgets/course_description.dart';
 import '../../domain/entities/material.dart';
@@ -26,6 +27,7 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
 
   @override
   void initState() {
+    print(widget.lesson.toString());
     super.initState();
     context.read<MaterialBloc>().add(GetMaterial(materialId: widget.lesson.id));
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
@@ -52,6 +54,7 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
 
   @override
   Widget build(BuildContext context) {
+    print(widget.lesson.title);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -81,7 +84,7 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
                         Row(
                           children: [
                             Text(
-                              "Mindfulness Meditation",
+                              widget.lesson.title,
                               style: context.textTheme.titleLarge
                                   ?.copyWith(color: Colors.white),
                             ),
@@ -91,29 +94,11 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
                           ],
                         ),
                         const SizedBox(height: 8),
-                        Row(
-                          children: [
-                            RatingBarIndicator(
-                              rating: (4.7 * 2).round() / 2,
-                              // <-- your double from 0.0 to 5.0
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.star,
-                                color: Color(0xFFFFBD12), // Your yellow style
-                              ),
-                              itemCount: 5,
-                              itemSize: 24.0,
-                              unratedColor: Colors.grey[600],
-                              // Optional: for empty stars
-                              direction: Axis.horizontal,
-                            ),
-                            const SizedBox(width: 4),
-                            const Text("4.8",
-                                style: TextStyle(color: Colors.white)),
-                            const SizedBox(width: 8),
-                            const Text("by Emma Johnson",
-                                style: TextStyle(color: Color(0xFFA7A7A7))),
-                          ],
-                        ),
+                        const Text("4.8",
+                            style: TextStyle(color: Colors.white)),
+                        const SizedBox(width: 8),
+                        const Text("by Emma Johnson",
+                            style: TextStyle(color: Color(0xFFA7A7A7))),
                         const SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
