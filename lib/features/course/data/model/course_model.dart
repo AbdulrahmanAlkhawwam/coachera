@@ -22,6 +22,25 @@ class CourseModel extends Course {
     required super.modules,
   });
 
+  CourseModel.fromCourse(Course course)
+      : super(
+    createdAt: course.createdAt,
+    updatedAt: course.updatedAt,
+    id: course.id,
+    title: course.title,
+    description: course.description,
+    durationHours: course.durationHours,
+    price: course.price,
+    rating: course.rating,
+    orgId: course.orgId,
+    categories: course.categories,
+    learningPathIds: course.learningPathIds,
+    instructors: course.instructors,
+    image: course.image,
+    modules: course.modules,
+  );
+
+
   factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),

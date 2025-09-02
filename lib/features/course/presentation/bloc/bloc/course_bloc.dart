@@ -130,4 +130,41 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       ),
     );
   }
+  bool isLessonAccessible({
+    required bool isEnrolled,
+    required List<MaterialCompletion> completions,
+    required int lessonId,
+    required int moduleIndex,
+    required int sectionIndex,
+    required int lessonIndex,
+    required Course course,
+  }) {
+    if (!isEnrolled) {
+      return false; // لازم يسجل بالكورس أولاً
+    }
+
+    // إذا أول مرة يدخل عالكورس → افتح أول درس فقط
+    if (completions.isEmpty) {
+      return moduleIndex == 0 && sectionIndex == 0 && lessonIndex == 0;
+    }
+
+    // إذا هذا الدرس منتهي بالفعل
+    final completed = completions.any((m) => m.materialId == lessonId && m.completed);
+    if (completed) return true;
+
+    // نحدد آخر درس منتهي
+    final lastCompletion = completions.lastWhere((m) => m.completed);
+
+    // إذا هذا الدرس هو "التالي" بعد آخر واحد منتهي → افتحه
+    final lessons = course.modules
+        .expand((m) => m.sections)
+        .expand((s) => s.materials)
+        .toList();
+
+    final lastIndex = lessons.indexWhere((l) => l.id == lastCompletion.materialId);
+    final currentIndex = lessons.indexWhere((l) => l.id == lessonId);
+
+    return currentIndex == lastIndex + 1;
+  }
+
 }

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart' hide MaterialType;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:collection/collection.dart';
 import '../../../../core/components/list_tile_item.dart';
 import '../../../../core/components/rate.dart';
 import '../../../../core/constants/routes.dart';
@@ -22,7 +22,9 @@ import '../../../organization/presentation/bloc/bloc/organization_bloc.dart';
 import '../../../organization/presentation/widgets/organization_card.dart';
 import '../../../review/presentation/bloc/bloc/review_bloc.dart';
 import '../../../review/presentation/widgets/review_card.dart';
+import '../../data/model/course_model.dart';
 import '../../domain/entities/course.dart';
+import '../../domain/entities/progress.dart';
 import '../bloc/bloc/course_bloc.dart';
 import '../widgets/course_description.dart';
 
@@ -43,6 +45,8 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   @override
   void initState() {
     super.initState();
+    // context.read<CourseBloc>.add(GetUserCourses());
+    context.read<CourseBloc>().add(GetUserCourses());
     context.read<FavoriteBloc>().add(GetFavorite(courseId: widget.course.id));
     context.read<ReviewBloc>().add(GetCourseReview(courseId: widget.course.id));
     context.read<ModuleBloc>().add(GetModules(courseId: widget.course.id));
@@ -352,6 +356,73 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                     (lessonIndex) {
                                       final lesson =
                                           section.materials[lessonIndex];
+
+                                      // هل المستخدم مسجل في الكورس؟
+                                      final isEnrolled = context
+                                          .read<CourseBloc>()
+                                          .state
+                                          .progress
+                                          .any((p) =>
+                                              p.course.id == widget.course.id);
+
+                                      // ProgressModel الخاص بالكورس الحالي أو null إذا غير مسجل
+                                      final courseProgress = context
+                                          .read<CourseBloc>()
+                                          .state
+                                          .progress
+                                          .firstWhereOrNull((p) =>
+                                              p.course.id == widget.course.id);
+
+                                      // دالة لفحص إمكانية الوصول للدرس
+                                      bool accessible = false;
+
+                                      if (isEnrolled) {
+                                        // إذا ما في أي درس مكتمل → افتح أول درس فقط
+                                        if (courseProgress == null ||
+                                            courseProgress
+                                                .materialCompletions.isEmpty) {
+                                          accessible = moduleIndex == 0 &&
+                                              sectionIndex == 0 &&
+                                              lessonIndex == 0;
+                                        } else {
+                                          // احصل على قائمة جميع الدروس في الكورس
+                                          final allLessons = widget
+                                              .course.modules
+                                              .expand((m) => m.sections)
+                                              .expand((s) => s.materials)
+                                              .toList();
+
+                                          // آخر درس مكتمل
+                                          final lastCompleted = courseProgress
+                                              .materialCompletions
+                                              .lastWhere(
+                                            (m) => m.completed,
+                                            orElse: () => courseProgress
+                                                .materialCompletions.first,
+                                          );
+
+                                          final lastIndex =
+                                              allLessons.indexWhere((l) =>
+                                                  l.id ==
+                                                  lastCompleted.materialId);
+                                          final currentIndex =
+                                              allLessons.indexWhere(
+                                                  (l) => l.id == lesson.id);
+
+                                          // الدرس مفتوح إذا مكتمل أو التالي مباشرة بعد آخر درس مكتمل
+                                          final isCurrentCompleted =
+                                              courseProgress.materialCompletions
+                                                  .any((m) =>
+                                                      m.materialId ==
+                                                          lesson.id &&
+                                                      m.completed);
+                                          accessible = isCurrentCompleted ||
+                                              currentIndex == lastIndex + 1;
+                                        }
+                                      } else {
+                                        accessible = false; // غير مسجل → مقفول
+                                      }
+
                                       return ListTileItem(
                                         icon: switch (lesson.type) {
                                           MaterialType.VIDEO =>
@@ -364,17 +435,337 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                         label: lesson.title.split(" -").first,
                                         subLabel:
                                             lesson.type.name.toLowerCase(),
-                                        onTap: () => context.push(
-                                            switch (lesson.type) {
-                                              MaterialType.VIDEO =>
-                                                Routes.videoLesson,
-                                              MaterialType.QUIZ =>
-                                                Routes.quizLesson,
-                                              MaterialType.ARTICLE =>
-                                                Routes.reviews,
-                                            },
-                                            arguments: {"material": lesson}),
+                                        trailing: accessible
+                                            ? null
+                                            : TablerIcons.lock,
+                                        trailingColor: accessible
+                                            ? context.colors.primary
+                                            : null,
+                                        onTap: accessible
+                                            ? () => context.push(
+                                                  switch (lesson.type) {
+                                                    MaterialType.VIDEO =>
+                                                      Routes.videoLesson,
+                                                    MaterialType.QUIZ =>
+                                                      Routes.quizLesson,
+                                                    MaterialType.ARTICLE =>
+                                                      Routes.articleLesson,
+                                                  },
+                                                  arguments: {
+                                                    "material": lesson
+                                                  },
+                                                )
+                                            : null,
                                       );
+
+                                      // (lessonIndex) {
+                                      //   final lesson =
+                                      //       section.materials[lessonIndex];
+                                      //   final isEnrolled = context
+                                      //       .read<CourseBloc>()
+                                      //       .state
+                                      //       .progress
+                                      //       .any((p) =>
+                                      //           p.course.id == widget.course.id);
+                                      //
+                                      //   final progress = context.read<CourseBloc>().state.progress.firstWhereOrNull(
+                                      //         (element) => element.course.id == widget.course.id,
+                                      //   );
+                                      //
+                                      //   // final courseProgress = context
+                                      //   //     .read<CourseBloc>()
+                                      //   //     .state
+                                      //   //     .progress
+                                      //   //     .firstWhere(
+                                      //   //       (p) =>
+                                      //   //           p.course.id == widget.course.id,
+                                      //   //       orElse: () => Progress(
+                                      //   //         enrollmentId: -1,
+                                      //   //         course: CourseModel.fromCourse(
+                                      //   //             widget.course),
+                                      //   //         courseCompletion: null,
+                                      //   //         materialCompletions: [],
+                                      //   //         progress: 0,
+                                      //   //       ),
+                                      //   //     );
+                                      //
+                                      //   final accessible = context
+                                      //       .read<CourseBloc>()
+                                      //       .isLessonAccessible(
+                                      //         isEnrolled: isEnrolled,
+                                      //         completions: courseProgress
+                                      //             .materialCompletions,
+                                      //         lessonId: lesson.id,
+                                      //         moduleIndex: moduleIndex,
+                                      //         sectionIndex: sectionIndex,
+                                      //         lessonIndex: lessonIndex,
+                                      //         course: widget.course,
+                                      //       );
+                                      //   // نجيب progress الخاص بالكورس الحالي
+                                      //   // final courseProgress = context
+                                      //   //     .read<CourseBloc>()
+                                      //   //     .state
+                                      //   //     .progress
+                                      //   //     .where((element) =>
+                                      //   //         element.course.id ==
+                                      //   //         widget.course.id)
+                                      //   //     .firstOrNull;
+                                      //   //
+                                      //   // نجيب index تبع الـ completion إذا موجود
+                                      //   // final completionIndex = courseProgress
+                                      //   //         ?.materialCompletions
+                                      //   //         .indexWhere((m) =>
+                                      //   //             m.materialId == lesson.id) ??
+                                      //   //     -1;
+                                      //
+                                      //   // bool accessible = false;
+                                      //
+                                      //   // if (courseProgress != null) {
+                                      //   //   if (completionIndex != -1) {
+                                      //   //     final current = courseProgress
+                                      //   //             .materialCompletions[
+                                      //   //         completionIndex];
+                                      //   //     if (completionIndex == 0) {
+                                      //   //   أول درس مفتوح دائماً إذا المستخدم منضم للكورس
+                                      //   // accessible = true;
+                                      //   // } else {
+                                      //   //   final previous = courseProgress
+                                      //   //           .materialCompletions[
+                                      //   //       completionIndex - 1];
+                                      //   //   accessible = current.completed ||
+                                      //   //       previous.completed;
+                                      //   // }
+                                      //   // }
+                                      //   // } else {
+                                      //   //  إذا المستخدم مو منضم للكورس
+                                      //   // accessible =
+                                      //   //     false; // أو true إذا بدك تفتحها بشكل مجاني
+                                      //   // }
+                                      //
+                                      //   return ListTileItem(
+                                      //     icon: switch (lesson.type) {
+                                      //       MaterialType.VIDEO =>
+                                      //         TablerIcons.video,
+                                      //       MaterialType.QUIZ =>
+                                      //         TablerIcons.help_octagon,
+                                      //       MaterialType.ARTICLE =>
+                                      //         TablerIcons.news,
+                                      //     },
+                                      //     label: lesson.title.split(" -").first,
+                                      //     subLabel:
+                                      //         lesson.type.name.toLowerCase(),
+                                      //     trailing: accessible
+                                      //         ? null
+                                      //         : TablerIcons.lock,
+                                      //     onTap: accessible
+                                      //         ? () => context.push(
+                                      //               switch (lesson.type) {
+                                      //                 MaterialType.VIDEO =>
+                                      //                   Routes.videoLesson,
+                                      //                 MaterialType.QUIZ =>
+                                      //                   Routes.quizLesson,
+                                      //                 MaterialType.ARTICLE =>
+                                      //                   Routes.articleLesson,
+                                      //               },
+                                      //               arguments: {
+                                      //                 "material": lesson
+                                      //               },
+                                      //             )
+                                      //         : null,
+                                      //   );
+
+                                      // (lessonIndex) {
+                                      //   final lesson =
+                                      //       section.materials[lessonIndex];
+                                      //
+                                      //   // نجيب progress الخاص بالكورس الحالي
+                                      //   final courseProgress = context
+                                      //       .read<CourseBloc>()
+                                      //       .state
+                                      //       .progress
+                                      //       .where((element) =>
+                                      //           element.course.id ==
+                                      //           widget.course.id)
+                                      //       .firstOrNull;
+                                      //
+                                      //   // نجيب index تبع الـ completion إذا موجود
+                                      //   final completionIndex = courseProgress
+                                      //           ?.materialCompletions
+                                      //           .indexWhere((m) =>
+                                      //               m.materialId == lesson.id) ??
+                                      //       -1;
+                                      //
+                                      //   bool accessible = false;
+                                      //
+                                      //   if (completionIndex != -1 &&
+                                      //       courseProgress != null) {
+                                      //     final current =
+                                      //         courseProgress.materialCompletions[
+                                      //             completionIndex];
+                                      //     if (completionIndex == 0) {
+                                      //       // إذا أول درس
+                                      //       accessible = current.completed;
+                                      //     } else {
+                                      //       final previous = courseProgress
+                                      //               .materialCompletions[
+                                      //           completionIndex - 1];
+                                      //       accessible = current.completed ||
+                                      //           previous.completed;
+                                      //     }
+                                      //   } else {
+                                      //     // إذا المستخدم مو منضم للكورس
+                                      //     accessible =
+                                      //         false; // أو true إذا بدك تفتحها كلها بشكل مجاني
+                                      //   }
+                                      //
+                                      //   return ListTileItem(
+                                      //     icon: switch (lesson.type) {
+                                      //       MaterialType.VIDEO =>
+                                      //         TablerIcons.video,
+                                      //       MaterialType.QUIZ =>
+                                      //         TablerIcons.help_octagon,
+                                      //       MaterialType.ARTICLE =>
+                                      //         TablerIcons.news,
+                                      //     },
+                                      //     label: lesson.title.split(" -").first,
+                                      //     subLabel:
+                                      //         lesson.type.name.toLowerCase(),
+                                      //     trailing: accessible
+                                      //         ? null
+                                      //         : TablerIcons.lock,
+                                      //     // منع الضغط إذا مش accessible
+                                      //     onTap: accessible
+                                      //         ? () => context.push(
+                                      //               switch (lesson.type) {
+                                      //                 MaterialType.VIDEO =>
+                                      //                   Routes.videoLesson,
+                                      //                 MaterialType.QUIZ =>
+                                      //                   Routes.quizLesson,
+                                      //                 MaterialType.ARTICLE =>
+                                      //                   Routes.articleLesson,
+                                      //               },
+                                      //               arguments: {
+                                      //                 "material": lesson
+                                      //               },
+                                      //             )
+                                      //         : null,
+                                      //   );
+
+                                      // (lessonIndex) {
+                                      //   final lesson =
+                                      //       section.materials[lessonIndex];
+                                      //
+                                      //   // نجيب الـ materialCompletion المقابل
+                                      //   final completionIndex = context
+                                      //       .read<CourseBloc>()
+                                      //       .state
+                                      //       .progress
+                                      //       .where(
+                                      //         (element) =>
+                                      //             element.course.id ==
+                                      //             widget.course.id,
+                                      //       )
+                                      //       .firstOrNull
+                                      //       ?.materialCompletions
+                                      //       .indexWhere(
+                                      //         (m) => m.materialId == lesson.id,
+                                      //       );
+                                      //
+                                      //   bool accessible = false;
+                                      //   if (completionIndex != -1) {
+                                      //     final current = context
+                                      //             .read<CourseBloc>()
+                                      //             .state
+                                      //             .progress
+                                      //             .where(
+                                      //               (element) =>
+                                      //                   element.course.id ==
+                                      //                   widget.course.id,
+                                      //             )
+                                      //             .first
+                                      //             .materialCompletions[
+                                      //         completionIndex];
+                                      //     if (completionIndex == 0) {
+                                      //       // إذا أول درس
+                                      //       accessible = current.completed;
+                                      //     } else {
+                                      //       final previous = context
+                                      //               .read<CourseBloc>()
+                                      //               .state
+                                      //               .progress
+                                      //               .where(
+                                      //                 (element) =>
+                                      //                     element.course.id ==
+                                      //                     widget.course.id,
+                                      //               )
+                                      //               .first
+                                      //               .materialCompletions[
+                                      //           completionIndex - 1];
+                                      //       accessible = current.completed ||
+                                      //           previous.completed;
+                                      //     }
+                                      //   }
+                                      //
+                                      //   return ListTileItem(
+                                      //     icon: switch (lesson.type) {
+                                      //       MaterialType.VIDEO =>
+                                      //         TablerIcons.video,
+                                      //       MaterialType.QUIZ =>
+                                      //         TablerIcons.help_octagon,
+                                      //       MaterialType.ARTICLE =>
+                                      //         TablerIcons.news,
+                                      //     },
+                                      //     label: lesson.title.split(" -").first,
+                                      //     subLabel:
+                                      //         lesson.type.name.toLowerCase(),
+                                      //     trailing: accessible
+                                      //         ? null
+                                      //         : TablerIcons.lock,
+                                      //     // منع الضغط إذا مش accessible
+                                      //     onTap: accessible
+                                      //         ? () => context.push(
+                                      //               switch (lesson.type) {
+                                      //                 MaterialType.VIDEO =>
+                                      //                   Routes.videoLesson,
+                                      //                 MaterialType.QUIZ =>
+                                      //                   Routes.quizLesson,
+                                      //                 MaterialType.ARTICLE =>
+                                      //                   Routes.articleLesson,
+                                      //               },
+                                      //               arguments: {
+                                      //                 "material": lesson
+                                      //               },
+                                      //             )
+                                      //         : null,
+                                      //   );
+
+                                      // (lessonIndex) {
+                                      //   final lesson =
+                                      //       section.materials[lessonIndex];
+                                      //   return ListTileItem(
+                                      //     icon: switch (lesson.type) {
+                                      //       MaterialType.VIDEO =>
+                                      //         TablerIcons.video,
+                                      //       MaterialType.QUIZ =>
+                                      //         TablerIcons.help_octagon,
+                                      //       MaterialType.ARTICLE =>
+                                      //         TablerIcons.news,
+                                      //     },
+                                      //     label: lesson.title.split(" -").first,
+                                      //     subLabel:
+                                      //         lesson.type.name.toLowerCase(),
+                                      //
+                                      //     onTap: () => context.push(
+                                      //         switch (lesson.type) {
+                                      //           MaterialType.VIDEO =>
+                                      //             Routes.videoLesson,
+                                      //           MaterialType.QUIZ =>
+                                      //             Routes.quizLesson,
+                                      //           MaterialType.ARTICLE =>
+                                      //             Routes.articleLesson,
+                                      //         },
+                                      //         arguments: {"material": lesson}),
+                                      //   );
 /*ListTile(
                                         onTap: () {
                                           String route;
