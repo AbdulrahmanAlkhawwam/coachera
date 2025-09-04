@@ -10,8 +10,19 @@ import '../manager/bloc/auth_bloc.dart';
 import '../widgets/profile_item.dart';
 import '../../../../core/components/section_title.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    context.read<AuthBloc>().add(GetMe());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
