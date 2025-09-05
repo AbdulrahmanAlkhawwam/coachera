@@ -11,26 +11,35 @@ enum SearchStatus {
 class SearchState {
   final SearchStatus status;
   final Message? message;
+  final int page;
+
   final List<Entity> entities;
   final List<dynamic> output;
+  final List<Course> courses;
 
   const SearchState({
     this.status = SearchStatus.init,
     this.message,
+    this.page = 0,
     this.entities = const [],
     this.output = const [],
+    this.courses = const [],
   });
 
   SearchState copyWith({
     SearchStatus? status,
     Message? message,
+    int? page,
     List<Entity>? entities,
     List<dynamic>? output,
+    List<Course>? courses,
   }) =>
       SearchState(
         status: status ?? this.status,
         message: message ?? this.message,
+        page: page ?? this.page,
         entities: entities ?? this.entities,
         output: output ?? this.output,
+        courses: courses ?? this.courses,
       );
 }

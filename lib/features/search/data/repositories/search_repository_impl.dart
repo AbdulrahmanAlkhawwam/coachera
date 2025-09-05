@@ -1,5 +1,6 @@
 import 'package:coachera/core/error/failures.dart';
 import 'package:coachera/core/utils/app_util.dart';
+import 'package:coachera/features/course/domain/entities/course.dart';
 import 'package:coachera/features/search/data/data_source/search_remote_data_source.dart';
 import 'package:coachera/features/search/domain/entities/entity.dart';
 import 'package:coachera/features/search/domain/params/search_param.dart';
@@ -21,4 +22,10 @@ class SearchRepositoryImpl extends SearchRepository {
   @override
   Future<Either<Failure, List<dynamic>>> search(SearchParam param) async =>
       await AppUtils.safeCall(() async => await dataSource.search(param));
+
+  @override
+  Future<Either<Failure, List<Course>>> searchCourses(
+          SearchParam param) async =>
+      await AppUtils.safeCall(
+          () async => await dataSource.getSearchCourses(param));
 }

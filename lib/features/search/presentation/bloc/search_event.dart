@@ -10,3 +10,9 @@ class Search extends SearchEvent {
 
   Search({required this.param});
 }
+
+class GetSearchCourses extends SearchEvent {
+  final SearchParam param;
+
+  GetSearchCourses({required this.param});
+}

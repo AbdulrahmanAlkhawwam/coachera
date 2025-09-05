@@ -1,3 +1,4 @@
+import 'package:coachera/features/search/domain/use_cases/get_search_courses_uc.dart';
 import 'package:coachera/features/search/domain/use_cases/search_uc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -12,6 +13,8 @@ Future<void> initializeSearchServices(GetIt sl) async {
       () => SearchRemoteDataSourceImpl(http: sl()));
   sl.registerLazySingleton<SearchRepository>(
       () => SearchRepositoryImpl(dataSource: sl()));
+  sl.registerLazySingleton<GetSearchCoursesUc>(
+      () => GetSearchCoursesUc(repository: sl()));
   sl.registerLazySingleton<GetEntitiesUC>(
       () => GetEntitiesUC(repository: sl()));
   sl.registerLazySingleton<SearchUC>(() => SearchUC(repository: sl()));
@@ -19,6 +22,7 @@ Future<void> initializeSearchServices(GetIt sl) async {
     () => SearchBloc(
       getEntitiesUC: sl(),
       searchUC: sl(),
+      getSearchCoursesUc: sl(),
     ),
   );
 }

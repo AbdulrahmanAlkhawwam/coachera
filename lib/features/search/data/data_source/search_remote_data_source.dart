@@ -14,6 +14,8 @@ abstract class SearchRemoteDataSource {
   Future<List<Entity>> getEntities();
 
   Future<List<dynamic>> search(SearchParam param);
+
+  Future<List<CourseModel>> getSearchCourses(SearchParam param);
 }
 
 class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
@@ -55,5 +57,24 @@ class SearchRemoteDataSourceImpl extends SearchRemoteDataSource {
               _ => e,
             })
         .toList();
+  }
+
+  @override
+  Future<List<CourseModel>> getSearchCourses(SearchParam param) async {
+    final response = await http.handleApiCall(() async => await http.get(
+          Endpoint.getSearchCourses(param.input),
+      queryParameters: {
+        "page": param.param.page.toString(),
+        "size": pageSize.toString(),
+        if (param.param.sort.sortBy != null)
+          "sortBy": param.param.sort.sortBy!,
+        if (param.param.sort.sortDirection != null)
+          "sortDirection": param.param.sort.sortDirection!,
+      }
+        ));
+
+    final List<dynamic> courses = response.data["content"];
+
+    return courses.map((e) => CourseModel.fromJson(e)).toList();
   }
 }
