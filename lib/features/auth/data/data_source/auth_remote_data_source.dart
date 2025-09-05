@@ -16,7 +16,7 @@ abstract class AuthRemoteDataSource {
 
   Future<bool> otp(LoginParam param);
 
-  Future<String> register(RegisterParam param);
+  Future<void> register(RegisterParam param);
 
   Future<void> forgetPassword(ForgetPasswordParam param);
 
@@ -68,7 +68,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<String> register(RegisterParam param) {
+  Future<void> register(RegisterParam param) {
     return http.handleApiCall(() async {
       final response = await http.post(
         Endpoint.registerUser,
@@ -88,8 +88,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           }
         },
       );
-      print(response.data);
-      return response.data['accessToken'];
+      return response.data;
     });
   }
 
@@ -125,18 +124,20 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
     return UserModel.fromJson(response.data);
   }
 
+  @override
   Future<void> registerDeviceToken(String userToken) async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     if (fcmToken == null) return;
 
     final response = await http.handleApiCall(
-      () => http.post(
-        Endpoint.deviceToken,
-        body: {
-          "deviceToken": fcmToken,
-          "platform": "android",
-        },
-      ),
+      () => http.post(Endpoint.deviceToken, body: {
+        "deviceToken": fcmToken,
+        "platform": "android",
+      }, headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $userToken',
+      }),
     );
 
     if (response.statusCode == 200) {

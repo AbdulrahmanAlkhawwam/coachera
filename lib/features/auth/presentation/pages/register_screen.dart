@@ -2,6 +2,7 @@ import 'package:coachera/core/components/bounded_list.dart';
 import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/features/auth/domain/params/register_param.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -10,8 +11,10 @@ import '../../../../core/components/Customer_date.dart';
 import '../../../../core/components/custom_input.dart';
 import '../../../../core/components/gender_selector.dart';
 import '../../../../core/components/phone_input.dart';
+import '../../../../core/localization/keys.g.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/components/screen.dart';
+import '../../../../core/utils/message.dart';
 import '../manager/bloc/auth_bloc.dart';
 import '../manager/cubit/validate_cubit.dart';
 
@@ -52,7 +55,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           var bloc = context.read<AuthBloc>();
           return BlocListener<AuthBloc, AuthState>(
             listener: (context, state) {
-              print(state.status);
+              if (state.status == AuthStatus.error) {
+                context.showErrorSnackBar(massage: state.message);
+              } else if (state.status == AuthStatus.authorized) {
+                context.pushReplacement(Routes.main, arguments: {
+                  'page': 0
+                }).then((value) => context.showSuccessSnackBar(
+                        massage: Message(
+                      title: LocaleKeys.messages_Login_title.tr(),
+                      value: LocaleKeys.messages_Login_body.tr(),
+                    )));
+              }
             },
             child: Screen(
               appBar: AppBar(

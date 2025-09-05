@@ -1,3 +1,5 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/storage_helper.dart';
 
@@ -27,7 +29,8 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   @override
   Future<void> localLogout() async {
     removeToken();
-    removeToken();
+    removeGuest();
+    removeDeviceToken();
   }
 
   @override
@@ -58,6 +61,10 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   @override
   removeToken() async {
     await storage.remove(accessTokenKey);
+  }
+
+  removeDeviceToken() async {
+    await FirebaseMessaging.instance.deleteToken();
   }
 
   @override
