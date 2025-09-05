@@ -1,3 +1,4 @@
+import 'package:coachera/features/course/domain/entities/completionState.dart';
 import 'package:coachera/features/home/presentation/widgets/organizations_list.dart';
 import 'package:coachera/features/instructor/presentation/bloc/bloc/instructor_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,8 +30,13 @@ import '../bloc/bloc/course_bloc.dart';
 import '../widgets/course_description.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
-  const CourseDetailsScreen({super.key, required this.course});
+  const CourseDetailsScreen({
+    super.key,
+    required this.course,
+    required this.enrollments,
+  });
 
+  final List<MaterialCompletion>? enrollments;
   final Course course;
 
   @override
@@ -282,547 +288,197 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: state.status == ModuleStatus.loading
-                  ? 3
-                  : context.read<ModuleBloc>().state.modules.length,
+              itemCount: context.read<ModuleBloc>().state.modules.length,
               itemBuilder: (context, moduleIndex) {
-                final module = state.status == ModuleStatus.loading
-                    ? null
-                    : context.read<ModuleBloc>().state.modules[moduleIndex];
+                final module =
+                    context.read<ModuleBloc>().state.modules[moduleIndex];
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    state.status == ModuleStatus.loading
-                        ? Shimmer.fromColors(
-                            baseColor: context.colors.outline,
-                            highlightColor: context.colors.outlineVariant,
-                            child: Container(
-                              margin: EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              width: context.width / 3,
-                              height: 10,
-                            ),
-                          )
-                        : Text(module!.title.split(" -").first,
-                            style: context.textTheme.bodyLarge
-                                ?.copyWith(color: context.colors.onSurface)),
+                    Text(module.title.split(" -").first,
+                        style: context.textTheme.bodyLarge
+                            ?.copyWith(color: context.colors.onSurface)),
                     const SizedBox(height: 8),
                     ...List.generate(
-                      module?.sections.length ?? 0,
+                      module.sections.length,
                       (sectionIndex) {
-                        final section = module!.sections[sectionIndex];
+                        final section = module.sections[sectionIndex];
                         final isExpanded =
                             _expandedIndex == '$moduleIndex-$sectionIndex';
 
-                        return state.status == ModuleStatus.loading
-                            ? Shimmer.fromColors(
-                                baseColor: context.colors.outline,
-                                highlightColor: context.colors.outlineVariant,
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  width: double.infinity,
-                                  height: 80,
-                                ),
-                              )
-                            : Container(
-                                margin: const EdgeInsets.only(bottom: 12),
-                                decoration: BoxDecoration(
-                                  color: context.colors.primaryContainer,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ExpansionTile(
-                                  onExpansionChanged: (expanded) {
-                                    setState(() => _expandedIndex = expanded
-                                        ? '$moduleIndex-$sectionIndex'
-                                        : null);
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: context.colors.primaryContainer,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ExpansionTile(
+                            onExpansionChanged: (expanded) {
+                              setState(() => _expandedIndex = expanded
+                                  ? '$moduleIndex-$sectionIndex'
+                                  : null);
+                            },
+                            initiallyExpanded: isExpanded,
+                            trailing: Icon(
+                              isExpanded ? TablerIcons.minus : TablerIcons.plus,
+                            ),
+                            title: Text(section.title.split(" -").first),
+                            children: List.generate(
+                              section.materials.length,
+                              (lessonIndex) {
+                                final lesson = section.materials[lessonIndex];
+
+                                final courseState =
+                                    context.read<CourseBloc>().state;
+
+                                final courseProgress = courseState.progress
+                                    .where(
+                                        (p) => p.course.id == widget.course.id)
+                                    .cast<Progress?>()
+                                    .firstOrNull;
+
+                                // هل هذا الدرس مكتمل؟
+                                final isCompleted =
+                                    courseProgress?.materialCompletions.any(
+                                          (m) =>
+                                              m.materialId == lesson.id &&
+                                              m.completed,
+                                        ) ??
+                                        false;
+
+// الطالب يقدر يفتح أي درس
+                                final accessible = true;
+
+// أيقونة trailing
+                                IconData? trailingIcon;
+                                Color? trailingColor;
+
+                                if (isCompleted) {
+                                  trailingIcon = TablerIcons.check;
+                                  trailingColor = context.colors.primary;
+                                } else {
+                                  trailingIcon = null; // default
+                                  trailingColor = null;
+                                }
+
+                                // // هل المستخدم مسجل بالكورس؟
+                                // final isEnrolled = courseState.progress.any(
+                                //     (p) => p.course.id == widget.course.id);
+                                //
+                                // // ProgressModel الخاص بالكورس الحالي أو null إذا غير مسجل
+
+                                // // الدروس كلها
+                                // final allLessons = widget.course.modules
+                                //     .expand((m) => m.sections)
+                                //     .expand((s) => s.materials)
+                                //     .toList();
+                                //
+                                // // آخر درس مكتمل
+                                // final lastCompleted = courseProgress
+                                //     ?.materialCompletions
+                                //     .where((m) => m.completed)
+                                //     .lastOrNull;
+                                //
+                                // final lastIndex = lastCompleted != null
+                                //     ? allLessons.indexWhere(
+                                //         (l) => l.id == lastCompleted.materialId)
+                                //     : -1;
+                                //
+                                // final currentIndex = allLessons
+                                //     .indexWhere((l) => l.id == lesson.id);
+                                //
+                                // // هل هذا الدرس مكتمل؟
+                                // final isCompleted =
+                                //     courseProgress?.materialCompletions.any(
+                                //           (m) =>
+                                //               m.materialId == lesson.id &&
+                                //               m.completed,
+                                //         ) ??
+                                //         false;
+                                //
+                                // // هل هذا الدرس هو التالي بعد آخر مكتمل؟
+                                // final isNextAfterCompleted =
+                                //     currentIndex == lastIndex + 1;
+                                //
+                                // // هل هذا هو أول درس بالكورس؟
+                                // final isFirstLesson = moduleIndex == 0 &&
+                                //     sectionIndex == 0 &&
+                                //     lessonIndex == 0;
+                                //
+                                // // المنطق النهائي للـ trailing والـ accessible
+                                // bool accessible = false;
+                                // IconData? trailingIcon;
+                                // Color? trailingColor;
+                                //
+                                // if (!isEnrolled) {
+                                //   // غير مسجل → مقفول
+                                //   trailingIcon = TablerIcons.lock;
+                                // } else if (isCompleted) {
+                                //   // مكتمل → صح
+                                //   accessible = true;
+                                //   trailingIcon = TablerIcons.check;
+                                //   trailingColor = context.colors.primary;
+                                // } else if (isNextAfterCompleted ||
+                                //     isFirstLesson) {
+                                //   // التالي بعد مكتمل أو أول درس → مفتوح
+                                //   accessible = true;
+                                //   trailingIcon = null;
+                                // } else {
+                                //   // غير مكتمل وما قبله مو مكتمل → مقفول
+                                //   trailingIcon = TablerIcons.lock;
+                                // }
+
+                                return ListTileItem(
+                                  icon: switch (lesson.type) {
+                                    MaterialType.VIDEO => TablerIcons.video,
+                                    MaterialType.QUIZ =>
+                                      TablerIcons.help_octagon,
+                                    MaterialType.ARTICLE => TablerIcons.news,
                                   },
-                                  initiallyExpanded: isExpanded,
-                                  trailing: Icon(
-                                    isExpanded
-                                        ? TablerIcons.plus
-                                        : TablerIcons.minus,
-                                  ),
-                                  title: Text(section.title.split(" -").first),
-                                  children: List.generate(
-                                    section.materials.length,
-                                    (lessonIndex) {
-                                      final lesson =
-                                          section.materials[lessonIndex];
+                                  label: lesson.title.split(" -").first,
+                                  subLabel: lesson.type.name.toLowerCase(),
+                                  trailing: trailingIcon,
+                                  trailingColor: trailingColor,
+                                  onTap: accessible
+                                      ? () {
+                                          // enrollment لهذا الدرس
+                                          final enrollment = widget.enrollments!
+                                              .where(
+                                                (e) =>
+                                                    e.materialId == lesson.id,
+                                                // orElse: () => MaterialCompletion(
+                                                //   materialId: lesson.id,
+                                                //   completed: false,
+                                                //   enrollmentId: 0,
+                                                // ),
+                                              )
+                                              .first;
 
-                                      // هل المستخدم مسجل في الكورس؟
-                                      final isEnrolled = context
-                                          .read<CourseBloc>()
-                                          .state
-                                          .progress
-                                          .any((p) =>
-                                              p.course.id == widget.course.id);
-
-                                      // ProgressModel الخاص بالكورس الحالي أو null إذا غير مسجل
-                                      final courseProgress = context
-                                          .read<CourseBloc>()
-                                          .state
-                                          .progress
-                                          .firstWhereOrNull((p) =>
-                                              p.course.id == widget.course.id);
-
-                                      // دالة لفحص إمكانية الوصول للدرس
-                                      bool accessible = false;
-
-                                      if (isEnrolled) {
-                                        // إذا ما في أي درس مكتمل → افتح أول درس فقط
-                                        if (courseProgress == null ||
-                                            courseProgress
-                                                .materialCompletions.isEmpty) {
-                                          accessible = moduleIndex == 0 &&
-                                              sectionIndex == 0 &&
-                                              lessonIndex == 0;
-                                        } else {
-                                          // احصل على قائمة جميع الدروس في الكورس
-                                          final allLessons = widget
-                                              .course.modules
-                                              .expand((m) => m.sections)
-                                              .expand((s) => s.materials)
-                                              .toList();
-
-                                          // آخر درس مكتمل
-                                          final lastCompleted = courseProgress
-                                              .materialCompletions
-                                              .lastWhere(
-                                            (m) => m.completed,
-                                            orElse: () => courseProgress
-                                                .materialCompletions.first,
+                                          // فتح الدرس المناسب
+                                          context.push(
+                                            switch (lesson.type) {
+                                              MaterialType.VIDEO =>
+                                                Routes.videoLesson,
+                                              MaterialType.QUIZ =>
+                                                Routes.quizLesson,
+                                              MaterialType.ARTICLE =>
+                                                Routes.articleLesson,
+                                            },
+                                            arguments: {
+                                              "material": lesson,
+                                              "enrollmentId":
+                                                  enrollment.enrollmentId,
+                                              'complete': isCompleted,
+                                            },
                                           );
-
-                                          final lastIndex =
-                                              allLessons.indexWhere((l) =>
-                                                  l.id ==
-                                                  lastCompleted.materialId);
-                                          final currentIndex =
-                                              allLessons.indexWhere(
-                                                  (l) => l.id == lesson.id);
-
-                                          // الدرس مفتوح إذا مكتمل أو التالي مباشرة بعد آخر درس مكتمل
-                                          final isCurrentCompleted =
-                                              courseProgress.materialCompletions
-                                                  .any((m) =>
-                                                      m.materialId ==
-                                                          lesson.id &&
-                                                      m.completed);
-                                          accessible = isCurrentCompleted ||
-                                              currentIndex == lastIndex + 1;
                                         }
-                                      } else {
-                                        accessible = false; // غير مسجل → مقفول
-                                      }
-
-                                      return ListTileItem(
-                                        icon: switch (lesson.type) {
-                                          MaterialType.VIDEO =>
-                                            TablerIcons.video,
-                                          MaterialType.QUIZ =>
-                                            TablerIcons.help_octagon,
-                                          MaterialType.ARTICLE =>
-                                            TablerIcons.news,
-                                        },
-                                        label: lesson.title.split(" -").first,
-                                        subLabel:
-                                            lesson.type.name.toLowerCase(),
-                                        trailing: accessible
-                                            ? null
-                                            : TablerIcons.lock,
-                                        trailingColor: accessible
-                                            ? context.colors.primary
-                                            : null,
-                                        onTap: accessible
-                                            ? () => context.push(
-                                                  switch (lesson.type) {
-                                                    MaterialType.VIDEO =>
-                                                      Routes.videoLesson,
-                                                    MaterialType.QUIZ =>
-                                                      Routes.quizLesson,
-                                                    MaterialType.ARTICLE =>
-                                                      Routes.articleLesson,
-                                                  },
-                                                  arguments: {
-                                                    "material": lesson
-                                                  },
-                                                )
-                                            : null,
-                                      );
-
-                                      // (lessonIndex) {
-                                      //   final lesson =
-                                      //       section.materials[lessonIndex];
-                                      //   final isEnrolled = context
-                                      //       .read<CourseBloc>()
-                                      //       .state
-                                      //       .progress
-                                      //       .any((p) =>
-                                      //           p.course.id == widget.course.id);
-                                      //
-                                      //   final progress = context.read<CourseBloc>().state.progress.firstWhereOrNull(
-                                      //         (element) => element.course.id == widget.course.id,
-                                      //   );
-                                      //
-                                      //   // final courseProgress = context
-                                      //   //     .read<CourseBloc>()
-                                      //   //     .state
-                                      //   //     .progress
-                                      //   //     .firstWhere(
-                                      //   //       (p) =>
-                                      //   //           p.course.id == widget.course.id,
-                                      //   //       orElse: () => Progress(
-                                      //   //         enrollmentId: -1,
-                                      //   //         course: CourseModel.fromCourse(
-                                      //   //             widget.course),
-                                      //   //         courseCompletion: null,
-                                      //   //         materialCompletions: [],
-                                      //   //         progress: 0,
-                                      //   //       ),
-                                      //   //     );
-                                      //
-                                      //   final accessible = context
-                                      //       .read<CourseBloc>()
-                                      //       .isLessonAccessible(
-                                      //         isEnrolled: isEnrolled,
-                                      //         completions: courseProgress
-                                      //             .materialCompletions,
-                                      //         lessonId: lesson.id,
-                                      //         moduleIndex: moduleIndex,
-                                      //         sectionIndex: sectionIndex,
-                                      //         lessonIndex: lessonIndex,
-                                      //         course: widget.course,
-                                      //       );
-                                      //   // نجيب progress الخاص بالكورس الحالي
-                                      //   // final courseProgress = context
-                                      //   //     .read<CourseBloc>()
-                                      //   //     .state
-                                      //   //     .progress
-                                      //   //     .where((element) =>
-                                      //   //         element.course.id ==
-                                      //   //         widget.course.id)
-                                      //   //     .firstOrNull;
-                                      //   //
-                                      //   // نجيب index تبع الـ completion إذا موجود
-                                      //   // final completionIndex = courseProgress
-                                      //   //         ?.materialCompletions
-                                      //   //         .indexWhere((m) =>
-                                      //   //             m.materialId == lesson.id) ??
-                                      //   //     -1;
-                                      //
-                                      //   // bool accessible = false;
-                                      //
-                                      //   // if (courseProgress != null) {
-                                      //   //   if (completionIndex != -1) {
-                                      //   //     final current = courseProgress
-                                      //   //             .materialCompletions[
-                                      //   //         completionIndex];
-                                      //   //     if (completionIndex == 0) {
-                                      //   //   أول درس مفتوح دائماً إذا المستخدم منضم للكورس
-                                      //   // accessible = true;
-                                      //   // } else {
-                                      //   //   final previous = courseProgress
-                                      //   //           .materialCompletions[
-                                      //   //       completionIndex - 1];
-                                      //   //   accessible = current.completed ||
-                                      //   //       previous.completed;
-                                      //   // }
-                                      //   // }
-                                      //   // } else {
-                                      //   //  إذا المستخدم مو منضم للكورس
-                                      //   // accessible =
-                                      //   //     false; // أو true إذا بدك تفتحها بشكل مجاني
-                                      //   // }
-                                      //
-                                      //   return ListTileItem(
-                                      //     icon: switch (lesson.type) {
-                                      //       MaterialType.VIDEO =>
-                                      //         TablerIcons.video,
-                                      //       MaterialType.QUIZ =>
-                                      //         TablerIcons.help_octagon,
-                                      //       MaterialType.ARTICLE =>
-                                      //         TablerIcons.news,
-                                      //     },
-                                      //     label: lesson.title.split(" -").first,
-                                      //     subLabel:
-                                      //         lesson.type.name.toLowerCase(),
-                                      //     trailing: accessible
-                                      //         ? null
-                                      //         : TablerIcons.lock,
-                                      //     onTap: accessible
-                                      //         ? () => context.push(
-                                      //               switch (lesson.type) {
-                                      //                 MaterialType.VIDEO =>
-                                      //                   Routes.videoLesson,
-                                      //                 MaterialType.QUIZ =>
-                                      //                   Routes.quizLesson,
-                                      //                 MaterialType.ARTICLE =>
-                                      //                   Routes.articleLesson,
-                                      //               },
-                                      //               arguments: {
-                                      //                 "material": lesson
-                                      //               },
-                                      //             )
-                                      //         : null,
-                                      //   );
-
-                                      // (lessonIndex) {
-                                      //   final lesson =
-                                      //       section.materials[lessonIndex];
-                                      //
-                                      //   // نجيب progress الخاص بالكورس الحالي
-                                      //   final courseProgress = context
-                                      //       .read<CourseBloc>()
-                                      //       .state
-                                      //       .progress
-                                      //       .where((element) =>
-                                      //           element.course.id ==
-                                      //           widget.course.id)
-                                      //       .firstOrNull;
-                                      //
-                                      //   // نجيب index تبع الـ completion إذا موجود
-                                      //   final completionIndex = courseProgress
-                                      //           ?.materialCompletions
-                                      //           .indexWhere((m) =>
-                                      //               m.materialId == lesson.id) ??
-                                      //       -1;
-                                      //
-                                      //   bool accessible = false;
-                                      //
-                                      //   if (completionIndex != -1 &&
-                                      //       courseProgress != null) {
-                                      //     final current =
-                                      //         courseProgress.materialCompletions[
-                                      //             completionIndex];
-                                      //     if (completionIndex == 0) {
-                                      //       // إذا أول درس
-                                      //       accessible = current.completed;
-                                      //     } else {
-                                      //       final previous = courseProgress
-                                      //               .materialCompletions[
-                                      //           completionIndex - 1];
-                                      //       accessible = current.completed ||
-                                      //           previous.completed;
-                                      //     }
-                                      //   } else {
-                                      //     // إذا المستخدم مو منضم للكورس
-                                      //     accessible =
-                                      //         false; // أو true إذا بدك تفتحها كلها بشكل مجاني
-                                      //   }
-                                      //
-                                      //   return ListTileItem(
-                                      //     icon: switch (lesson.type) {
-                                      //       MaterialType.VIDEO =>
-                                      //         TablerIcons.video,
-                                      //       MaterialType.QUIZ =>
-                                      //         TablerIcons.help_octagon,
-                                      //       MaterialType.ARTICLE =>
-                                      //         TablerIcons.news,
-                                      //     },
-                                      //     label: lesson.title.split(" -").first,
-                                      //     subLabel:
-                                      //         lesson.type.name.toLowerCase(),
-                                      //     trailing: accessible
-                                      //         ? null
-                                      //         : TablerIcons.lock,
-                                      //     // منع الضغط إذا مش accessible
-                                      //     onTap: accessible
-                                      //         ? () => context.push(
-                                      //               switch (lesson.type) {
-                                      //                 MaterialType.VIDEO =>
-                                      //                   Routes.videoLesson,
-                                      //                 MaterialType.QUIZ =>
-                                      //                   Routes.quizLesson,
-                                      //                 MaterialType.ARTICLE =>
-                                      //                   Routes.articleLesson,
-                                      //               },
-                                      //               arguments: {
-                                      //                 "material": lesson
-                                      //               },
-                                      //             )
-                                      //         : null,
-                                      //   );
-
-                                      // (lessonIndex) {
-                                      //   final lesson =
-                                      //       section.materials[lessonIndex];
-                                      //
-                                      //   // نجيب الـ materialCompletion المقابل
-                                      //   final completionIndex = context
-                                      //       .read<CourseBloc>()
-                                      //       .state
-                                      //       .progress
-                                      //       .where(
-                                      //         (element) =>
-                                      //             element.course.id ==
-                                      //             widget.course.id,
-                                      //       )
-                                      //       .firstOrNull
-                                      //       ?.materialCompletions
-                                      //       .indexWhere(
-                                      //         (m) => m.materialId == lesson.id,
-                                      //       );
-                                      //
-                                      //   bool accessible = false;
-                                      //   if (completionIndex != -1) {
-                                      //     final current = context
-                                      //             .read<CourseBloc>()
-                                      //             .state
-                                      //             .progress
-                                      //             .where(
-                                      //               (element) =>
-                                      //                   element.course.id ==
-                                      //                   widget.course.id,
-                                      //             )
-                                      //             .first
-                                      //             .materialCompletions[
-                                      //         completionIndex];
-                                      //     if (completionIndex == 0) {
-                                      //       // إذا أول درس
-                                      //       accessible = current.completed;
-                                      //     } else {
-                                      //       final previous = context
-                                      //               .read<CourseBloc>()
-                                      //               .state
-                                      //               .progress
-                                      //               .where(
-                                      //                 (element) =>
-                                      //                     element.course.id ==
-                                      //                     widget.course.id,
-                                      //               )
-                                      //               .first
-                                      //               .materialCompletions[
-                                      //           completionIndex - 1];
-                                      //       accessible = current.completed ||
-                                      //           previous.completed;
-                                      //     }
-                                      //   }
-                                      //
-                                      //   return ListTileItem(
-                                      //     icon: switch (lesson.type) {
-                                      //       MaterialType.VIDEO =>
-                                      //         TablerIcons.video,
-                                      //       MaterialType.QUIZ =>
-                                      //         TablerIcons.help_octagon,
-                                      //       MaterialType.ARTICLE =>
-                                      //         TablerIcons.news,
-                                      //     },
-                                      //     label: lesson.title.split(" -").first,
-                                      //     subLabel:
-                                      //         lesson.type.name.toLowerCase(),
-                                      //     trailing: accessible
-                                      //         ? null
-                                      //         : TablerIcons.lock,
-                                      //     // منع الضغط إذا مش accessible
-                                      //     onTap: accessible
-                                      //         ? () => context.push(
-                                      //               switch (lesson.type) {
-                                      //                 MaterialType.VIDEO =>
-                                      //                   Routes.videoLesson,
-                                      //                 MaterialType.QUIZ =>
-                                      //                   Routes.quizLesson,
-                                      //                 MaterialType.ARTICLE =>
-                                      //                   Routes.articleLesson,
-                                      //               },
-                                      //               arguments: {
-                                      //                 "material": lesson
-                                      //               },
-                                      //             )
-                                      //         : null,
-                                      //   );
-
-                                      // (lessonIndex) {
-                                      //   final lesson =
-                                      //       section.materials[lessonIndex];
-                                      //   return ListTileItem(
-                                      //     icon: switch (lesson.type) {
-                                      //       MaterialType.VIDEO =>
-                                      //         TablerIcons.video,
-                                      //       MaterialType.QUIZ =>
-                                      //         TablerIcons.help_octagon,
-                                      //       MaterialType.ARTICLE =>
-                                      //         TablerIcons.news,
-                                      //     },
-                                      //     label: lesson.title.split(" -").first,
-                                      //     subLabel:
-                                      //         lesson.type.name.toLowerCase(),
-                                      //
-                                      //     onTap: () => context.push(
-                                      //         switch (lesson.type) {
-                                      //           MaterialType.VIDEO =>
-                                      //             Routes.videoLesson,
-                                      //           MaterialType.QUIZ =>
-                                      //             Routes.quizLesson,
-                                      //           MaterialType.ARTICLE =>
-                                      //             Routes.articleLesson,
-                                      //         },
-                                      //         arguments: {"material": lesson}),
-                                      //   );
-/*ListTile(
-                                        onTap: () {
-                                          String route;
-
-                                          if (lesson.type.name ==
-                                              MaterialType.VIDEO.name) {
-                                            route = Routes.videoLesson;
-                                          } else if (lesson.type.name ==
-                                              MaterialType.QUIZ.name) {
-                                            route = Routes.quizLesson;
-                                          } else {
-                                            route = Routes.reviews;
-                                          }
-
-                                          context.push(route,
-                                              arguments: {"material": lesson});
-                                        },
-                                        leading: CircleAvatar(
-                                          radius: 16,
-                                          backgroundColor:
-                                              context.colors.primary,
-                                          child: Text(
-                                              '${lessonIndex + 1}'
-                                                  .padLeft(2, '0'),
-                                              style: context
-                                                  .textTheme.labelLarge
-                                                  ?.copyWith(
-                                                      color: context
-                                                          .colors.onPrimary)),
-                                        ),
-                                        title: Text(
-                                          lesson.title.split(" -").first,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        subtitle: Text(
-                                            lesson.type.name.toLowerCase()),
-                                        trailing: Icon(
-                                          // todo : add logic for locked
-                                          // lesson['locked']
-                                          true
-                                              ? Icons.lock_outline
-                                              : Icons.play_circle_fill,
-                                          color:
-                                              // lesson['locked']
-                                              true
-                                                  ? Colors.grey
-                                                  : const Color(0xFFFFBD12),
-                                          size: 28,
-                                        ),
-                                      );*/
-                                    },
-                                  ),
-                                ),
-                              );
+                                      : null,
+                                );
+                              },
+                            ),
+                          ),
+                        );
                       },
                     ),
                   ],

@@ -1,3 +1,4 @@
+import 'package:coachera/core/components/tag_item.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -101,7 +102,30 @@ class CourseCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        loading ? _shimmerImage(context, 160) : _courseImage(160),
+        loading
+            ? _shimmerImage(context, 160)
+            : Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(16)),
+                    child: AppImage(
+                      course!.image ??
+                          "https://placehold.co/240x160?text=${course!.title.trim()}",
+                      height: 160, //todo: don't forget this
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TagItem(
+                        isSelected: true,
+                        onSelect: (value) {},
+                        text: course?.categories.first.title ?? ''),
+                  ),
+                ],
+              ),
         Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -150,7 +174,7 @@ class CourseCard extends StatelessWidget {
           course!.image ??
               "https://placehold.co/240x$height?text=${course!.title.trim()}",
           height: height, //todo: don't forget this
-          // width: double.infinity,
+          width: double.infinity,
           fit: BoxFit.cover,
         ),
       );
