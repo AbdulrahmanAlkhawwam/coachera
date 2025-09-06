@@ -14,3 +14,9 @@ class SubmitQuiz extends MaterialEvent {
 
   SubmitQuiz({required this.param});
 }
+
+class CompleteLesson extends MaterialEvent {
+  final CompleteLessonParam param;
+  CompleteLesson({required this.param});
+
+}

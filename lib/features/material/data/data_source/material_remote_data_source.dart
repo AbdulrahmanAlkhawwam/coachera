@@ -1,5 +1,6 @@
 import '../../../../core/constants/routes.dart';
 import '../../../../core/helpers/http/http_service.dart';
+import '../../domain/param/complete_lesson.dart';
 import '../../domain/param/quiz_param.dart';
 import '../model/material_model.dart';
 
@@ -7,6 +8,9 @@ abstract class MaterialRemoteDataSource {
   // Future <CourseModel> getCourse ({int id});
 
   Future<MaterialModel> getMaterial({int? id});
+
+
+  Future<void> completeLesson(CompleteLessonParam param);
 
   Future<void> submitQuiz(QuizParam param);
 // Future<List<CourseModel>> getCourses({int? page});
@@ -60,6 +64,15 @@ class MaterialRemoteDataSourceImpl extends MaterialRemoteDataSource {
           },
         ));
     print(response.data);
+  }
+
+  @override
+  Future<void> completeLesson(CompleteLessonParam param) async {
+    await http.handleApiCall(
+            () async => await http.post(Endpoint.completeLesson, queryParameters: {
+          "materialId": param.materialId.toString(),
+          "enrollmentId": param.enrollmentId.toString(),
+        }));
   }
 
 // @override

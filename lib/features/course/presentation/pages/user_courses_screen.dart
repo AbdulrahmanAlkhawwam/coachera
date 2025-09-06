@@ -96,7 +96,10 @@ class _UserCoursesScreenState extends State<UserCoursesScreen> {
                       progressData: progress,
                       onContinue: () => context.push(
                         Routes.courseDetails,
-                        arguments: {"course": progress.course},
+                        arguments: {
+                          "course": progress.course,
+                          'enrollment': progress.materialCompletions,
+                        },
                       ),
                       // state: /*ProgressCardState.loading ?*/ isCompleted
                       //     ? ProgressCardState.completed

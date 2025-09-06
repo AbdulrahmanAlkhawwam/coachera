@@ -84,7 +84,7 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
     final response = await http.handleApiCall(
         () async => await http.get(Endpoint.instructorCourses(instructorId)));
 
-    final List<dynamic> courses = response.data["content"];
+    final List<dynamic> courses = response.data;
 
     return courses.map((e) => CourseModel.fromJson(e)).toList();
   }

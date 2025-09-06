@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../../domain/entities/progress.dart';
+import '../../../../core/utils/app_context.dart';
 
 enum ProgressCardState { loading, ongoing, completed }
 
@@ -16,20 +17,12 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // total modules in this course
-    final totalModules = progressData.course.modules.length;
+    final totalModules = progressData.materialCompletions.length;
 
-    // modules completed (based on materialCompletions mapping to moduleIds)
-    final completedModules = progressData.course.modules
-        .where((module) => progressData.materialCompletions
-            .any((m) => m.id == module.id && m.completed))
+    final completedModules = progressData.materialCompletions
+        .where((material) => material.completed == true)
         .length;
 
-    // calculate module-based percentage
-    final modulePercent =
-        totalModules == 0 ? 0.0 : completedModules / totalModules;
-
-    // decide card state
     final cardState = (completedModules == totalModules && totalModules > 0)
         ? ProgressCardState.completed
         : ProgressCardState.ongoing;
@@ -40,8 +33,8 @@ class ProgressCard extends StatelessWidget {
       case ProgressCardState.completed:
         return _buildCompletedState(completedModules, totalModules);
       case ProgressCardState.ongoing:
-        return _buildOngoingState(
-            completedModules, totalModules, modulePercent);
+        return _buildOngoingState(context, completedModules, totalModules,
+            progressData.progress / 100);
     }
   }
 
@@ -81,8 +74,8 @@ class ProgressCard extends StatelessWidget {
     );
   }
 
-  Widget _buildOngoingState(
-      int completedModules, int totalModules, double modulePercent) {
+  Widget _buildOngoingState(BuildContext context, int completedModules,
+      int totalModules, double modulePercent) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       clipBehavior: Clip.antiAlias,
@@ -97,7 +90,6 @@ class ProgressCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Left section
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +105,7 @@ class ProgressCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        "$completedModules/$totalModules modules",
+                        "$completedModules/$totalModules Materials",
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.7),
                           fontSize: 14,
@@ -135,10 +127,7 @@ class ProgressCard extends StatelessWidget {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue[800],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                      backgroundColor: context.colors.surface,
                     ),
                     onPressed: onContinue,
                     child: const Text("Continue"),
@@ -151,7 +140,7 @@ class ProgressCard extends StatelessWidget {
               lineWidth: 10,
               percent: modulePercent,
               circularStrokeCap: CircularStrokeCap.round,
-              progressColor: Colors.tealAccent,
+              progressColor: context.colors.primary,
               backgroundColor: Colors.white24,
               center: Text(
                 "${(modulePercent * 100).round()}%",

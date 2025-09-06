@@ -51,7 +51,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
   @override
   void initState() {
     super.initState();
-    // context.read<CourseBloc>.add(GetUserCourses());
     context.read<CourseBloc>().add(GetUserCourses());
     context.read<FavoriteBloc>().add(GetFavorite(courseId: widget.course.id));
     context.read<ReviewBloc>().add(GetCourseReview(courseId: widget.course.id));

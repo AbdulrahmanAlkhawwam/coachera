@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import '../../domain/entities/completionState.dart';
 import '../../domain/entities/progress.dart';
 import 'course_model.dart';
@@ -18,7 +20,7 @@ class ProgressModel extends Progress {
         materialCompletions: List<MaterialCompletionModel>.from(
             json["materialCompletions"]
                 .map((x) => MaterialCompletionModel.fromJson(x))),
-        progress: json["progress"],
+        progress: double.parse(json["progress"].toString()),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,39 +35,40 @@ class ProgressModel extends Progress {
 
 class MaterialCompletionModel extends MaterialCompletion {
   MaterialCompletionModel({
-    required super.createdAt,
-    required super.updatedAt,
-    required super.id,
+    // required super.createdAt,
+    // required super.updatedAt,
+    // required super.id,
     required super.enrollmentId,
     required super.materialId,
     required super.completed,
-    required super.completionState,
-    required super.completionDate,
-    required super.triggerType,
+    // required super.completionState,
+    // required super.completionDate,
+    // required super.triggerType,
   });
 
-  factory MaterialCompletionModel.fromJson(Map<String, dynamic> json) =>
-      MaterialCompletionModel(
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        id: json["id"],
-        enrollmentId: json["enrollmentId"],
-        materialId: json["materialId"],
-        completed: json["completed"],
-        completionState: completionStateValues.map[json["completionState"]]!,
-        completionDate: DateTime.parse(json["completionDate"]),
-        triggerType: triggerTypeValues.map[json["triggerType"]]!,
-      );
+  factory MaterialCompletionModel.fromJson(Map<String, dynamic> json) {
+    return MaterialCompletionModel(
+      // createdAt: DateTime.parse(json["createdAt"]),
+      // updatedAt: DateTime.parse(json["updatedAt"]),
+      // id: json["id"],
+      enrollmentId: json["enrollmentId"],
+      materialId: json["materialId"],
+      completed: json["completed"],
+      // completionState: completionStateValues.map[json["completionState"]]!,
+      // completionDate: DateTime.parse(json["completionDate"]),
+      // triggerType: triggerTypeValues.map[json["triggerType"]]!,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
-        "id": id,
+        // "createdAt": createdAt.toIso8601String(),
+        // "updatedAt": updatedAt.toIso8601String(),
+        // "id": id,
         "enrollmentId": enrollmentId,
         "materialId": materialId,
         "completed": completed,
-        "completionState": completionStateValues.reverse[completionState],
-        "completionDate": completionDate.toIso8601String(),
-        "triggerType": triggerTypeValues.reverse[triggerType],
+        // "completionState": completionStateValues.reverse[completionState],
+        // "completionDate": completionDate.toIso8601String(),
+        // "triggerType": triggerTypeValues.reverse[triggerType],
       };
 }

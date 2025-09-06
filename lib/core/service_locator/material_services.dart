@@ -1,3 +1,4 @@
+import 'package:coachera/features/material/domain/use_cases/complete_lesson_uc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/material/data/data_source/material_remote_data_source.dart';
@@ -14,6 +15,8 @@ Future<void> initializeMaterialServices(GetIt sl) async {
       () => MaterialRepositoryImpl(dataSource: sl()));
   sl.registerLazySingleton<GetMaterialUC>(
       () => GetMaterialUC(repository: sl()));
+  sl.registerLazySingleton<CompleteLessonUC>(
+      () => CompleteLessonUC(repository: sl()));
   sl.registerLazySingleton<SubmitQuizUC>(
     () => SubmitQuizUC(repository: sl()),
   );
@@ -21,6 +24,7 @@ Future<void> initializeMaterialServices(GetIt sl) async {
     () => MaterialBloc(
       getMaterialUC: sl(),
       submitQuizUC: sl(),
+      completeLessonUC: sl(),
     ),
   );
 }

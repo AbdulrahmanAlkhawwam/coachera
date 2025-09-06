@@ -7,6 +7,7 @@ import 'package:coachera/features/material/domain/param/quiz_param.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/utils/app_util.dart';
+import '../../domain/param/complete_lesson.dart';
 import '../../domain/repositories/material_repository.dart';
 import '../data_source/material_remote_data_source.dart';
 
@@ -24,4 +25,10 @@ class MaterialRepositoryImpl extends MaterialRepository {
   @override
   Future<Either<Failure, void>> submitQuiz({required QuizParam param}) async =>
       await AppUtils.safeCall(() async => await dataSource.submitQuiz(param));
+
+  @override
+  Future<Either<Failure, void>> completeLesson(
+      CompleteLessonParam param) async =>
+      await AppUtils.safeCall(
+              () async => await dataSource.completeLesson(param));
 }
