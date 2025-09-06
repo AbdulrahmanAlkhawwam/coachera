@@ -88,7 +88,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           .where((element) => element.name == selectedEntityId)
                           .first
                           .name) {
-                        "courses" => Routes.courses,
+                        "courses" => Routes.courseSearch,
                         "reviews" => Routes.reviews,
                         "instructors" => Routes.instructors,
                         "learning-paths" => Routes.learningPaths,
@@ -96,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         // "categories" => Routes.categories,
                         _ => Routes.home,
                         // Routes.searchs,
-                      }),
+                      },),
                       child: Text("See All"),
                     ),
                   ],

@@ -8,6 +8,8 @@ import '../model/learning_path_model.dart';
 
 abstract class LearningPathRemoteDataSource {
   Future<List<LearningPathModel>> getLearningPaths(ListParam param);
+
+  // Future<List<LearningPathModel>> getOrgLearningPaths(int orgId);
 }
 
 class LearningPathRemoteDataSourceImpl extends LearningPathRemoteDataSource {

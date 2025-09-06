@@ -92,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 : const SizedBox(),
       ),
-      LearningPathCard(onTap: () => context.push(Routes.learningPaths)),
+      LearningPathAds(onTap: () => context.push(Routes.learningPaths)),
       BlocBuilder<OrganizationBloc, OrganizationState>(
         builder: (context, state) => state.organizations.isNotEmpty ||
                 state.status == OrganizationStatus.loading

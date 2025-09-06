@@ -23,6 +23,7 @@ class ReviewCard extends StatelessWidget {
     return Card(
       color: context.colors.primaryContainer,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(

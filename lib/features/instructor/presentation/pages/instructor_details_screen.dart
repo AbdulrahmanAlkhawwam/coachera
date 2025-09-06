@@ -139,7 +139,7 @@ class _InstructorDetailsScreenState extends State<InstructorDetailsScreen>
                 controller: _tabController,
                 children: [
                   _buildAboutTab(context),
-                  _buildCoursesTab(context),
+                  _buildCoursesTab(),
                   _buildReviewsTab(context),
                 ],
               ),
@@ -169,20 +169,35 @@ class _InstructorDetailsScreenState extends State<InstructorDetailsScreen>
     );
   }
 
-  Widget _buildCoursesTab(BuildContext context) {
+  Widget _buildCoursesTab() {
     return BlocBuilder<CourseBloc, CourseState>(
-      builder: (context, state) => ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 16),
-        padding: const EdgeInsets.all(16.0),
-        itemCount: state.courses.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => CourseCard(
-          type: CardType.horizontal,
-          course: state.courses[index],
-        ),
-      ),
+      builder: (context, state) => state.status == CourseStatus.loading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              // padding: const EdgeInsets.all(16),
+              itemCount: state.courses.length,
+              itemBuilder: (context, index) => CourseCard(
+                    course: state.courses[index],
+                    loading: state.status == CourseStatus.loading,
+                    type: CardType.horizontal,
+                  )),
     );
   }
+
+  // Widget _buildCoursesTab(BuildContext context) {
+  //   return BlocBuilder<CourseBloc, CourseState>(
+  //     builder: (context, state) => ListView.separated(
+  //       separatorBuilder: (context, index) => const SizedBox(height: 16),
+  //       padding: const EdgeInsets.all(16.0),
+  //       itemCount: state.courses.length,
+  //       scrollDirection: Axis.horizontal,
+  //       itemBuilder: (context, index) => CourseCard(
+  //         type: CardType.horizontal,
+  //         course: state.courses[index],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildReviewsTab(BuildContext context) {
     return ListView(

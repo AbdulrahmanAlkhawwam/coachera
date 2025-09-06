@@ -4,16 +4,16 @@ import 'package:coachera/core/utils/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LearningPathCard extends StatefulWidget {
+class LearningPathAds extends StatefulWidget {
   final VoidCallback onTap;
 
-  const LearningPathCard({super.key, required this.onTap});
+  const LearningPathAds({super.key, required this.onTap});
 
   @override
-  State<LearningPathCard> createState() => _LearningPathCardState();
+  State<LearningPathAds> createState() => _LearningPathAdsState();
 }
 
-class _LearningPathCardState extends State<LearningPathCard> {
+class _LearningPathAdsState extends State<LearningPathAds> {
   bool _pressed = false;
 
   @override

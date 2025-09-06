@@ -144,16 +144,16 @@ class _QuizLessonScreenState extends State<QuizLessonScreen> {
                             };
                           }).toList();
 
-                          context.read<MaterialBloc>().add(
-                                SubmitQuiz(
-                                  param: QuizParam(
-                                    quizId: widget.quiz.id,
-                                    questions: questionsPayload,
-                                  ),
-                                ),
-                              );
-                        }
-                      },
+                    context.read<MaterialBloc>().add(
+                          SubmitQuiz(
+                            param: QuizParam(
+                              quizId: widget.quiz.id,
+                              questions: questionsPayload,
+                            ),
+                          ),
+                        );
+                  }
+                },
                 child: Text(
                   currentIndex == questions.length - 1 ? "Finish" : "Submit",
                   style: context.textTheme.bodyLarge

@@ -9,7 +9,7 @@ class Material {
   final int sectionId;
   final int orderIndex;
   final MaterialType type;
-  final dynamic videoUrl;
+  final String? videoUrl;
   final String? article;
   final QuizModel? quiz;
 

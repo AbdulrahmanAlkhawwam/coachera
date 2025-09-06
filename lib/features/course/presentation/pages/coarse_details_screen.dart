@@ -158,7 +158,16 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
                                     : widget.course.instructors.firstOrNull ==
                                             null
                                         ? ''
-                                        : "by ${context.read<InstructorBloc>().state.instructors.firstOrNull?.name}",
+                                        : "by ${context.read<InstructorBloc>().state.instructors.where(
+                                              (element) =>
+                                                  element.id ==
+                                                  context
+                                                      .read<InstructorBloc>()
+                                                      .state
+                                                      .instructors
+                                                      .first
+                                                      .id,
+                                            ).firstOrNull?.name}",
                                 style: context.textTheme.bodyMedium?.copyWith(
                                   color: context.colors.primary,
                                   fontWeight: FontWeight.w600,
@@ -352,7 +361,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen>
 // أيقونة trailing
                                 IconData? trailingIcon;
                                 Color? trailingColor;
-
                                 if (isCompleted) {
                                   trailingIcon = TablerIcons.check;
                                   trailingColor = context.colors.primary;

@@ -1,6 +1,7 @@
 import 'package:coachera/features/auth/presentation/pages/edit_profile_screen.dart';
 import 'package:coachera/features/course/data/model/progress_model.dart';
 import 'package:coachera/features/course/domain/entities/progress.dart';
+import 'package:coachera/features/organization/presentation/pages/organization_details_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
@@ -113,6 +114,7 @@ class Routes {
   static const String articleLesson = '/courses/course/article-material';
   static const String payment = '/profile/payment';
   static const String reviews = '/profile/reviews';
+
   static const String courseSearch = '/home/search/courses';
   static const String editProfile = '/settings/profile/edit-profile';
   static const String instructors = '/home/instructors';
@@ -122,7 +124,8 @@ class Routes {
   static const String organizations = '/home/organizations';
   static const String organizationDetails = '/home/organizations/organization';
   static const String notification = '/home/notification';
-  static const String courses = "/courses";
+
+  // static const String courses = "/courses";
   static const String search = "/home/search";
   static const String setting = '/profile/setting';
   static const String faq = '/profile/setting/faq';
@@ -149,6 +152,7 @@ class Routes {
     videoLesson: (context, arguments) => VideoLessonScreen(
           material: arguments['material'],
           enrollmentId: arguments['enrollmentId'],
+      isComplete: arguments['complete'],
         ),
     editProfile: (context, arguments) => EditProfileScreen(),
     quizLesson: (context, arguments) =>
@@ -158,14 +162,13 @@ class Routes {
           enrollmentId: arguments['enrollmentId'],
           isComplete: arguments['complete'],
         ),
+    organizationDetails: (context, argument) =>
+        OrganizationDetailsScreen(organization: argument['organization']),
     instructors: (context, arguments) => InstructorScreen(),
-    instructorDetails: (context, arguments) => InstructorDetailsScreen(
-          instructor: arguments['instructor'],
-        ),
+    instructorDetails: (context, arguments) =>
+        InstructorDetailsScreen(instructor: arguments['instructor']),
     courseDetails: (context, arguments) => CourseDetailsScreen(
-          course: arguments['course'],
-          enrollments: arguments['enrollment'],
-        ),
+        course: arguments['course'], enrollments: arguments['enrollment']),
     courseSearch: (context, argument) => CourseSearch(
           searchParam: argument['param'],
         ),

@@ -1,4 +1,5 @@
 import 'package:coachera/core/utils/app_context.dart';
+import 'package:coachera/features/learningPath/presentation/pages/learning_path_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
@@ -11,6 +12,7 @@ import '../../../home/domain/param/sort_param.dart';
 import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../../domain/entities/learning_path.dart';
 import '../bloc/bloc/learning_path_bloc.dart';
+import '../widgets/learning_path_card.dart';
 
 class LearningPathsScreen extends StatefulWidget {
   const LearningPathsScreen({super.key});
@@ -94,15 +96,10 @@ class _LearningPathsScreenState extends State<LearningPathsScreen> {
             child: PagedListView<int, LearningPath>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<LearningPath>(
-                itemBuilder: (context, item, index) =>  ListTile(
-                  onTap: () => context.push(Routes.learningPath,
-                      arguments: {"learning-path": item}),
-                  leading: CircleAvatar(child: Text(item.id.toString())),
-                  title: Text(item.title),
-                  subtitle: Text(item.description,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.colors.outlineVariant.withAlpha(120))),
-                ),
+                itemBuilder: (context, item, index) => LearningPathCard(
+                    onTap: () => context.push(Routes.learningPath,
+                        arguments: {"learning-path": item}),
+                    learningPath: item),
                 firstPageProgressIndicatorBuilder: (context) =>
                     const Center(child: CircularProgressIndicator()),
                 newPageProgressIndicatorBuilder: (context) =>

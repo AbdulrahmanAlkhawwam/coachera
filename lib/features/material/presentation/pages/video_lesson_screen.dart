@@ -15,11 +15,13 @@ import '../bloc/bloc/material_bloc.dart';
 
 class VideoLessonScreen extends StatefulWidget {
   final Material material;
+  final bool isComplete;
   final int enrollmentId;
 
   const VideoLessonScreen({
     super.key,
     required this.material,
+    required this.isComplete,
     required this.enrollmentId,
   });
 
@@ -39,11 +41,11 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
     context
         .read<MaterialBloc>()
         .add(GetMaterial(materialId: widget.material.id));
-
+    // print("https${widget.material.videoUrl?.substring(3)}");
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      widget.material.videoUrl ??
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "https${widget.material.videoUrl?.substring(4)}" ??
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
     );
 
     _betterPlayerController = BetterPlayerController(
@@ -158,7 +160,7 @@ class _VideoLessonScreenState extends State<VideoLessonScreen>
         ),
       ),
       // NEW: floatingActionButton for video completion
-      floatingActionButton: _isVideoEnded
+      floatingActionButton: !widget.isComplete && _isVideoEnded
           ? FilledButton(
               onPressed: () => context.read<MaterialBloc>().add(CompleteLesson(
                       param: CompleteLessonParam(
