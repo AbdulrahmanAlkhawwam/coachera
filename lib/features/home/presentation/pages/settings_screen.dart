@@ -72,12 +72,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
               builder: (context) => ThemeDialog(),
             ),
       },
-      if (context.read<AuthBloc>().state.userStatus != UserStatus.guest)
-        {
-          'icon': TablerIcons.bell_ringing,
-          'label': LocaleKeys.screens_setting_notification.tr(),
-          'route': 'Routes.setting',
-        },
+      // if (context.read<AuthBloc>().state.userStatus != UserStatus.guest)
+      //   {
+      //     'icon': TablerIcons.bell_ringing,
+      //     'label': LocaleKeys.screens_setting_notification.tr(),
+      //     'route': 'Routes.setting',
+      //   },
     ];
     return Scaffold(
       appBar: AppBar(

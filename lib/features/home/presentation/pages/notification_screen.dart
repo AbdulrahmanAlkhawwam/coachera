@@ -42,29 +42,75 @@ class _NotificationScreenState extends State<NotificationScreen> {
           },
           child: BlocBuilder<NotificationBloc, NotificationState>(
             builder: (context, state) {
-              return switch (state.status) {
-                NotificationStatus.loading =>
-                  const Center(child: CircularProgressIndicator()),
-                _ => state.notification.isEmpty
-                    ? _emptyList()
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.notification.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 8),
-                        itemBuilder: (context, index) {
-                          final notification = state.notification[index];
-                          return NotificationCard(
-                            notification: notification,
-                            onMarkRead: () => context
-                                .read<NotificationBloc>()
-                                .add(MarkNotification(id: notification.id)),
-                          );
-                        },
-                      )
-              };
+              return context.read<AuthBloc>().state.userStatus ==
+                      UserStatus.guest
+                  ? _guestHolder()
+                  : switch (state.status) {
+                      NotificationStatus.loading =>
+                        const Center(child: CircularProgressIndicator()),
+                      _ => state.notification.isEmpty
+                          ? _emptyList()
+                          : ListView.separated(
+                              padding: const EdgeInsets.all(16),
+                              itemCount: state.notification.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(height: 8),
+                              itemBuilder: (context, index) {
+                                final notification = state.notification[index];
+                                return NotificationCard(
+                                  notification: notification,
+                                  onMarkRead: () => context
+                                      .read<NotificationBloc>()
+                                      .add(MarkNotification(
+                                          id: notification.id)),
+                                );
+                              },
+                            )
+                    };
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _guestHolder() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Spacer(),
+            AppImage(
+              context.isDark ? Res.favoriteDark : Res.favoriteLight,
+              height: 160,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              "You are Guest",
+              style: context.textTheme.headlineSmall
+                  ?.copyWith(color: context.colors.onSurface),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              textAlign: TextAlign.center,
+              "You're browsing as a guest right now. \nPlease log in to access your favorite items",
+              style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.colors.onPrimaryContainer.withAlpha(160)),
+            ),
+            Spacer(),
+            FilledButton(
+                onPressed: () =>
+                    context.read<NotificationBloc>().add(GetMyNotifications()),
+                child: Text("Lets Try Again !")),
+            const SizedBox(height: 8),
+            OutlinedButton(
+              onPressed: () => context.pushReplacement(Routes.login),
+              child: Text('Login now !'),
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );

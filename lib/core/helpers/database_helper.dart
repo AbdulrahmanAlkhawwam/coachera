@@ -56,18 +56,17 @@ class DatabaseHelperImpl implements DatabaseHelper {
   Future<void> close() async => await _db.close();
 
   static FutureOr<void> onCreate(Database db, int version) async {
-    await db.execute(
-      """CREATE TABLE $favoriteTable(
-      id             INTEGER PRIMARY KEY       NOT NULL,
-      created_at     TEXT                      NOT NULL,
-      updated_at     TEXT                      NOT NULL,
-      title          TEXT                      NOT NULL,
-      description    TEXT                      NOT NULL,
-      duration_hours TEXT                      NOT NULL,
-      price          REAL                      NOT NULL,
-      rating         REAL                      NOT NULL,
-      org_id         INTEGER                   NOT NULL
-    )""",
-    );
+    await db.execute("""CREATE TABLE $favoriteTable(
+      id             INTEGER PRIMARY KEY NOT NULL,
+      createdAt      TEXT NOT NULL,
+      updatedAt      TEXT NOT NULL,
+      title          TEXT NOT NULL,
+      description    TEXT NOT NULL,
+      durationHours  TEXT NOT NULL,
+      image          TEXT NOT NULL,
+      price          REAL NOT NULL,
+      rating         REAL NOT NULL,
+      orgId          INTEGER NOT NULL
+  )""");
   }
 }

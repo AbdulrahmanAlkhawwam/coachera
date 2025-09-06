@@ -2,10 +2,10 @@ import 'package:coachera/features/quiz/domain/entities/question.dart';
 
 class QuestionModel extends Question {
   QuestionModel({
-    required super.createdAt,
-    required super.updatedAt,
+    // required super.createdAt,
+    // required super.updatedAt,
     required super.id,
-    required super.quizId,
+    // required super.quizId,
     required super.content,
     required super.firstAnswer,
     required super.secondAnswer,
@@ -14,10 +14,10 @@ class QuestionModel extends Question {
   });
 
   factory QuestionModel.fromJson(Map<String, dynamic> json) => QuestionModel(
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        // createdAt: DateTime.parse(json["createdAt"]),
+        // updatedAt: DateTime.parse(json["updatedAt"]),
         id: json["id"],
-        quizId: json["quizId"],
+        // quizId: json["quizId"],
         content: json["content"],
         firstAnswer: json["answer1"],
         secondAnswer: json["answer2"],
@@ -26,10 +26,10 @@ class QuestionModel extends Question {
       );
 
   Map<String, dynamic> toJson() => {
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        // "createdAt": createdAt.toIso8601String(),
+        // "updatedAt": updatedAt.toIso8601String(),
         "id": id,
-        "quizId": quizId,
+        // "quizId": quizId,
         "content": content,
         "answer1": firstAnswer,
         "answer2": secondAnswer,

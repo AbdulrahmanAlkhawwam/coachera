@@ -1,4 +1,6 @@
-import 'package:coachera/features/learningPath/presentation/pages/learning_path_details_screen.dart';
+import 'package:coachera/features/auth/presentation/pages/edit_profile_screen.dart';
+import 'package:coachera/features/course/data/model/progress_model.dart';
+import 'package:coachera/features/course/domain/entities/progress.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
@@ -16,6 +18,7 @@ import '../../features/home/presentation/pages/privacy_condition_screen.dart';
 import '../../features/home/presentation/pages/settings_screen.dart';
 import '../../features/instructor/presentation/pages/instructor_details_screen.dart';
 import '../../features/instructor/presentation/pages/instructors_screen.dart';
+import '../../features/learningPath/presentation/pages/learning_path_details_screen.dart';
 import '../../features/learningPath/presentation/pages/learning_paths_screen.dart';
 import '../../features/material/presentation/pages/article_lesson_screen.dart';
 import '../../features/material/presentation/pages/quiz_lesson_screen.dart';
@@ -23,6 +26,7 @@ import '../../features/material/presentation/pages/video_lesson_screen.dart';
 import '../../features/organization/presentation/pages/organizations_screen.dart';
 import '../../features/payment/presentation/pages/payment_screen.dart';
 import '../../features/review/presentation/pages/reviews_screen.dart';
+import '../../features/search/presentation/pages/course_search.dart';
 import '../../features/search/presentation/pages/search_screen.dart';
 import '../service_locator/service_locator.dart';
 
@@ -35,6 +39,8 @@ class Endpoint {
 
   /// search
   static String getEntities = '/search/entities';
+
+  static String getSearchCourses(categoryId) => '/courses/category/$categoryId';
 
   static String search(String entity) => '/search/$entity';
 
@@ -62,6 +68,7 @@ class Endpoint {
 
   /// course
   static String enroll(courseId) => '/enrollments/student/$courseId';
+  static String completeLesson = '/completions/materials/check';
   static String progress = '/enrollments/student';
   static String courses = '/courses';
   static String recommendedCourses = '/courses/recommended';
@@ -106,6 +113,8 @@ class Routes {
   static const String articleLesson = '/courses/course/article-material';
   static const String payment = '/profile/payment';
   static const String reviews = '/profile/reviews';
+  static const String courseSearch = '/home/search/courses';
+  static const String editProfile = '/settings/profile/edit-profile';
   static const String instructors = '/home/instructors';
   static const String instructorDetails = '/home/instructors/instructor';
   static const String learningPaths = '/home/learning-paths';
@@ -137,18 +146,29 @@ class Routes {
     search: (context, arguments) => SearchScreen(),
     faq: (context, arguments) => FAQScreen(),
     privacy: (context, arguments) => PrivacyConditionScreen(),
-    videoLesson: (context, arguments) =>
-        VideoLessonScreen(lesson: arguments['material']),
+    videoLesson: (context, arguments) => VideoLessonScreen(
+          material: arguments['material'],
+          enrollmentId: arguments['enrollmentId'],
+        ),
+    editProfile: (context, arguments) => EditProfileScreen(),
     quizLesson: (context, arguments) =>
         QuizLessonScreen(quiz: arguments["material"]),
-    articleLesson: (context, arguments) =>
-        ArticleLessonScreen(material: arguments["material"]),
+    articleLesson: (context, arguments) => ArticleLessonScreen(
+          material: arguments["material"],
+          enrollmentId: arguments['enrollmentId'],
+          isComplete: arguments['complete'],
+        ),
     instructors: (context, arguments) => InstructorScreen(),
     instructorDetails: (context, arguments) => InstructorDetailsScreen(
           instructor: arguments['instructor'],
         ),
-    courseDetails: (context, arguments) =>
-        CourseDetailsScreen(course: arguments['course']),
+    courseDetails: (context, arguments) => CourseDetailsScreen(
+          course: arguments['course'],
+          enrollments: arguments['enrollment'],
+        ),
+    courseSearch: (context, argument) => CourseSearch(
+          searchParam: argument['param'],
+        ),
     recommendedCourses: (context, argument) => RecommendedCoursesScreen(),
     notification: (context, argument) => NotificationScreen(),
     organizations: (context, argument) => OrganizationsScreen(),

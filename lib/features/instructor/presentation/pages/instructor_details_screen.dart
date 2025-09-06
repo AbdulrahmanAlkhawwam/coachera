@@ -111,7 +111,9 @@ class _InstructorDetailsScreenState extends State<InstructorDetailsScreen>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _StatColumn("5", "Courses"),
+                            _StatColumn(
+                                "${context.read<CourseBloc>().state.courses.length}",
+                                "Courses"),
                             const SizedBox(width: 20),
                             _StatColumn("17", "Students"),
                             const SizedBox(width: 20),

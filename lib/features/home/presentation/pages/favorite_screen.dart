@@ -29,6 +29,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(CheckUserType());
+    context.read<AuthBloc>().state.userStatus != UserStatus.guest
+        ? context.read<FavoriteBloc>().add(GetFavorites())
+        : null;
+
     return RefreshIndicator(
       onRefresh: () async {
         context.read<FavoriteBloc>().add(GetFavorites());
@@ -150,7 +154,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                 child: Text("Lets Try Again !")),
             const SizedBox(height: 8),
             OutlinedButton(
-              onPressed: () => context.pushReplacement(Routes.courses),
+              onPressed: () => context.push (Routes.recommendedCourses),
               child: Text('View Courses'),
             ),
             Spacer(),

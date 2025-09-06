@@ -56,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _refreshData() async {
-    // Always fetch fresh data (don’t depend on empty check)
     context.read<AuthBloc>().add(GetMe());
     context
         .read<InstructorBloc>()
@@ -68,8 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
     context
         .read<OrganizationBloc>()
         .add(GetOrganizations(param: ListParam(page: 0, sort: SortParam())));
-
-    // small delay so RefreshIndicator knows work finished
     await Future.delayed(const Duration(milliseconds: 500));
   }
 
@@ -114,65 +111,6 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : const SizedBox(),
       ),
-      // Container(
-      //   height: context.height / 5,
-      //   decoration: const BoxDecoration(
-      //     gradient: LinearGradient(
-      //       colors: [
-      //         Color(0xFF20C997),
-      //         Color(0xFF18B4AC),
-      //       ],
-      //       begin: Alignment.topLeft,
-      //       end: Alignment.bottomRight,
-      //     ),
-      //     borderRadius: BorderRadius.all(Radius.circular(16)),
-      //   ),
-      //   child: Container(
-      //     margin: EdgeInsets.all(4),
-      //     decoration: BoxDecoration(
-      //       color: context.colors.primaryContainer,
-      //       borderRadius: BorderRadius.all(Radius.circular(12)),
-      //     ),
-      //     child: Container(
-      //       margin: EdgeInsets.all(4),
-      //       decoration: BoxDecoration(
-      //         gradient: LinearGradient(
-      //           colors: [
-      //             Color(0xFF20C997),
-      //             Color(0xFF18B4AC),
-      //           ],
-      //           begin: Alignment.topLeft,
-      //           end: Alignment.bottomRight,
-      //         ),
-      //         borderRadius: BorderRadius.all(Radius.circular(8)),
-      //       ),
-      //       child: Stack(
-      //         // mainAxisSize: MainAxisSize.min,
-      //         children: [
-      //           Align(
-      //             alignment: Alignment.bottomLeft,
-      //             child: AppImage(Res.learningPathAds),
-      //           ),
-      //           Padding(
-      //             padding: const EdgeInsets.all(16),
-      //             child: Text(
-      //               "Learning Path\nis Available Now",
-      //               style: context.textTheme.displaySmall?.copyWith(
-      //                 color: context.colors.surface,
-      //                 fontFamily: GoogleFonts.laBelleAurore(
-      //                   fontWeight: FontWeight.w600,
-      //                 ).fontFamily,
-      //               ),
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // FilledButton(
-      //     onPressed: () => context.push(Routes.instructors),
-      //     child: Text("instructors"))
     ];
     return RefreshIndicator(
       onRefresh: _refreshData,
@@ -186,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-                "Hi , ${context.read<AuthBloc>().state.user?.firstName ?? "Guest"}"),
+                "Hi , ${context.read<AuthBloc>().state.userStatus == UserStatus.guest ? "Guest" : context.read<AuthBloc>().state.user?.firstName ?? "How are you ?!"}"),
             actions: [
               BlocBuilder<NotificationBloc, NotificationState>(
                 builder: (context, state) => IconButton(
@@ -215,18 +153,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-/* await showModalBottomSheet(
-                  isScrollControlled: true,
-                  useSafeArea: true,
-                  builder: (context) => FilterSheet(
-                    starsLength: 3,
-                    onFilter: (filterData) => print(filterData),
-                    categories: [
-                      Category(id: 1, iconName: "code", title: "Coding"),
-                      Category(id: 2, iconName: "design", title: "Design"),
-                      Category(id: 3, iconName: "marketing", title: "Marketing"),
-                    ],
-                    priceRanges: ["\$10 - \$50", "\$50 - \$100", "\$100 - \$150"],
-                  ),
-                  context: context,
-                ),*/

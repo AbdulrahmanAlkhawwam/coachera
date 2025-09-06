@@ -120,7 +120,7 @@ class _ProfileList extends StatelessWidget {
       {
         'icon': TablerIcons.user,
         'label': 'Personal Data',
-        'route': 'Routes.settings',
+        'route': Routes.editProfile,
       },
       {
         'icon': TablerIcons.credit_card,

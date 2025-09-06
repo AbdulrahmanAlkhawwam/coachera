@@ -6,15 +6,22 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 /// [MdHelper] widget to render Markdown content with custom styles.
 class MdHelper extends StatelessWidget {
   final String markdownData;
+  final ScrollController? scrollController;
 
-  const MdHelper({super.key, required this.markdownData});
+  const MdHelper({
+    super.key,
+    required this.markdownData,
+    this.scrollController,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Markdown(
+      controller: scrollController,
       data: normalizeMd(markdownData),
       styleSheet: _buildMarkdownStyle(context),
-      selectable: true, // يخلي النص قابل للنسخ
+      selectable: true,
+      // يخلي النص قابل للنسخ
       onTapLink: (text, href, title) async {
         // if (href != null) {
         //   final uri = Uri.parse(href);
@@ -30,9 +37,7 @@ class MdHelper extends StatelessWidget {
 
   /// Custom style for Markdown rendering
   MarkdownStyleSheet _buildMarkdownStyle(BuildContext context) {
-    final colorScheme = Theme
-        .of(context)
-        .colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return MarkdownStyleSheet(
       a: TextStyle(
@@ -137,17 +142,13 @@ String normalizeMd(String s) {
 
   int? minIndent;
   for (final l in lines) {
-    if (l
-        .trim()
-        .isEmpty) continue;
-    final i = l.length - l
-        .trimLeft()
-        .length;
+    if (l.trim().isEmpty) continue;
+    final i = l.length - l.trimLeft().length;
     if (minIndent == null || i < minIndent!) minIndent = i;
   }
   final indent = minIndent ?? 0;
   final out =
-  lines.map((l) => l.length >= indent ? l.substring(indent) : l).join('\n');
+      lines.map((l) => l.length >= indent ? l.substring(indent) : l).join('\n');
   return out.trim();
 }
 
