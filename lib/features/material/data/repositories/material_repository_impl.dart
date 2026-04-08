@@ -1,5 +1,4 @@
 import 'package:coachera/core/error/failures.dart';
-import 'package:coachera/features/app.dart';
 
 import 'package:coachera/features/material/domain/entities/material.dart';
 import 'package:coachera/features/material/domain/param/quiz_param.dart';

@@ -1,13 +1,9 @@
-import 'package:coachera/features/auth/domain/params/register_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
-import '../../../../core/constants/res.dart';
 import '../../../../core/utils/app_context.dart';
-import '../../../../core/components/screen.dart';
 import '../manager/bloc/auth_bloc.dart';
 import '../manager/cubit/validate_cubit.dart';
 
@@ -42,7 +38,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 leading: IconButton(
                   onPressed: () =>
                       Navigator.canPop(context) ? context.pop() : null,
-                  // todo : don't forget to fix this in the future
                   icon: Icon(TablerIcons.chevron_left),
                 ),
                 title: Text(
@@ -117,16 +112,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 : TablerIcons.eye_closed,
                             suffixFunctionButton: () => cubit.changeAppear(),
                           ),
-                          // const SizedBox(height: 16.0),
-                          // Align(
-                          //   alignment: Alignment.centerRight,
-                          //   child: TextButton(
-                          //     onPressed: () {
-                          //       // todo : don't forget to add forgot password logic
-                          //     },
-                          //     child: const Text('Forgot password?'),
-                          //   ),
-                          // ),
                           const SizedBox(height: 32.0),
                           FilledButton(
                             onPressed: bloc.state.status ==
@@ -134,16 +119,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                     _passwordController.text.compareTo(
                                             _confirmPasswordController.text) !=
                                         0
-                                // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                // ||
-                                // (context.read<ValidateCubit>().passwordValidate(
-                                //             _passwordController.text) !=
-                                //         null &&
-                                //     context.read<ValidateCubit>().emailValidate(
-                                //             _emailController.text) !=
-                                //         null)
                                 ? null
-                                // : () {},
                                 : () => _key.currentState!.validate()
                                     ? print("reset password")
                                     : null,

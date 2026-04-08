@@ -1,0 +1,36 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Coachera Debug (MyAVD + .env)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "toolArgs": [
+                "--dart-define-from-file=.env"
+            ],
+            "preLaunchTask": "start-emulator"
+        },
+        {
+            "name": "Coachera Build APK (.env)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "toolArgs": [
+                "--dart-define-from-file=.env"
+            ],
+            "preLaunchTask": "build-apk"
+        },
+        {
+            "name": "Coachera Release Run (MyAVD + .env)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart",
+            "toolArgs": [
+                "--dart-define-from-file=.env"
+            ],
+            "preLaunchTask": "start-emulator"
+        }
+    ]
+}

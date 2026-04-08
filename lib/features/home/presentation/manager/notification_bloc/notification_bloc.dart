@@ -4,12 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../../core/utils/message.dart';
-import '../../../../course/domain/entities/course.dart';
 import '../../../domain/entities/notification.dart';
-import '../../../domain/use_cases/add_favorite_uc.dart';
-import '../../../domain/use_cases/delete_favorite_uc.dart';
-import '../../../domain/use_cases/get_favorite_uc.dart';
-import '../../../domain/use_cases/get_favorites_uc.dart';
 import '../../../domain/use_cases/get_my_notification_uc.dart';
 import '../../../domain/use_cases/get_unread_notification_uc.dart';
 import '../../../domain/use_cases/mark_notification_uc.dart';

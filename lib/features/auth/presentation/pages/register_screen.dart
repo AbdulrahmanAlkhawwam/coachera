@@ -1,6 +1,5 @@
 import 'package:coachera/core/components/bounded_list.dart';
 import 'package:coachera/core/constants/routes.dart';
-import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/features/auth/domain/params/register_param.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -72,7 +71,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 leading: IconButton(
                   onPressed: () =>
                       Navigator.canPop(context) ? context.pop() : null,
-                  // todo : don't forget to fix this in the future
                   icon: Icon(TablerIcons.chevron_left),
                 ),
                 title: Text(
@@ -165,7 +163,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 },
                               ),
 
-                              // const SizedBox(height: 32.0),
                               Text('Email',
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.onSurface)),
@@ -197,7 +194,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 controller: phoneController,
                                 onChanged: (val) {},
                               ),
-                              // const SizedBox(height: 32.0),
                               Text('Password',
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.onSurface)),
@@ -217,7 +213,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 suffixFunctionButton: () =>
                                     cubit.changeAppear(),
                               ),
-                              // const SizedBox(height: 32.0),
                               Text('Confirm Password',
                                   style: context.textTheme.bodyMedium?.copyWith(
                                       color: context.colors.onSurface)),
@@ -237,17 +232,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 suffixFunctionButton: () =>
                                     cubit.changeAppear(),
                               ),
-                              // const SizedBox(height: 16.0),
-                              // Align(
-                              //   alignment: Alignment.centerRight,
-                              //   child: TextButton(
-                              //     onPressed: () {
-                              //       // todo : don't forget to add forgot password logic
-                              //     },
-                              //     child: const Text('Forgot password?'),
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 32.0),
                             ],
                           ),
                         ),
@@ -260,16 +244,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     _passwordController.text.compareTo(
                                             _confirmPasswordController.text) !=
                                         0
-                                // TODO : when you have more time you should to make the login button disable when user don't input the data
-                                // ||
-                                // (context.read<ValidateCubit>().passwordValidate(
-                                //             _passwordController.text) !=
-                                //         null &&
-                                //     context.read<ValidateCubit>().emailValidate(
-                                //             _emailController.text) !=
-                                //         null)
                                 ? null
-                                // : () {},
                                 : () => _key.currentState!.validate()
                                     ? context.read<AuthBloc>().add(Register(
                                             param: RegisterParam(
@@ -297,22 +272,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         const SizedBox(height: 16.0),
-                        // OutlinedButton(
-                        //   // TODO : don't for get to add google sign in method
-                        //   onPressed: null,
-                        //   child: Row(
-                        //     crossAxisAlignment: CrossAxisAlignment.center,
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       SvgPicture.asset(
-                        //         Res.google,
-                        //         width: 32,
-                        //       ),
-                        //       Text('Continue With Google'),
-                        //     ],
-                        //   ),
-                        // ),
-                        // const SizedBox(height: 24.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[

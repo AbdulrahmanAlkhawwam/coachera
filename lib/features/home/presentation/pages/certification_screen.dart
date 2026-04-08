@@ -46,36 +46,35 @@ class _CertificationScreenState extends State<CertificationScreen> {
         child: BlocConsumer<FavoriteBloc, FavoriteState>(
             listener: (context, state) {},
             builder: (context, state) => switch (state.status) {
-              FavoriteStatus.loading =>
-              const Center(child: CircularProgressIndicator()),
-              _ => Scaffold(
-                appBar: AppBar(
-                  title: Text("Certificates"),
-                ),
-                body: context.read<AuthBloc>().state.userStatus ==
-                    UserStatus.guest
-                    ? _guestHolder()
-                    : state.courses.isEmpty
-                    ? _emptyList()
-                    : ListView.separated(
-                  itemBuilder: (context, index) => CourseCard(
-                    type: CardType.horizontal,
-                    course: context
-                        .read<FavoriteBloc>()
-                        .state
-                        .courses[index],
-                  ),
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: 8.0),
-                  itemCount: context
-                      .read<FavoriteBloc>()
-                      .state
-                      .courses
-                      .length ??
-                      0,
-                ),
-              ),
-            }),
+                  FavoriteStatus.loading =>
+                    const Center(child: CircularProgressIndicator()),
+                  _ => Scaffold(
+                      appBar: AppBar(
+                        title: Text("Certificates"),
+                      ),
+                      body: context.read<AuthBloc>().state.userStatus ==
+                              UserStatus.guest
+                          ? _guestHolder()
+                          : state.courses.isEmpty
+                              ? _emptyList()
+                              : ListView.separated(
+                                  itemBuilder: (context, index) => CourseCard(
+                                    type: CardType.horizontal,
+                                    course: context
+                                        .read<FavoriteBloc>()
+                                        .state
+                                        .courses[index],
+                                  ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(height: 8.0),
+                                  itemCount: context
+                                      .read<FavoriteBloc>()
+                                      .state
+                                      .courses
+                                      .length,
+                                ),
+                    ),
+                }),
       ),
     );
   }
@@ -154,7 +153,7 @@ class _CertificationScreenState extends State<CertificationScreen> {
                 child: Text("Lets Try Again !")),
             const SizedBox(height: 8),
             OutlinedButton(
-              onPressed: () => context.push (Routes.recommendedCourses),
+              onPressed: () => context.push(Routes.recommendedCourses),
               child: Text('View Courses'),
             ),
             Spacer(),

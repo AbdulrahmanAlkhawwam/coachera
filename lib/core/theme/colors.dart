@@ -12,65 +12,54 @@ class ColorSchemes {
   static ColorScheme lightColors = ColorScheme(
     brightness: Brightness.light,
 
-    // primary
     primary: ColorSchemes.turquoiseGreen,
     onPrimary: ColorSchemes.white,
     primaryContainer: ColorSchemes.babyPowder,
     onPrimaryContainer: ColorSchemes.darkGreen,
 
-    // secondary
     secondary: ColorSchemes.vividOrange,
     onSecondary: ColorSchemes.white,
     secondaryContainer: const Color(0xFFFFECD2),
     onSecondaryContainer: const Color(0xFF332006),
 
-    // error
-    // error: const Color(0xFFAB3737),
     error: ColorSchemes.poppy,
     onError: ColorSchemes.white,
     errorContainer: const Color(0xFFFDF6F6),
     onErrorContainer: const Color(0xFF2B0E0E),
 
-    // surface
     surface: ColorSchemes.white,
     onSurface: ColorSchemes.darkGreen,
     surfaceContainerHighest: const Color(0xFFD5F3F0),
     surfaceContainer: ColorSchemes.babyPowder,
     onSurfaceVariant: ColorSchemes.gray,
 
-    // outline
     outline: const Color(0xFFC9CCCC),
   );
 
   static ColorScheme darkColor = ColorScheme(
     brightness: Brightness.dark,
 
-    // primary
     primary: ColorSchemes.turquoiseGreen,
     onPrimary: const Color(0xFF124E49),
     primaryContainer: const Color(0xFF0C3430),
     onPrimaryContainer: const Color(0xFFD5F3F0),
 
-    // secondary
     secondary: ColorSchemes.vividOrange,
     onSecondary: const Color(0xFF66400B),
     secondaryContainer: const Color(0xFF995F11),
     onSecondaryContainer: const Color(0xFFFFECD2),
 
-    // surface
     surface: ColorSchemes.darkGreen,
     onSurface: const Color(0xFFF5F6F6),
     surfaceContainerHighest: const Color(0xFF3A5250),
     surfaceContainer: const Color(0xFF071F1D),
     onSurfaceVariant: ColorSchemes.gray,
 
-    // error
     error: ColorSchemes.poppy,
     onError: const Color(0xFF561C1C),
     errorContainer: const Color(0xFF382726),
     onErrorContainer: const Color(0xFFF7DADA),
 
-    // outline
     outline: const Color(0xFF3A5250),
   );
 }

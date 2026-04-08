@@ -2,8 +2,6 @@ import 'package:coachera/core/utils/app_context.dart';
 import 'package:coachera/core/utils/app_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/rate.dart';
 import '../../domain/entities/review.dart';

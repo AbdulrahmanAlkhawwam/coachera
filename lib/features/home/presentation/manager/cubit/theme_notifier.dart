@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/localization/keys.g.dart';
 import '../../../domain/use_cases/theme_uc.dart';
 
 class ThemeNotifier with ChangeNotifier {

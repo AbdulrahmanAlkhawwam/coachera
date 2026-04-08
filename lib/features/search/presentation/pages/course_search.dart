@@ -2,16 +2,11 @@ import 'package:coachera/core/constants/strings.dart';
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:coachera/features/course/presentation/widgets/course_card.dart';
 import 'package:coachera/features/home/domain/entities/card_type.dart';
-import 'package:coachera/features/home/domain/param/sort_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../core/constants/routes.dart';
 import '../../../course/domain/entities/course.dart';
-import '../../../course/presentation/bloc/bloc/course_bloc.dart';
-import '../../../home/domain/param/list_param.dart';
 import '../../domain/params/search_param.dart';
 import '../bloc/search_bloc.dart';
 

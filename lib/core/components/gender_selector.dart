@@ -29,7 +29,7 @@ class _GenderSelectorState extends State<GenderSelector> {
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
       ),
-      value: selectedGender,
+      initialValue: selectedGender,
       items: const [
         DropdownMenuItem(value: "male", child: Text("Male")),
         DropdownMenuItem(value: "female", child: Text("Female")),

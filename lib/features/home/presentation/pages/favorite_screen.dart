@@ -71,8 +71,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                           .read<FavoriteBloc>()
                                           .state
                                           .courses
-                                          .length ??
-                                      0,
+                                          .length ,
                                 ),
                     ),
                 }),

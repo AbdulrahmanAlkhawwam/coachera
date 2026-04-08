@@ -1,5 +1,3 @@
-import 'package:coachera/features/course/domain/params/recommended_courses_param.dart';
-import 'package:coachera/features/course/presentation/pages/recommended_courses_screen.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';

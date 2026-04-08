@@ -1,12 +1,9 @@
 import 'package:coachera/core/utils/app_util.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../domain/repositories/notification_repository.dart';
-import '../../domain/repositories/settings_repository.dart';
 import '../data_source/notification_remote_data_source.dart';
-import '../data_source/settings_local_data_source.dart';
 import '../model/notification_model.dart';
 
 class NotificationRepositoryImpl extends NotificationRepository {

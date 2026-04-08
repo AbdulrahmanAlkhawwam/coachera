@@ -38,15 +38,17 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   String? validateCVV(String? input) {
     if (input == null || input.isEmpty) return 'CVV is required';
-    if (!RegExp(r'^\d{3,4}$').hasMatch(input))
+    if (!RegExp(r'^\d{3,4}$').hasMatch(input)) {
       return 'CVV must be 3 or 4 digits';
+    }
     return null;
   }
 
    String? validateExpiry(String? input) {
     if (input == null || input.isEmpty) return 'Expiry date is required';
-    if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(input))
+    if (!RegExp(r'^\d{2}/\d{2}$').hasMatch(input)) {
       return 'Expiry must be MM/YY';
+    }
 
     final parts = input.split('/');
     int month = int.parse(parts[0]);

@@ -112,7 +112,7 @@ class CourseCard extends StatelessWidget {
                     child: AppImage(
                       course!.image ??
                           "https://placehold.co/240x160?text=${course!.title.trim()}",
-                      height: 160, //todo: don't forget this
+                      height: 160,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
@@ -157,7 +157,6 @@ class CourseCard extends StatelessWidget {
                         Text('${course!.rating}',
                             style: context.textTheme.bodySmall),
                         const Spacer(),
-                        // TODO: favorite button
                       ],
                     )
                   ],
@@ -173,7 +172,7 @@ class CourseCard extends StatelessWidget {
         child: AppImage(
           course!.image ??
               "https://placehold.co/240x$height?text=${course!.title.trim()}",
-          height: height, //todo: don't forget this
+          height: height,
           width: double.infinity,
           fit: BoxFit.cover,
         ),

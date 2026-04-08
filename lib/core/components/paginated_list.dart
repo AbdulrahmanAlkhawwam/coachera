@@ -1,7 +1,5 @@
-import 'package:coachera/core/components/bounded_list.dart';
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 typedef ItemBuilder<T> = Widget Function(BuildContext context, T item, int index);
 typedef FetchPage<T> = Future<void> Function(int page);

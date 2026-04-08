@@ -1,4 +1,3 @@
-import '../../../course/data/model/course_model.dart';
 import '../../domain/entities/learning_path.dart';
 
 class LearningPathModel extends LearningPath {

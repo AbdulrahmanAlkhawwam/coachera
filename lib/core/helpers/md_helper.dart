@@ -1,7 +1,6 @@
 import 'package:coachera/core/utils/app_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
 /// [MdHelper] widget to render Markdown content with custom styles.
 class MdHelper extends StatelessWidget {
@@ -21,16 +20,7 @@ class MdHelper extends StatelessWidget {
       data: normalizeMd(markdownData),
       styleSheet: _buildMarkdownStyle(context),
       selectable: true,
-      // يخلي النص قابل للنسخ
       onTapLink: (text, href, title) async {
-        // if (href != null) {
-        //   final uri = Uri.parse(href);
-        //   try {
-        //     await launchUrl(uri, mode: LaunchMode.externalApplication);
-        //   } catch (e) {
-        //     debugPrint("Could not launch $uri: $e");
-        //   }
-        // }
       },
     );
   }
@@ -52,11 +42,6 @@ class MdHelper extends StatelessWidget {
         fontFamily: 'monospace',
         fontSize: 14,
       ),
-      // code: TextStyle(
-      //   backgroundColor: colorScheme.surfaceVariant,
-      //   fontFamily: 'monospace',
-      //   fontSize: 14,
-      // ),
       h1: TextStyle(
         fontSize: 26,
         fontWeight: FontWeight.bold,
@@ -86,7 +71,7 @@ class MdHelper extends StatelessWidget {
       ),
       blockquotePadding: const EdgeInsets.all(8),
       blockquoteDecoration: BoxDecoration(
-        color: colorScheme.surfaceVariant.withOpacity(0.3),
+        color: colorScheme.surfaceContainerHighest.withOpacity(0.3),
         border: Border(left: BorderSide(color: colorScheme.primary, width: 4)),
       ),
       img: const TextStyle(fontSize: 14),
@@ -110,11 +95,6 @@ class MdHelper extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       codeblockPadding: const EdgeInsets.all(12),
-      // codeblockPadding: const EdgeInsets.all(8),
-      // codeblockDecoration: BoxDecoration(
-      //   color: colorScheme.surfaceVariant,
-      //   borderRadius: BorderRadius.circular(6),
-      // ),
       horizontalRuleDecoration: BoxDecoration(
         border: Border(
           top: BorderSide(width: 2.0, color: colorScheme.outline),
@@ -144,74 +124,10 @@ String normalizeMd(String s) {
   for (final l in lines) {
     if (l.trim().isEmpty) continue;
     final i = l.length - l.trimLeft().length;
-    if (minIndent == null || i < minIndent!) minIndent = i;
+    if (minIndent == null || i < minIndent) minIndent = i;
   }
   final indent = minIndent ?? 0;
   final out =
       lines.map((l) => l.length >= indent ? l.substring(indent) : l).join('\n');
   return out.trim();
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_markdown/flutter_markdown.dart';
-// import 'package:url_launcher/url_launcher.dart';
-//
-// class MdHelper extends StatelessWidget {
-//   final String markdownData;
-//
-//   const MdHelper({super.key, required this.markdownData});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Markdown(
-//       data: normalizeMd(markdownData),
-//       styleSheet: MarkdownStyleSheet(
-//
-//         h1: TextStyle(
-//           fontSize: 24,
-//           fontWeight: FontWeight.bold,
-//           color: Theme.of(context).colorScheme.primary,
-//         ),
-//         h2: TextStyle(
-//           fontSize: 20,
-//           fontWeight: FontWeight.w600,
-//           color: Theme.of(context).colorScheme.secondary,
-//         ),
-//         p: const TextStyle(fontSize: 16, height: 1.6),
-//         listBullet: const TextStyle(fontSize: 16),
-//         blockquote: TextStyle(
-//           color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-//           fontStyle: FontStyle.italic,
-//         ),
-//         a: TextStyle(
-//           color: Theme.of(context).colorScheme.primary,
-//           decoration: TextDecoration.underline,
-//         ),
-//       ),
-//       onTapLink: (text, href, title) async {
-//         if (href != null) {
-//           final uri = Uri.parse(href);
-//           if (await canLaunchUrl(uri)) {
-//             await launchUrl(uri, mode: LaunchMode.externalApplication);
-//           }
-//         }
-//       },
-//     );
-//   }
-// }
-//
-// String normalizeMd(String s) {
-//   if (s.isEmpty) return s;
-//   final lines = s.replaceAll('\r\n', '\n').split('\n');
-//
-//   int? minIndent;
-//   for (final l in lines) {
-//     if (l.trim().isEmpty) continue;
-//     final i = l.length - l.trimLeft().length;
-//     if (minIndent == null || i < minIndent!) minIndent = i;
-//   }
-//   final indent = minIndent ?? 0;
-//   final out =
-//       lines.map((l) => l.length >= indent ? l.substring(indent) : l).join('\n');
-//   return out.trim();
-// }

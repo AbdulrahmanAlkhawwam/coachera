@@ -1,0 +1,18 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "start-emulator",
+            "type": "shell",
+            "command": "emulator -avd MyAVD",
+            "problemMatcher": [],
+            "isBackground": true
+        },
+        {
+            "label": "build-apk",
+            "type": "shell",
+            "command": "fvm flutter build apk --dart-define-from-file=.env",
+            "problemMatcher": []
+        }
+    ]
+}

@@ -1,11 +1,8 @@
-import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
-import 'package:coachera/features/course/domain/entities/course.dart';
 import 'package:coachera/features/home/domain/param/list_param.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
 import '../../../../core/utils/app_util.dart';
-import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../../domain/entities/learning_path.dart';
 import '../../domain/repositories/learning_path_repository.dart';
 import '../data_source/learning_path_remote_data_source.dart';

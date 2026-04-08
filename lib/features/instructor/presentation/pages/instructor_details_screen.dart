@@ -273,7 +273,7 @@ class _ReviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(child: AppImage(image), radius: 24),
+      leading: CircleAvatar(radius: 24, child: AppImage(image)),
       title: Row(
         children: [
           Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),

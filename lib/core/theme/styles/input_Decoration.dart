@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'text_font.dart';
 
 InputDecorationTheme inputDecorationStyle(ColorScheme colors) =>

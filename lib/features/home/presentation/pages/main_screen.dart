@@ -8,6 +8,7 @@ import '../manager/cubit/navigation_cubit.dart';
 import '../manager/favorite_bloc/favorite_bloc.dart';
 import '../widgets/bottom_nev_bar.dart';
 
+// ignore: must_be_immutable
 class MainScreen extends StatefulWidget {
   MainScreen({super.key, this.page});
 

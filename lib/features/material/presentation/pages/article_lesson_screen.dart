@@ -1,5 +1,4 @@
 import 'package:coachera/core/utils/app_context.dart';
-import 'package:coachera/features/course/domain/entities/progress.dart';
 import 'package:coachera/features/course/presentation/bloc/bloc/course_bloc.dart';
 import 'package:coachera/features/material/domain/param/complete_lesson.dart';
 import 'package:flutter/material.dart' hide Material, MaterialState;

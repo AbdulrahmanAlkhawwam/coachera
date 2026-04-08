@@ -1,7 +1,5 @@
-import 'package:coachera/core/components/bounded_list.dart';
 import 'package:coachera/core/constants/routes.dart';
 import 'package:coachera/core/utils/app_context.dart';
-import 'package:coachera/core/utils/app_image.dart';
 import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart';
 import 'package:coachera/features/category/presentation/bloc/bloc/category_bloc.dart';
 import 'package:coachera/features/home/domain/param/list_param.dart';
@@ -13,10 +11,8 @@ import 'package:coachera/features/organization/presentation/bloc/bloc/organizati
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../core/components/learning_path_card.dart';
-import '../../../../core/constants/res.dart';
 import '../../../course/presentation/bloc/bloc/course_bloc.dart';
 import '../../../instructor/presentation/bloc/bloc/instructor_bloc.dart';
 import '../widgets/categories_list.dart';

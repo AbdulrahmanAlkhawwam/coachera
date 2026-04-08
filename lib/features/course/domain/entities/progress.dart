@@ -1,6 +1,5 @@
 import '../../data/model/course_model.dart';
 import '../../data/model/progress_model.dart';
-import 'completionState.dart';
 
 class Progress {
   final int enrollmentId;

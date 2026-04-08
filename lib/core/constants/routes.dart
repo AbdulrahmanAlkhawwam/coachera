@@ -1,9 +1,6 @@
-import 'package:coachera/features/auth/presentation/pages/edit_profile_screen.dart';
-import 'package:coachera/features/course/data/model/progress_model.dart';
-import 'package:coachera/features/course/domain/entities/progress.dart';
-import 'package:coachera/features/organization/presentation/pages/organization_details_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/auth/presentation/pages/edit_profile_screen.dart';
 import '../../features/auth/presentation/pages/forget_password_screen.dart';
 import '../../features/auth/presentation/pages/login_screen.dart';
 import '../../features/auth/presentation/pages/register_screen.dart';
@@ -24,6 +21,7 @@ import '../../features/learningPath/presentation/pages/learning_paths_screen.dar
 import '../../features/material/presentation/pages/article_lesson_screen.dart';
 import '../../features/material/presentation/pages/quiz_lesson_screen.dart';
 import '../../features/material/presentation/pages/video_lesson_screen.dart';
+import '../../features/organization/presentation/pages/organization_details_screen.dart';
 import '../../features/organization/presentation/pages/organizations_screen.dart';
 import '../../features/payment/presentation/pages/payment_screen.dart';
 import '../../features/review/presentation/pages/reviews_screen.dart';

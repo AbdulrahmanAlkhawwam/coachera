@@ -6,7 +6,6 @@ import 'package:coachera/features/auth/presentation/manager/bloc/auth_bloc.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-// import 'package:image_picker/image_picker.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -33,11 +32,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final birthdayController = TextEditingController();
 
   Future<void> _pickImage() async {
-    // final picker = ImagePicker();
-    // final pickedFile = await picker.pickImage(source: ImageSource.camera);
-    // if (pickedFile != null) {
-    //   setState(() => _image = File(pickedFile.path));
-    // }
   }
 
   @override
@@ -64,7 +58,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               icon: const Icon(TablerIcons.check, color: Colors.teal),
               onPressed: () {
                 if (_formKey.currentState?.validate() ?? false) {
-                  // Save logic here
                 }
               },
             ),
@@ -149,16 +142,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: CustomInput(
         controller: controller,
-        // enabled: enabled,
-        // decoration: InputDecoration(
-        //   labelText: label,
-        prefixIcon: icon /*, color: Colors.teal),*/,
-        suffixIcon: enabled ? null : /* const Icon(*/ Icons.check,
-        /* color: Colors.teal),*/
-        //   border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        //   filled: true,
-        //   fillColor: Colors.grey.shade100,
-        // ),
+        prefixIcon: icon,
+        suffixIcon: enabled ? null : Icons.check,
         validator: (value) =>
             value == null || value.isEmpty ? "Enter $label" : null,
       ),

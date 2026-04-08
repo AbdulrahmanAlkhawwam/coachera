@@ -27,13 +27,11 @@ class NotificationService {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print("📩 Foreground notification: ${message.notification?.title}");
       print("📄 Body: ${message.notification?.body}");
-      // TODO: حدث واجهة المستخدم أو اعمل Snackbar
     });
 
     // الإستماع عند فتح الإشعار (من الخلفية أو terminated)
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print("🔗 Notification clicked: ${message.data}");
-      // TODO: اعمل Navigation لشاشة معينة حسب data
     });
 
     // التعامل مع الرسائل في الخلفية

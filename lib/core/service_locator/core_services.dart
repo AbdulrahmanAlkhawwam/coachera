@@ -41,14 +41,9 @@ Future<void> initializeCoreServices(GetIt sl) async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Stripe.publishableKey = Env.stripeKey;
-  // await Stripe.instance.applySettings();
 
   await Firebase.initializeApp();
-  // final notifications = NotificationsHelperImpl.initializedInstance;
-  // sl.registerLazySingleton<NotificationsHelper>(() => notifications);
   sl.registerLazySingleton<NotificationService>(() => NotificationService());
-  // await NotificationService.init();
 
   final db = await DatabaseHelperImpl.instance();
   sl.registerLazySingleton<DatabaseHelper>(
@@ -78,12 +73,4 @@ Future<void> initializeCoreServices(GetIt sl) async {
     },
     dispose: (httpHelper) => httpHelper.close(),
   );
-
-  // sl.registerLazySingleton<MultipartHttpHelper>(
-  //   () => MultipartHttpHelperImpl(
-  //     host: Env.host,
-  //     basePath: "/api",
-  //     storage: sl(),
-  //   ),
-  // );
 }

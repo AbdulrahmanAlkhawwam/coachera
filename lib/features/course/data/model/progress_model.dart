@@ -1,6 +1,4 @@
-import 'dart:ffi';
 
-import '../../domain/entities/completionState.dart';
 import '../../domain/entities/progress.dart';
 import 'course_model.dart';
 

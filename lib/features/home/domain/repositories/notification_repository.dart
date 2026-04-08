@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 
-import '../../../course/domain/entities/course.dart';
 import '../entities/notification.dart';
 
 abstract class NotificationRepository {

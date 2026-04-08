@@ -1,30 +1,19 @@
 import 'package:coachera/features/course/presentation/widgets/course_card.dart';
 import 'package:coachera/features/home/domain/entities/card_type.dart';
 import 'package:coachera/features/home/presentation/widgets/instructor_list.dart';
-import 'package:coachera/features/home/presentation/widgets/organizations_list.dart';
 import 'package:coachera/features/instructor/presentation/bloc/bloc/instructor_bloc.dart';
 import 'package:coachera/features/instructor/presentation/widgets/instructor_card.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide MaterialType;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:shimmer/shimmer.dart';
 
-import '../../../../core/components/list_tile_item.dart';
-import '../../../../core/components/rate.dart';
-import '../../../../core/constants/routes.dart';
 import '../../../../core/utils/app_context.dart';
 import '../../../../core/utils/app_image.dart';
 import '../../../course/presentation/bloc/bloc/course_bloc.dart';
 import '../../../course/presentation/widgets/course_description.dart';
-import '../../../home/presentation/manager/favorite_bloc/favorite_bloc.dart';
-import '../../../material/domain/entities/material_type.dart';
-import '../../../module/presentation/bloc/bloc/module_bloc.dart';
-import '../../../material/data/model/material_model.dart';
 import '../../../organization/presentation/bloc/bloc/organization_bloc.dart';
 import '../../../organization/presentation/widgets/organization_card.dart';
 import '../../../review/presentation/bloc/bloc/review_bloc.dart';
-import '../../../review/presentation/widgets/review_card.dart';
 import '../../domain/entities/learning_path.dart';
 
 class LearningPathDetailsScreen extends StatefulWidget {
@@ -40,7 +29,6 @@ class LearningPathDetailsScreen extends StatefulWidget {
 class _LearningPathDetailsScreenState extends State<LearningPathDetailsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  String? _expandedIndex;
 
   @override
   void initState() {
@@ -255,15 +243,15 @@ class _LearningPathDetailsScreenState extends State<LearningPathDetailsScreen>
     );
   }
 
-  Widget _buildReviewsTab() {
-    return BlocBuilder<ReviewBloc, ReviewState>(
-      builder: (context, state) => state.status == ReviewStatus.loading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: state.reviews.length,
-              itemBuilder: (context, index) =>
-                  ReviewCard(review: state.reviews[index])),
-    );
-  }
+  // Widget _buildReviewsTab() {
+  //   return BlocBuilder<ReviewBloc, ReviewState>(
+  //     builder: (context, state) => state.status == ReviewStatus.loading
+  //         ? Center(child: CircularProgressIndicator())
+  //         : ListView.builder(
+  //             padding: const EdgeInsets.all(16),
+  //             itemCount: state.reviews.length,
+  //             itemBuilder: (context, index) =>
+  //                 ReviewCard(review: state.reviews[index])),
+  //   );
+  // }
 }

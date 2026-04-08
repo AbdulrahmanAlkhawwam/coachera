@@ -104,9 +104,11 @@ class _NotificationCardState extends State<NotificationCard> {
                                   .withAlpha(120))),
                       const SizedBox(height: 4),
                       AnimatedCrossFade(
-                        crossFadeState: isExpanded
-                            ? CrossFadeState.showSecond
-                            : CrossFadeState.showFirst,
+                        crossFadeState:
+                            //  isExpanded
+                            // ? CrossFadeState.showSecond
+                            // :
+                            CrossFadeState.showFirst,
                         duration: const Duration(milliseconds: 300),
                         firstChild: Text(
                           widget.notification.content,

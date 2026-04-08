@@ -4,7 +4,6 @@ import 'package:coachera/features/course/data/model/progress_model.dart';
 
 import '../../../../core/helpers/http/http_service.dart';
 import '../../../home/domain/param/list_param.dart';
-import '../../../home/presentation/widgets/filter_sheet.dart';
 import '../model/course_model.dart';
 import '../model/enrollment_model.dart';
 
@@ -39,19 +38,19 @@ class CourseRemoteDataSourceImpl extends CourseRemoteDataSource {
 
   CourseRemoteDataSourceImpl({required this.http});
 
-  @override
-  Future<List<CourseModel>> getCourses({int? page}) async {
-    final response = await http.handleApiCall(() async => await http.get(
-          Endpoint.courses,
-          queryParameters: {
-            "page": page.toString(),
-          },
-        ));
+  // @override
+  // Future<List<CourseModel>> getCourses({int? page}) async {
+    // final response = await http.handleApiCall(() async => await http.get(
+          // Endpoint.courses,
+          // queryParameters: {
+            // "page": page.toString(),
+          // },
+        // ));
 
-    final List<dynamic> courses = response.data['content'];
+    // final List<dynamic> courses = response.data['content'];
 
-    return courses.map((e) => CourseModel.fromJson(e)).toList();
-  }
+    // return courses.map((e) => CourseModel.fromJson(e)).toList();
+  // }
 
   @override
   Future<List<CourseModel>> getRecommendedCourses(ListParam param) async {

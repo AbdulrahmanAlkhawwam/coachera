@@ -6,13 +6,10 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 
 import '../../../../core/components/custom_input.dart';
 import '../../../../core/service_locator/service_locator.dart';
-// import 'package:flutter_stripe/flutter_stripe.dart';
 
 void showStripePaymentBottomSheet(BuildContext context) {
   final formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final cardController = TextEditingController();
   final expiryController = TextEditingController();
   final cvvController = TextEditingController();
   final addressController = TextEditingController();
@@ -48,7 +45,6 @@ void showStripePaymentBottomSheet(BuildContext context) {
                         keyboardType: TextInputType.number,
                         hint: 'Card Number',
                         validator: (value) => cubit.validateCardNumber(value),
-                        // onChanged: (value) => cubit.emitState(),
                         prefixIcon: TablerIcons.credit_card,
                       ),
                       const SizedBox(height: 24),
@@ -62,7 +58,6 @@ void showStripePaymentBottomSheet(BuildContext context) {
                               prefixIcon: TablerIcons.calendar,
                               keyboardType: TextInputType.datetime,
                               validator: (value) => cubit.validateExpiry(value),
-                              // onChanged: (value) => cubit.emitState(),
                             ),
                           ),
                           SizedBox(width: 16),
@@ -74,7 +69,6 @@ void showStripePaymentBottomSheet(BuildContext context) {
                               prefixIcon: TablerIcons.lock_password,
                               keyboardType: TextInputType.number,
                               validator: (value) => cubit.validateCVV(value),
-                              // onChanged: (value) => cubit.emitState(),
                             ),
                           ),
                         ],
@@ -85,7 +79,6 @@ void showStripePaymentBottomSheet(BuildContext context) {
                         keyboardType: TextInputType.streetAddress,
                         hint: 'Billing Address',
                         validator: (value) => cubit.validateAddress(value),
-                        // onChanged: (value) => cubit.emitState(),
                         prefixIcon: TablerIcons.map,
                       ),
                       SizedBox(height: 24),
@@ -93,21 +86,6 @@ void showStripePaymentBottomSheet(BuildContext context) {
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
                             try {
-                              // final paymentMethod = await Stripe.instance.createPaymentMethod(
-                              //   PaymentMethodParams.card(
-                              //     paymentMethodData: PaymentMethodData(
-                              //       billingDetails: BillingDetails(
-                              //         name: nameController.text,
-                              //         email: emailController.text,
-                              //         address: addressController.text.isNotEmpty
-                              //             ? Address(line1: addressController.text)
-                              //             : null,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // );
-
-                              // TODO: Send paymentMethod.id to your backend to complete payment
                               Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -121,12 +99,12 @@ void showStripePaymentBottomSheet(BuildContext context) {
                             }
                           }
                         },
-                        child: Text("Pay Now"),
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 50),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12)),
                         ),
+                        child: Text("Pay Now"),
                       ),
                       SizedBox(height: 16),
                     ],

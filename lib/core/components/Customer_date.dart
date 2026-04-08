@@ -41,7 +41,7 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
           )
         : <int>[];
 
-    void _notifyParent() {
+    void notifyParent() {
       if (selectedYear != null &&
           selectedMonth != null &&
           selectedDay != null) {
@@ -57,7 +57,7 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
       children: [
         Expanded(
           child: DropdownButtonFormField<int>(
-            value: selectedYear,
+            initialValue: selectedYear,
             items: years
                 .map((y) => DropdownMenuItem(value: y, child: Text("$y")))
                 .toList(),
@@ -66,14 +66,14 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                 selectedYear = val;
                 selectedDay = null;
               });
-              _notifyParent();
+              notifyParent();
             },
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
           child: DropdownButtonFormField<int>(
-            value: selectedMonth,
+            initialValue: selectedMonth,
             items: months
                 .map((m) => DropdownMenuItem(value: m, child: Text("$m")))
                 .toList(),
@@ -82,7 +82,7 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
                 selectedMonth = val;
                 selectedDay = null;
               });
-              _notifyParent();
+              notifyParent();
             },
           ),
         ),
@@ -91,13 +91,13 @@ class _BirthDatePickerState extends State<BirthDatePicker> {
         // Day
         Expanded(
           child: DropdownButtonFormField<int>(
-            value: selectedDay,
+            initialValue: selectedDay,
             items: days
                 .map((d) => DropdownMenuItem(value: d, child: Text("$d")))
                 .toList(),
             onChanged: (val) {
               setState(() => selectedDay = val);
-              _notifyParent();
+              notifyParent();
             },
           ),
         ),

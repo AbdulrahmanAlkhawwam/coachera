@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../course/domain/entities/course.dart';
-import '../../domain/params/search_param.dart';
 import '../bloc/search_bloc.dart';
 
 class SearchOutputScreen extends StatefulWidget {
